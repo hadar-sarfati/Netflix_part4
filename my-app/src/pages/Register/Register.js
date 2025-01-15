@@ -1,32 +1,34 @@
 import React, { useState } from 'react';
 
 const Register = () => {
-  const [username, setUsername] = useState('');
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    profileImage: ''
+  });
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
-    setUsername(e.target.value);
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      username: username, // השם שהוזן על ידי המשתמש
-      email: 'itayshay8@example.com', // דוא"ל קבוע
-      password: 'securePass456', // סיסמה קבועה
-      firstName: 'itay', // שם פרטי קבוע
-      lastName: 'Shay', // שם משפחה קבוע
-      profileImage: 'profile1.png' // תמונת פרופיל קבועה
-    };
-
     try {
       const response = await fetch('http://localhost:3000/api/users', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json' // סוג התוכן
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData) // המרת המידע ל-JSON
+        body: JSON.stringify(formData)
       });
 
       if (response.status === 201) {
@@ -45,18 +47,78 @@ const Register = () => {
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">שם משתמש:</label>
           <input
             id="username"
             type="text"
             name="username"
-            value={username}
+            value={formData.username}
             onChange={handleChange}
             required
           />
         </div>
 
-        <button type="submit">Register</button>
+        <div className="form-group">
+          <label htmlFor="email">אימייל:</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">סיסמה:</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="firstName">שם פרטי:</label>
+          <input
+            id="firstName"
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="lastName">שם משפחה:</label>
+          <input
+            id="lastName"
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="profileImage">תמונת פרופיל:</label>
+          <input
+            id="profileImage"
+            type="text"
+            name="profileImage"
+            value={formData.profileImage}
+            onChange={handleChange}
+            placeholder="הכנס URL של תמונה"
+          />
+        </div>
+
+        <button type="submit">הרשמה</button>
       </form>
 
       {message && (
