@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import Main from "./pages/Main/Main";
-import MovieDetails from "./pages/MovieDetails/MovieDetails";
-import VideoPlayer from "./pages/VideoPlayer/VideoPlayer";
-import SearchResults from "./pages/SearchResults/SearchResults";
-import Admin from "./pages/Admin/Admin";
+import Home from "./Pages/Home/Home";
+import Login from "./Pages/Login/Login";
+import Register from "./Pages/Register/Register";
+import Main from "./Pages/Main/Main";
+import MovieDetails from "./Pages/MovieDetails/MovieDetails";
+import VideoPlayer from "./Pages/VideoPlayer/VideoPlayer";
+import SearchResults from "./Pages/SearchResults/SearchResults";
+import Admin from "./Pages/Admin/Admin";
 
 function App() {
   return (
@@ -39,3 +39,4 @@ function App() {
 }
 
 export default App;
+

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libProgramFlow.a CMakeFiles/ProgramFlow.dir/App.cpp.o CMakeFiles/ProgramFlow.dir/ConsoleMenu.cpp.o CMakeFiles/ProgramFlow.dir/HandleUserInput.cpp.o CMakeFiles/ProgramFlow.dir/Imenu.cpp.o CMakeFiles/ProgramFlow.dir/ServerMenu.cpp.o
+/usr/bin/ranlib libProgramFlow.a
