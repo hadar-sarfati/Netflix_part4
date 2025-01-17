@@ -1,12 +1,12 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const categories = require('./routes/category');
 const users = require('./routes/user');
 const tokens = require('./routes/tokens');
 const movies = require('./routes/movies');
-
+const upload = require('./Part3CodeCopy/routes/upload');
 const recommend = require('./routes/recommend');
 const recommendSocket = require('./utilities/recommendSocket')
 const path = require('path');
@@ -32,7 +32,7 @@ app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/tokens', tokens);
 app.use('/api/movies', movies);
-
+app.use('/api/upload', upload);
 app.use('/api/movies', recommend);
 
 // Initialize socket connection to recommendation system
