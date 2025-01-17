@@ -14,14 +14,19 @@ html, body, #root {
 
 /* Main container styles */
 .main-container {
-  background: linear-gradient(90deg, #000 0%, #333 100%);
-  color: #fff;
+  background: linear-gradient(
+  to bottom,
+  #000000, /* Starting with dark black at the top */
+  #0000009f, /* Slightly transparent black for the middle */
+  #4140403d /* Lighter black with reduced opacity at the bottom */
+);
+  color: #fff; 
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  position: fixed; /* Full coverage */
-  inset: 0; /* Shorter syntax for top, left, right, and bottom */
-  font-family: inherit; /* Inherits the global font family */
+  position: fixed; 
+  inset: 0; 
+  font-family: inherit; 
 }
 
 /* Typography */
