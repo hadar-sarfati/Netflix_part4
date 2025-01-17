@@ -1,0 +1,143 @@
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  /* Main container */
+  .main-container {
+    background: linear-gradient(90deg, #000 0%, #333 100%); /* Changed to horizontal gradient */
+    color: white;
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    position: fixed; /* This ensures full coverage */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  /* Top Menu */
+  .top-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: rgba(26, 26, 26, 0.95);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+  }
+  
+  /* Home button */
+  .home-button {
+    background-color: #3343ef;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+  }
+  
+  .home-button:hover {
+    background-color: #2334ee;
+  }
+  
+  /* Search bar */
+  .search-bar {
+    width: 50%;
+    max-width: 500px;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+    color: white;
+    background-color: #333;
+  }
+  
+  .search-bar::placeholder {
+    color: #aaa;
+  }
+  
+  .search-bar:focus {
+    outline: none;
+    background-color: #444;
+  }
+  
+  /* Logout button */
+  .logout-button {
+    background-color: #3343ef;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+  }
+  
+  .logout-button:hover {
+    background-color: #2334ee;
+  }
+  
+  /* Main content */
+  .main-content {
+    flex: 1;
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px;
+    min-height: calc(100vh - 80px);
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+  
+  /* Typography */
+  .main-content h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  .main-content p {
+    font-size: 18px;
+    color: #ccc;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .search-bar {
+      width: 80%;
+    }
+    
+    .top-menu {
+      padding: 10px;
+    }
+    
+    .home-button,
+    .logout-button {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  }
