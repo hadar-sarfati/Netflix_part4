@@ -1,0 +1,31 @@
+.movie-preview-container {
+  position: relative;
+  width: 100%;
+  height: 50vh; /* Changed to half viewport height */
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%; /* Made taller to show only top portion */
+  object-fit: cover;
+  z-index: 0;
+}
+
+.fade-overlay {
+  position: absolute;
+  top: 0; /* Changed from bottom to top */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  z-index: 1;
+}
