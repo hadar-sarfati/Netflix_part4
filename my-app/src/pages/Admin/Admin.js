@@ -1,0 +1,15 @@
+// pages/AdminPage.js
+import React from 'react';
+import AdminDashboard from './AdminDashboard';
+
+const Admin = () => {
+    console.log('Admin page');
+    return (
+        <div className="admin-page">
+            <h1>Admin Panel</h1>
+            <AdminDashboard />
+        </div>
+    );
+};
+
+export default Admin;

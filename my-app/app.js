@@ -1,6 +1,6 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 
@@ -8,6 +8,7 @@ const categories = require('./Part3CodeCopy/routes/category');
 const users = require('./Part3CodeCopy/routes/user');
 const tokens = require('./Part3CodeCopy/routes/tokens');
 const movies = require('./Part3CodeCopy/routes/movies');
+const upload = require('./Part3CodeCopy/routes/upload');
 const recommendSocket = require('./Part3CodeCopy/utilities/recommendSocket');
 
 require('custom-env').env(process.env.NODE_ENV, './config');
@@ -30,6 +31,7 @@ app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/tokens', tokens);
 app.use('/api/movies', movies);
+app.use('/api/upload', upload);
 
 // Static files for React app
 app.use(express.static(path.join(__dirname, 'public')));

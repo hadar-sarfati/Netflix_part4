@@ -5,6 +5,8 @@ const categoryService = require('../services/category');
 const userService = require('../services/user');
 const { getNextSequence } = require('./counter');
 const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
 
 // Local version of createCategory for internal use (preventing cycles)
 const _createCategory = async (categoryData) => {
@@ -12,7 +14,27 @@ const _createCategory = async (categoryData) => {
   return await category.save();
 };
 
-const createMovie = async (name, categoryNames) => {
+const createMovie = async (name, categoryNames, year, duration, cast, description, videoFile) => {
+  // Define your custom storage path
+  const VIDEOS_STORAGE_PATH = '../../src/movieFiles ';  // or 'D:\\MovieStorage' for Windows
+  // Handle file upload first
+  const fileName = `movie_${Date.now()}${path.extname(videoFile.originalname)}`;
+  const filePath = `/videos/${fileName}`;  // This will be saved in DB
+  const absolutePath = path.join(VIDEOS_STORAGE_PATH, fileName);  // Actual file system path
+
+  // Create movieFiles directory if it doesn't exist
+  if (!fs.existsSync(VIDEOS_STORAGE_PATH)) {
+    fs.mkdirSync(VIDEOS_STORAGE_PATH, {recursive: true});
+  }
+
+  // Save the file
+  await new Promise((resolve, reject) => {
+    fs.writeFile(absolutePath, videoFile.buffer, (err) => {
+      if (err) reject(err);
+      resolve();
+    });
+  });
+
   // Find the categories that the movie belongs to, by name
   const categories = await Promise.all(categoryNames.map(async (categoryName) => {
     let category = await Category.findOne({ name: categoryName });
@@ -30,7 +52,12 @@ const createMovie = async (name, categoryNames) => {
   const movie = new Movie({
     movieId: movieId,
     name: name,
-    categories: categories
+    categories: categories,
+    year: year,
+    duration: duration,
+    cast: cast,
+    description: description,
+    path: filePath
   });
   await movie.save();
 
