@@ -1,0 +1,88 @@
+// VideoPlayer.js
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios'; // or whatever HTTP client you're using
+import './VideoPlayer.css';
+
+const VideoPlayer = ({ movieId }) => {
+  const [isPaused, setIsPaused] = useState(true);
+  const [showButton, setShowButton] = useState(false);
+  const [quality, setQuality] = useState('720');
+  const [movieData, setMovieData] = useState(null);
+  const playerRef = useRef(null);
+
+  // Fetch movie data when component mounts
+  useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/movies/${movieId}`);
+        setMovieData(response.data);
+      } catch (error) {
+        console.error('Error fetching movie:', error);
+      }
+    };
+
+    fetchMovie();
+  }, [movieId]);
+
+  const handlePlayPause = () => {
+    if (playerRef.current.paused) {
+      playerRef.current.play();
+      setIsPaused(false);
+    } else {
+      playerRef.current.pause();
+      setIsPaused(true);
+    }
+  };
+
+  const handleQualityChange = (e) => {
+    setQuality(e.target.value);
+    // Assuming your paths are structured like: baseVideoPath_quality
+    // e.g., /videos/movie1_720.mp4, /videos/movie1_480.mp4
+    playerRef.current.src = `${movieData.videoPath}_${e.target.value}.mp4`;
+    playerRef.current.play();
+    setIsPaused(false);
+  };
+
+  if (!movieData) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="video-container">
+      <h1 style={{ display: 'none' }}>{movieData.title}</h1>
+      
+      <select 
+        id="quality" 
+        style={{ display: 'none' }}
+        value={quality}
+        onChange={handleQualityChange}
+      >
+        <option value="720">720p</option>
+        <option value="480">480p</option>
+        <option value="360">360p</option>
+      </select>
+
+      <video
+        ref={playerRef}
+        width="480"
+        autoPlay
+        muted
+        onMouseEnter={() => setShowButton(true)}
+        onMouseLeave={() => setShowButton(false)}
+      >
+        <source src={`${movieData.videoPath}_${quality}.mp4`} type="video/mp4" />
+      </video>
+
+      <button
+        className={`play-pause-btn ${showButton ? 'visible' : ''}`}
+        onClick={handlePlayPause}
+        onMouseEnter={() => setShowButton(true)}
+        onMouseLeave={() => setShowButton(false)}
+      >
+        {isPaused ? 'Play' : 'Pause'}
+      </button>
+    </div>
+  );
+};
+
+export default VideoPlayer;
