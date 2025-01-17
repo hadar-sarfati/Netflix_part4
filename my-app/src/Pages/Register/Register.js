@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Register.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,6 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch('http://localhost:3000/api/users', {
         method: 'POST',
@@ -47,7 +47,7 @@ const Register = () => {
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">שם משתמש:</label>
+          <label htmlFor="username">Username:</label>
           <input
             id="username"
             type="text"
@@ -57,9 +57,8 @@ const Register = () => {
             required
           />
         </div>
-
         <div className="form-group">
-          <label htmlFor="email">אימייל:</label>
+          <label htmlFor="email">Email:</label>
           <input
             id="email"
             type="email"
@@ -69,9 +68,8 @@ const Register = () => {
             required
           />
         </div>
-
         <div className="form-group">
-          <label htmlFor="password">סיסמה:</label>
+          <label htmlFor="password">Password:</label>
           <input
             id="password"
             type="password"
@@ -81,9 +79,8 @@ const Register = () => {
             required
           />
         </div>
-
         <div className="form-group">
-          <label htmlFor="firstName">שם פרטי:</label>
+          <label htmlFor="firstName">First Name:</label>
           <input
             id="firstName"
             type="text"
@@ -93,9 +90,8 @@ const Register = () => {
             required
           />
         </div>
-
         <div className="form-group">
-          <label htmlFor="lastName">שם משפחה:</label>
+          <label htmlFor="lastName">Last Name:</label>
           <input
             id="lastName"
             type="text"
@@ -105,24 +101,21 @@ const Register = () => {
             required
           />
         </div>
-
         <div className="form-group">
-          <label htmlFor="profileImage">תמונת פרופיל:</label>
+          <label htmlFor="profileImage">Profile Image:</label>
           <input
             id="profileImage"
             type="text"
             name="profileImage"
             value={formData.profileImage}
             onChange={handleChange}
-            placeholder="הכנס URL של תמונה"
+            placeholder="Enter image URL"
           />
         </div>
-
-        <button type="submit">הרשמה</button>
+        <button type="submit" className="button">Register</button>
       </form>
-
       {message && (
-        <div className={message.includes('successful') ? 'success-message' : 'error-message'}>
+        <div className={`message ${message.includes('successful') ? 'success-message' : 'error-message'}`}>
           {message}
         </div>
       )}
