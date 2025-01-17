@@ -10,3 +10,7 @@ Then go to `Part3Servers` again in a **different terminal** and run the node js 
 Lastly to `my-app` (in a new terminal) and run `npm start`
 
 Check out your brower and enjoy
+
+#3343ef - Color for buttons
+
+#2334ee - Color for hovering over buttons
