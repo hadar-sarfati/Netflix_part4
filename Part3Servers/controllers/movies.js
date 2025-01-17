@@ -77,14 +77,24 @@ const getMovie = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
-    // Get the movie by ID and return it
-    const movie = await moviesService.getMovieById(id);
-    if (!movie) {
-      return res.status(404).json({ error: 'Movie not found' });
+
+    try {
+        // Get the movie by ID
+        const movie = await moviesService.getMovieById(id);
+        
+        // If movie not found
+        if (!movie) {
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+
+        // Return the movie data as a JSON object (no need to stringify)
+        res.status(200).json(movie); 
+    } catch (err) {
+        // Handle unexpected errors
+        res.status(500).json({ error: 'Server error' });
     }
-    const formattedMovie = JSON.stringify(movie, null, 2);
-    res.status(200).json(formattedMovie);
 };
+
 
 const updateMovie = async (req, res) => {
     // Get the user ID from the header and validate it

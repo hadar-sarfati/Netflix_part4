@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './MoviesByCategory.css';
+import { useNavigate } from 'react-router-dom';
 
 const MoviesByCategory = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Initialize useNavigate hook for navigation
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -20,7 +22,7 @@ const MoviesByCategory = () => {
         }
 
         const data = await response.json();
-        console.log(data);  // Log to see the response
+        console.log(data); // Log to see the response
 
         // Set the movies data (keeping categories and movie lists intact)
         setMovies(data);
@@ -33,6 +35,11 @@ const MoviesByCategory = () => {
 
     fetchMovies();
   }, []);
+
+  // Function to handle movie click and navigate to movie details page
+  const handleMovieClick = (movieId) => {
+    navigate(`/movies/${movieId}/details`);
+  };
 
   // Render loading, error, or movie categories
   if (loading) {
@@ -54,7 +61,11 @@ const MoviesByCategory = () => {
           {category.movies.length > 0 ? (
             <div className="movie-list">
               {category.movies.map((movie) => (
-                <div key={movie._id} className="movie-card">
+                <div
+                  key={movie._id}
+                  className="movie-card"
+                  onClick={() => handleMovieClick(movie._id)} // Call the handleMovieClick on click
+                >
                   <h3>{movie.name}</h3> {/* Display movie name */}
                 </div>
               ))}

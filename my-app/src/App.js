@@ -18,7 +18,6 @@ function App() {
         <Link to="/login">Login</Link> | 
         <Link to="/register">Register</Link> | 
         <Link to="/main">Main</Link> | 
-        <Link to="/movie-details">Movie Details</Link> | 
         <Link to="/video-player">Video Player</Link> | 
         <Link to="/search-results">Search Results</Link> | 
         <Link to="/admin">Admin</Link>
@@ -29,7 +28,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/main" element={<Main />} />
-        <Route path="/movie-details" element={<MovieDetails />} />
+        <Route path="/movies/:id/details" element={<MovieDetails />} />
         <Route path="/video-player" element={<VideoPlayer />} />
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/admin" element={<Admin />} />

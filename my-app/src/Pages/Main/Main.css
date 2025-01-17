@@ -16,8 +16,8 @@ html, body, #root {
 .main-container {
   background: linear-gradient(
   to bottom,
-  #000000, /* Starting with dark black at the top */
-  #0000009f, /* Slightly transparent black for the middle */
+  #1f1f1f63, /* Starting with dark black at the top */
+  #00000055, /* Slightly transparent black for the middle */
   #4140403d /* Lighter black with reduced opacity at the bottom */
 );
   color: #fff; 
