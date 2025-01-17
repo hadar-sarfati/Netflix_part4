@@ -1,4 +1,4 @@
-# Install script for directory: /home/eyalb1380/NetflixTest/Part3CodeCopy/RecSystem/src/Server/Commands
+# Install script for directory: /root/Netflix_part4-1/Part3Servers/RecSystem/src/Server/Commands
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

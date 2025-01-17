@@ -1,4 +1,4 @@
-# Install script for directory: /home/eyalb1380/NetflixTest/Part3CodeCopy/RecSystem
+# Install script for directory: /root/Netflix_part4-1/Part3Servers/RecSystem
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/eyalb1380/NetflixTest/Part3CodeCopy/RecSystem/build/src/cmake_install.cmake")
+  include("/root/Netflix_part4-1/Part3Servers/RecSystem/build/src/cmake_install.cmake")
 
 endif()
 
@@ -56,5 +56,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/eyalb1380/NetflixTest/Part3CodeCopy/RecSystem/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/root/Netflix_part4-1/Part3Servers/RecSystem/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
