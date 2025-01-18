@@ -3,50 +3,38 @@ const userService = require('../services/user');
 
 // Create a new user
 const createUser = async (req, res) => {
-    const { username, email, password, firstName, lastName, profileImage, movies } = req.body;
+    const { username, email, password, firstName, lastName } = req.body;
     
-    // Check if required fields are missing
     if (!username || !email || !password || !firstName || !lastName) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
     
     // Default image path
-    const defaultImage = '/profileImage/defaultProfile.png';
+    const defaultImagePath = '/ProfileImages/defaultImage.jpeg';
     
-    // List of valid profile images
-    const validProfileImages = ['profile1.png', 'profile2.png', 'profile3.png', 'profile4.png', 'defaultProfile.png'];
-
-    // Check if the provided profile image is valid
-    let finalProfileImage = profileImage || defaultImage;  // Default to the default image
-  
-    // If profile image is provided but not valid, return an error
-    if (profileImage && !validProfileImages.includes(profileImage)) {
-        return res.status(404).json({ error: 'This profile image is not in the database' });
+    // Get the profile image path from the uploaded file
+    let profileImagePath = defaultImagePath;
+    if (req.file) {
+        profileImagePath = `/ProfileImages/${req.file.filename}`;
     }
 
     try {
-        // Create the user using the user service
         const user = await userService.createUser({
             username,
             email,
             password,
             firstName,
             lastName,
-            profileImage: finalProfileImage,
-            movies
+            profileImage: profileImagePath,
+            movies: []
         });
 
-        // Set the Location header to point to the newly created user
         res.location(`/api/users/${user._id}`);
-
-        // Return 201 Created status with no body
         res.status(201).end();
     } catch (error) {
-        // If a duplicate username or email is found, return an error
         if (error.code === 11000) {
             return res.status(400).json({ error: 'Username or email already exists' });
         }
-        // Handle other errors
         res.status(500).json({ error: 'Error creating user' });
     }
 };
