@@ -54,18 +54,15 @@ const Register = () => {
       if (profileImage) {
         submitFormData.append('profileImage', profileImage);
       }
-
+  
       const response = await fetch('http://localhost:3000/api/users', {
         method: 'POST',
         body: submitFormData
       });
-
+  
       if (response.status === 201) {
         setMessage('Registration successful!');
-        // Optional: Redirect to login page after successful registration
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
+        // נשארים באותו עמוד ולא עושים כלום מעבר להצגת ההודעה
       } else {
         const errorData = await response.json();
         setMessage(errorData.error || 'Registration failed');
