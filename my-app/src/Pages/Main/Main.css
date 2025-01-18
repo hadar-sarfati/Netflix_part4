@@ -8,25 +8,54 @@
 html, body, #root {
   height: 100%;
   width: 100%;
-  font-family: Arial, sans-serif, sans-serif; /* Added fallback fonts */
-  background-color: #000; /* Fallback for gradient issues */
+  font-family: Arial, sans-serif;
+  background-color: #000;
 }
 
 /* Main container styles */
 .main-container {
-  background: linear-gradient(
-  to bottom,
-  #1f1f1f63, /* Starting with dark black at the top */
-  #00000055, /* Slightly transparent black for the middle */
-  #4140403d /* Lighter black with reduced opacity at the bottom */
-);
-  color: #fff; 
+  background: linear-gradient(to bottom, #1f1f1f63, #00000055, #4140403d);
+  color: #fff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  position: fixed; 
-  inset: 0; 
-  font-family: inherit; 
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+  font-family: inherit;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Light mode styles */
+.main-container.light {
+  background: linear-gradient(to bottom, #ffffff63, #f0f0f0, #e0e0e0);
+  color: #000;
+}
+
+.top-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #333;
+}
+
+.top-menu.light {
+  background-color: #f8f8f8; /* Light theme background */
+}
+
+.theme-toggle-button {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.theme-toggle-button.light {
+  background-color: #f0f0f0; /* Light theme background */
+  color: #333;
 }
 
 /* Typography */

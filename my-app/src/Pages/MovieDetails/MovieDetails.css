@@ -1,75 +1,112 @@
+/* Reset and global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #000;
+}
+
+/* Main container styles */
 .movie-details {
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 800px;
-    margin: 40px auto;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #fafafa;
+  height: 100vh;
+}
+
+/* Title styling */
+.movie-details h1 {
+  font-size: 6rem; /* Very large title */
+  color: #ffffffde; /* Semi-transparent white color */
+  margin-bottom: 20px; /* Space below the title */
+  text-align: left;
+  width: 100%;
+}
+
+/* Movie details below the title */
+.movie-details .left-column {
+  font-size: 1.5rem;
+  color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 50px;
+}
+
+/* Right content (Recommendations) */
+.recommendations {
+  position: absolute;
+  top: 150px; /* Keeps it below the title */
+  right: 20px; /* Positioned on the right side */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers the recommendations vertically */
+  gap: 20px;
+  max-width: 250px;
+}
+
+.recommendations ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recommendations ul li {
+  background: rgba(255, 255, 255, 0.2); /* Transparent white */
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px); /* Makes it shiny and blurry */
+  font-size: 1.1rem;
+  color: #fff;
+  width: 200px; /* Fixed width */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recommendations ul li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.recommendations ul li strong {
+  display: block;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .movie-details {
+    padding: 10px;
   }
-  
+
   .movie-details h1 {
-    font-size: 2.5rem;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
+    font-size: 3rem; /* Smaller title on mobile */
   }
-  
-  .movie-details p {
+
+  .movie-details .left-column {
     font-size: 1.2rem;
-    line-height: 1.6;
-    margin: 10px 0;
-    color: #555;
+    width: 100%;
+    margin-top: 30px;
   }
-  
-  .movie-details p strong {
-    font-weight: bold;
-    color: #333;
+
+  .recommenations ul li {
+    width: 100%; /* Full width for recommendations on mobile */
   }
-  
-  .movie-details p:last-child {
-    margin-bottom: 0;
+
+  .recomendations {
+    max-width: 100%;
+    right: 10px; /* Ensure proper positioning on mobile */
   }
-  
-  .movie-details ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .movie-details ul li {
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 8px;
-  }
-  
-  .movie-details .movie-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
-  }
-  
-  .movie-details .movie-info div {
-    flex: 1 1 45%;
-  }
-  
-  @media (max-width: 768px) {
-    .movie-details {
-      padding: 15px;
-      margin: 20px;
-    }
-  
-    .movie-details h1 {
-      font-size: 2rem;
-    }
-  
-    .movie-details p {
-      font-size: 1rem;
-    }
-  
-    .movie-details .movie-info div {
-      flex: 1 1 100%;
-    }
-  }
-  
+}

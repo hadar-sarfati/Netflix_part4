@@ -26,6 +26,10 @@ const TopMenu = ({ onSearch, onLogout }) => {
       >
         Log Out
       </button>
+      {/* Light/Dark Mode Button */}
+      <button className="theme-toggle-button">
+        🌙 {/* This can be a sun/moon emoji or icon for theme toggle */}
+      </button>
     </div>
   );
 };

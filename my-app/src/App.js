@@ -13,7 +13,7 @@ import Admin from "./Pages/Admin/Admin";
 function App() {
   return (
     <Router>
-      <nav>
+      {/* <nav>
         <Link to="/">Home</Link> | 
         <Link to="/login">Login</Link> | 
         <Link to="/register">Register</Link> | 
@@ -21,7 +21,7 @@ function App() {
         <Link to="/video-player">Video Player</Link> | 
         <Link to="/search-results">Search Results</Link> | 
         <Link to="/admin">Admin</Link>
-      </nav>
+      </nav> */}
 
       <Routes>
         <Route path="/" element={<Home />} />

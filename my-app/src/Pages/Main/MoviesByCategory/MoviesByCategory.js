@@ -43,7 +43,7 @@ const MoviesByCategory = () => {
 
   // Render loading, error, or movie categories
   if (loading) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   if (error) {
@@ -52,7 +52,6 @@ const MoviesByCategory = () => {
 
   return (
     <div className="movies-by-category">
-      <h1>Movies By Category</h1>
 
       {movies.map((category) => (
         <div key={category.category} className="category-container">
