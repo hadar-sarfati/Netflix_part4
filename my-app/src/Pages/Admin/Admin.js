@@ -1,9 +1,9 @@
 // pages/AdminPage.js
 import React, { useState, useEffect } from 'react';
 import AdminDashboard from './AdminDashboard';
+import MovieManager from './managers/MovieManager';
 import fetchLoginUser from "../Login/fetchLoginUser";
 import { useNavigate } from 'react-router-dom';
-
 
 const Admin = () => {
     // State for storing user data

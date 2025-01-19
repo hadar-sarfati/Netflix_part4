@@ -11,7 +11,6 @@ const recommendSocket = require('./utilities/recommendSocket')
 const path = require('path');
 const fs = require('fs');
 
-
 require('custom-env').env(process.env.NODE_ENV, './config');
 
 mongoose.connect(process.env.CONNECTION_STRING, {
@@ -36,12 +35,6 @@ app.use('/api/users', users);
 app.use('/api/tokens', tokens);
 app.use('/api/movies', movies);
 app.use('/api/movies', recommend);
-
-
-
-
-
-
 
 app.get('/video', (req, res) => {
   const videoPath = path.join(__dirname, 'public', 'video.mp4');

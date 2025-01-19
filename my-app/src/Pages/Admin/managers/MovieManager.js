@@ -2,20 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import './Modal.css';
 
-const MovieManager = ({ isOpen, action, onClose }) => {
-    console.log('MovieManager rendered with isOpen:', isOpen); // Add this for debugging
+const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
     const [movieData, setMovieData] = useState({
         name: '',
-        categories: [],
+        categories: '',
         year: '',
         duration: '',
-        cast: [],
+        cast: '',
         description: '',
         path: ''
     });
+    const [path, setPath] = useState('');
     const [message, setMessage] = useState('');
-    const [movies, setMovies] = useState([]);
-    const [error, setError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,28 +23,77 @@ const MovieManager = ({ isOpen, action, onClose }) => {
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            if (action === 'addMovie') {
-                // ... rest of your handleSubmit code ...
-            } 
-            onClose();
-        } catch (error) {
-            setError(error.message);
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 500 * 1024 * 1024) { // 500MB limit
+                setMessage('File size too large. Please choose a file under 500MB.');
+                e.target.value = ''; // Reset the input
+                return;
+            }
+            setPath(file);
+            setMessage(''); // Clear any error messages
         }
     };
 
-    // Replace your current return statement with this:
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const submitMovieData = new FormData();
+            const categoriesArray = movieData.categories.split(',').map(cat => cat.trim());
+            // Add all form fields to FormData
+            Object.keys(movieData).forEach(key => {
+                submitMovieData.append(key, key === 'categories' ? JSON.stringify(categoriesArray) : movieData[key]);
+            });
+            // Add path if selected
+            if (path) {
+                submitMovieData.set('path', path);
+            }
+            
+            let url = 'http://localhost:3000/api/movies';
+            let meth = 'POST';
+
+            if (action === 'editMovie' && movieToEdit) {
+                console.log('Editing movie:', movieToEdit._id);
+                url += `/${movieToEdit._id}`;
+                meth = 'PUT';
+            } else if (action === 'deleteMovie') {
+                url += `/${movieToEdit._id}`;
+                meth = 'DELETE';
+            }
+
+            const response = await fetch(url, {
+                method: meth,
+                headers: {
+                    'X-User-Id': '678a3e123688b3f70e75ef34'
+                },
+                body: submitMovieData
+            });
+
+            if (response.ok) {
+                setMessage(`${action === 'editMovie' ? 'Edit' : 'Add'} Movie successful!`);
+            } else {
+                const errorData = await response.json();
+                setMessage(errorData.error || `${action === 'editMovie' ? 'Edit' : 'Add'} Movie failed`);
+            }
+        } catch (error) {
+            setMessage(`An error occurred during ${action === 'editMovie' ? 'editing' : 'adding'} movie`);
+        }
+
+        onClose();
+    };
+
     if (!isOpen) return null;
 
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <div className="register-container">
-                    <h2>{action}</h2>
+                <div className="admin-container">
+                    <div className="admin-header">
+                        <h2>{action}</h2>
+                    </div>
                     <button onClick={onClose} className="close-button">×</button>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} encType="multipart/form-data">
                         <div className="form-group">
                             <label htmlFor="movieName">Movie Name:</label>
                             <input
@@ -58,7 +105,6 @@ const MovieManager = ({ isOpen, action, onClose }) => {
                                 required
                             />
                         </div>
-
                         <div className="form-group">
                             <label htmlFor="categories">Categories:</label>
                             <input
@@ -119,20 +165,20 @@ const MovieManager = ({ isOpen, action, onClose }) => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="file">File:</label>
+                            <label htmlFor="path">File:</label>
                             <input
-                                id="file"
-                                type="text"
+                                id="path"
+                                type="file"
                                 name="path"
                                 value={movieData.path}
-                                onChange={handleChange}
-                                placeholder="Insert URL of the file here:"
+                                onChange={handleFileChange}
+                                placeholder="Enter movie path"
                             />
                         </div>
 
                         <button type="submit">Enter</button>
+                        
                     </form>
-
                     {message && (
                         <div className={message.includes('successful') ? 'success-message' : 'error-message'}>
                             {message}

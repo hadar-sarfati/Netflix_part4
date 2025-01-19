@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MovieManager from './managers/MovieManager';
 import CategoryManager from './managers/CategoryManager';
+import MovieList from './managers/MovieList';  // Import MovieList
+import MoviesByCategory from '../Main/MoviesByCategory/MoviesByCategory';  // Import MoviesByCategory
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -8,37 +10,52 @@ const AdminDashboard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalAction, setModalAction] = useState(null);
     const [modalType, setModalType] = useState(null);
+    const [showMovieList, setShowMovieList] = useState(false);  // Add this state
+    const [selectedMovie, setSelectedMovie] = useState(null);    // Add this state
+    useEffect(() => {
+        if (selectedMovie) {
+            console.log('selectedMovie:', selectedMovie);
+            setIsModalOpen(true);
+            setModalAction('editMovie');
+            setModalType('movie');
+        }
+    }, [selectedMovie]);
 
     // Add openModal function
     const openModal = (action) => {
-        console.log('Button clicked!'); // Basic console log
-        //alert('Button clicked: ' + action); // This will show a popupconsole.log('Opening modal with action:', action); // Add this for debugging
-        setModalAction(action);
-        setIsModalOpen(true);
-        setModalType(action.includes('Movie') ? 'movie' : 'category');
+        if (action === 'editMovie') {
+            setShowMovieList(true);  // Show movie list instead of modal directly
+        } else {
+            setModalAction(action);
+            setIsModalOpen(true);
+            setModalType(action.includes('Movie') ? 'movie' : 'category');
+        }
     };
 
     // Add closeModal function
     const closeModal = () => {
         setIsModalOpen(false);
         setModalAction(null);
+        setShowMovieList(false);  // Hide movie list when closing modal
+        setSelectedMovie(null);   // Reset selected movie
     };
 
-    // Add console log to check render
-    console.log('Current state:', { isModalOpen, modalAction, modalType });
+    // Add this function to handle movie selection
+    const handleMovieSelect = (movie) => {
+        console.log('movie:', movie);
+        setSelectedMovie(movie); // Update the state
+        setShowMovieList(false); // Hide the movie list
+    };
 
     return (
         <div className="admin-dashboard">
-            <h1>Admin Dashboard</h1>
+            <h1>Admin Dashboard:</h1>
             
             <div className="admin-sections">
                 <div className="section">
                     <h2>Movie Management</h2>
                     <div className="action-buttons">
-                        <button onClick={() => {
-                            console.log('Add Movie clicked');
-                            openModal('addMovie')
-                        }}>Add Movie</button>
+                        <button onClick={() => {openModal('addMovie')}}>Add Movie</button>
                         <button onClick={() => openModal('editMovie')}>Edit Movie</button>
                         <button onClick={() => openModal('deleteMovie')}>Delete Movie</button>
                     </div>
@@ -53,21 +70,21 @@ const AdminDashboard = () => {
                     </div>
                 </div>
             </div>
-            
-            <div style={{margin: '20px', padding: '10px', border: '1px solid black'}}>
-                Debug Info:
-                <br />
-                Modal Open: {isModalOpen.toString()}
-                <br />
-                Modal Action: {modalAction || 'none'}
-                <br />
-                Modal Type: {modalType || 'none'}
-            </div>
+
+            {showMovieList && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <button onClick={closeModal} className="close-button">×</button>
+                        <MovieList onMovieSelect={handleMovieSelect} />
+                    </div>
+                </div>
+            )}
 
             {isModalOpen && modalType === 'movie' && (
                 <MovieManager 
                     isOpen={isModalOpen}
                     action={modalAction}
+                    movieToEdit={selectedMovie}
                     onClose={closeModal}
                 />
             )}
