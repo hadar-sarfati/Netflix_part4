@@ -18,27 +18,28 @@ const createMovie = async (name, categoryNames, year, duration, cast, descriptio
   console.log("path received: " + videoFile);
   console.log("type of file: " + typeof(videoFile));
   // Define your custom storage path
-  const VIDEOS_STORAGE_PATH = '../../src/movieFiles ';  // or 'D:\\MovieStorage' for Windows
-  // Handle file upload first
-  const fileName = path.basename(videoFile);
-  console.log("filename: " + fileName + " filename type: " + typeof(fileName));
-  const filePath = `/videos/${fileName}`;  // This will be saved in DB
-  console.log("filepath: " + filePath + "filepath type: " + typeof(filePath));
+  // const VIDEOS_STORAGE_PATH = '../../src/movieFiles ';  // or 'D:\\MovieStorage' for Windows
+  // // Handle file upload first
+  // const fileName = path.basename(videoFile);
+  // console.log("filename: " + fileName + " filename type: " + typeof(fileName));
+  // const filePath = `/videos/${fileName}`;  // This will be saved in DB
+  // console.log("filepath: " + filePath + " filepath type: " + typeof(filePath));
 
-  const absolutePath = path.join(VIDEOS_STORAGE_PATH, fileName);  // Actual file system path
+  // const absolutePath = path.join(VIDEOS_STORAGE_PATH, fileName);  // Actual file system path
 
-  // Create movieFiles directory if it doesn't exist
-  if (!fs.existsSync(VIDEOS_STORAGE_PATH)) {
-    fs.mkdirSync(VIDEOS_STORAGE_PATH, {recursive: true});
-  }
+  // // Create movieFiles directory if it doesn't exist
+  // if (!fs.existsSync(VIDEOS_STORAGE_PATH)) {
+  //   fs.mkdirSync(VIDEOS_STORAGE_PATH, {recursive: true});
+  // }
 
-  // Save the file
-  await new Promise((resolve, reject) => {
-    fs.writeFile(absolutePath, videoFile.buffer, (err) => {
-      if (err) reject(err);
-      resolve();
-    });
-  });
+  // // Save the file
+  // await new Promise((resolve, reject) => {
+  //   fs.writeFile(absolutePath, videoFile.buffer, (err) => {
+  //     if (err) reject(err);
+  //     resolve();
+  //   });
+  // });
+  console.log("Category names: " + categoryNames);
 
   // Find the categories that the movie belongs to, by name
   const categories = await Promise.all(categoryNames.map(async (categoryName) => {
@@ -62,7 +63,7 @@ const createMovie = async (name, categoryNames, year, duration, cast, descriptio
     duration: duration,
     cast: cast,
     description: description,
-    path: filePath
+    path: videoFile
   });
   await movie.save();
 
@@ -136,6 +137,7 @@ const getMovieByName = async (name) => {
 };
 
 const updateMovie = async (id, name, categoryNames, year, duration, cast, description, path) => {
+  console.log("updating to: ", name, categoryNames, year, duration, cast, description, path);
   const movie = await getMovieById(id);
   if (!movie) return null;
 

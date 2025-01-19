@@ -5,34 +5,35 @@ const user = require('../models/user');
 
 const createMovie = async (req, res) => {
     // Get the user ID from the header and validate it
-    // const userId = req.header('X-User-Id');
-    // if (!userId) {
-    //     console.log("1");
-    //     return res.status(400).json({ error: 'User ID required in X-User-Id header' });
-    // }
+    const userId = req.header('X-User-Id');
+    if (!userId) {
+        console.log("1");
+        return res.status(400).json({ error: 'User ID required in X-User-Id header' });
+    }
 
-    // if (!mongoose.Types.ObjectId.isValid(userId)) {
-    //     console.log("2");
-    //     return res.status(400).json({ error: 'Invalid user ID format' });
-    // }
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        console.log("2");
+        return res.status(400).json({ error: 'Invalid user ID format' });
+    }
 
     // Get the movie name and categories from the request body
-    const { name } = req.body;
-    //const { name, categories, year, duration, cast, description } = req.body;
-    console.log("req.body: ", req.body);
+    const { name, categories, year, duration, cast, description } = req.body;
+
+    // Ensure categories is parsed as an array
+    let categoryNames;
+    try {
+        categoryNames = Array.isArray(categories) 
+            ? categories 
+            : JSON.parse(categories); // Convert from JSON string to array
+    } catch (error) {
+        console.error('Failed to parse categories:', error);
+        return res.status(400).json({ error: 'Invalid categories format. Must be an array or a valid JSON string.' });
+    }
+
     const file = req.file; // This is the uploaded file
     
-    //!Array.isArray(categories) || categories.length === 0
     // Check if name and categories are indeed provided
-    //|| !categories || !year || !duration || !cast || !description || !file
-    if (!name  ) {
-        console.log("name: ", name);
-        // console.log("categories: ", categories);
-        // console.log("year: ", year);
-        // console.log("duration: ", duration);
-        // console.log("cast: ", cast);
-        // console.log("description: ", description);
-        // console.log("path: ", file);
+    if (!name || !categories || !year || !duration || !cast || !description || !file) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
     // Default image path
@@ -52,7 +53,7 @@ const createMovie = async (req, res) => {
     }
 
     // If name is present and valid, proceed with movie creation
-    const movie = await moviesService.createMovie(name, categories, year, duration, cast, description, videoPath);
+    const movie = await moviesService.createMovie(name, categoryNames, year, duration, cast, description, videoPath);
 
     // Set the Location header to point to the newly created user
     res.location(`/api/movies/${movie._id}`);
@@ -115,9 +116,25 @@ const updateMovie = async (req, res) => {
 
     // Extract the movie ID from the request parameters, and the new name and categories from the request body
     const { id } = req.params;
-    const { name, categories, year, duration, cast, description, path } = req.body;
+    // Get the movie name and categories from the request body
+    const { name, categories, year, duration, cast, description } = req.body;
 
-    if (!name || !categories || !Array.isArray(categories) || categories.length === 0) {
+    console.log("changing movie: ", id, name);
+
+    // Ensure categories is parsed as an array
+    let categoryNames;
+    try {
+        categoryNames = Array.isArray(categories) 
+            ? categories 
+            : JSON.parse(categories); // Convert from JSON string to array
+    } catch (error) {
+        console.error('Failed to parse categories:', error);
+        return res.status(400).json({ error: 'Invalid categories format. Must be an array or a valid JSON string.' });
+    }
+
+    const file = req.file; // This is the uploaded file
+
+    if (!name || !categories || !year || !duration || !cast || !description || !file) {
       return res.status(400).json({ error: 'Name and categories array are required' });
     }
 
@@ -126,8 +143,17 @@ const updateMovie = async (req, res) => {
     if (existingMovie) {
         return res.status(400).json({ error: 'A movie with this name already exists' });
     }
+
+    // Default image path
+    const defaultVideoPath = '/VideoFiles/defaultVideo.mp4';
     
-    const movie = await moviesService.updateMovie(id, name, categories, year, duration, cast, description, path);
+    // Get the profile image path from the uploaded file
+    let videoPath = defaultVideoPath;
+    if (req.file) {
+        videoPath = `/VideoFiles/${req.file.filename}`;
+    }
+    
+    const movie = await moviesService.updateMovie(id, name, categoryNames, year, duration, cast, description, videoPath);
     if (!movie) {
       return res.status(404).json({ error: 'Movie not found' });
     }

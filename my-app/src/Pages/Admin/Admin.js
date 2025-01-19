@@ -8,7 +8,7 @@ const Admin = () => {
     return (
         <div className="admin-page">
             <h1>Admin Panel</h1>
-            <MovieManager />
+            <AdminDashboard />
         </div>
     );
 };
