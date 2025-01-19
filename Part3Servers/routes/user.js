@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user');
+const upload = require('../middleware/uploadMiddleware');
 
 router
   .route('/')
-  .post(userController.createUser);
+  .post(upload.single('profileImage'), userController.createUser);
 
 router
   .route('/:id')

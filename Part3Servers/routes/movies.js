@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const moviesController = require('../controllers/movies');
+const authMiddleware = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadVideos.js');
 
 router.route('/')
-  .get(moviesController.getMovies)
-  .post(upload.single('path'), moviesController.createMovie);
+  .get(authMiddleware, moviesController.getMovies)  
+  .post(authMiddleware, upload.single('path'), moviesController.createMovie);
 
 router.route('/:id')
-  .get(moviesController.getMovie)
-  .put(upload.single('path'), moviesController.updateMovie)
-  .delete(moviesController.deleteMovie);
-
+  .get(authMiddleware, moviesController.getMovie)  
+  .put(authMiddleware, upload.single('path'), moviesController.updateMovie)
+  .delete(authMiddleware, moviesController.deleteMovie);  
+  
 router.route('/search/:query')
-  .get(moviesController.searchMovies);
+  .get(authMiddleware, moviesController.searchMovies);  
 
 module.exports = router;

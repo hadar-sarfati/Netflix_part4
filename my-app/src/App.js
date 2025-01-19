@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
@@ -13,23 +12,22 @@ import Admin from "./Pages/Admin/Admin";
 function App() {
   return (
     <Router>
-      <nav>
+      {/* <nav>
         <Link to="/">Home</Link> | 
         <Link to="/login">Login</Link> | 
         <Link to="/register">Register</Link> | 
         <Link to="/main">Main</Link> | 
-        <Link to="/movie-details">Movie Details</Link> | 
         <Link to="/video-player">Video Player</Link> | 
         <Link to="/search-results">Search Results</Link> | 
         <Link to="/admin">Admin</Link>
-      </nav>
+      </nav> */}
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/main" element={<Main />} />
-        <Route path="/movie-details" element={<MovieDetails />} />
+        <Route path="/movies/:id/details" element={<MovieDetails />} />
         <Route path="/video-player" element={<VideoPlayer />} />
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/admin" element={<Admin />} />

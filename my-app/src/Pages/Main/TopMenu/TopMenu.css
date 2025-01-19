@@ -1,0 +1,143 @@
+/* Top Menu */
+.top-menu {
+  display: flex;
+  justify-content: space-between; /* Space between left and right items */
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.92);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.526) 80%, rgba(0, 0, 0, 0));
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.568) 30%, rgba(0, 0, 0, 0));
+  padding-left: 30px; /* Add space to prevent Home button from being at the edge */
+  padding-right: 30px; /* Add space for the Logout button */
+}
+
+/* Container for Home button and Search bar */
+.top-menu-left {
+  display: flex;
+  align-items: center;
+  flex-grow: 1; /* Ensures it takes up available space */
+}
+
+/* Home button */
+.home-button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.home-button:hover {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+/* Search bar (Centered) */
+.search-bar {
+  width: 50%;
+  max-width: 500px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  color: black;
+  background-color: rgba(240, 255, 255, 0.437);
+  transition: all 0.3s ease;
+  box-shadow: none;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Placeholder styling */
+.search-bar::placeholder {
+  color: black;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.search-bar:focus::placeholder {
+  color: transparent;
+}
+
+.search-bar:focus {
+  outline: none;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgb(97, 96, 96);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+  background-color: rgba(240, 255, 255, 0.824);
+  color: black;
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.search-bar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(68, 68, 68, 0.6);
+  border: 1px solid rgb(97, 96, 96);
+  background-color: rgba(240, 255, 255, 0.824);
+  color: black;
+}
+
+/* Container for Logout button and theme toggle */
+.top-menu-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Align to the right */
+  gap: 10px; /* Space between theme toggle and logout */
+}
+
+/* Logout button */
+.logout-button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.logout-button:hover {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+/* Theme Toggle Button */
+.theme-toggle-button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 24px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+.theme-toggle-button:hover {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}

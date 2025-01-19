@@ -10,10 +10,11 @@ const MoviesByCategory = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
+      const token = localStorage.getItem('accessToken');
       try {
         const response = await fetch('http://localhost:3000/api/movies', {
           headers: {
-            'X-User-Id': '677b9136c49ee858716e085b',
+            'Authorization': `Bearer ${token}`, // תשלח את ה-JWT כאן
           },
         });
 
