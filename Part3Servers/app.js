@@ -12,12 +12,15 @@ const recommendSocket = require('./utilities/recommendSocket')
 const path = require('path');
 const fs = require('fs');
 
+
 require('custom-env').env(process.env.NODE_ENV, './config');
 
 mongoose.connect(process.env.CONNECTION_STRING, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
+require('dotenv').config();
 
 var app = express();
 app.disable('etag');

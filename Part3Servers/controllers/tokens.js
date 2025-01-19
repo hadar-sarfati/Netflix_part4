@@ -1,8 +1,8 @@
+const jwt = require('jsonwebtoken');
 const userService = require('../services/user');
 
 const createToken = async (req, res) => {
     const { username, password } = req.body;
-
     if (!username || !password) {
         return res.status(400).json({ error: 'Missing username or password' });
     }
@@ -10,24 +10,29 @@ const createToken = async (req, res) => {
     try {
         // Find the user by username
         const user = await userService.getUserByUsername(username);
-
+        
         // If user doesn't exist, return an error
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        // Check if the password matches (Note: in real applications, hash and compare securely)
+        // Check if the password matches (Note: in real applications, use bcrypt)
         if (user.password === password) {
-            // Set Location header with user's specific endpoint
-            res.set('Location', `/api/users/${user._id}`);
-            // Return the user ID if the password matches
-            res.json({ userId: user._id });
+            // Create JWT token
+            const token = jwt.sign(
+                { userId: user._id, username: user.username },
+                process.env.JWT_SECRET || 'your-secret-key',  // Use environment variable in production
+                { expiresIn: '24h' }
+            );
+
+            // Return the token
+            res.json({ token });
         } else {
-            // If the password doesn't match, return an error
-            res.status(401).json({ error: 'Invalid password' });
+            res.status(401).json({ error: 'Invalid credentials' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Error checking user credentials' });
+        console.error('Login error:', error);
+        res.status(500).json({ error: 'Error during authentication' });
     }
 };
 
