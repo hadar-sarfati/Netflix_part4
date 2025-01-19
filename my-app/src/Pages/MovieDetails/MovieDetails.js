@@ -1,8 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './MovieDetails.css'; // Assuming you have styling for this component
+// import fetchLoginUser from "../Login/fetchLoginUser";
+// import { useNavigate } from 'react-router-dom';
 
 const MovieDetails = () => {
+  // // State for storing user data
+  // const [user, setUser] = useState(null);
+  // // Hook for programmatic navigation
+  // const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   // Check if the user is logged in
+  //   const token = localStorage.getItem('accessToken');
+  //   if (!token) {
+  //     // If not logged in, navigate to the login page
+  //     navigate('/Login');
+  //   } else {
+  //     // Fetch login user details using the token
+  //     fetchLoginUser(token, setUser)
+  //       .catch((error) => {
+  //         console.error('Error fetching user details:', error);
+  //         // If there's an error, remove the token and navigate to login
+  //         localStorage.removeItem('accessToken');
+  //         navigate('/Login');
+  //       });
+  //   }
+  // }, [navigate]);
   const { id } = useParams(); // Get the movieId from the URL parameters
   const [movie, setMovie] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
@@ -12,9 +36,10 @@ const MovieDetails = () => {
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
+        const token = localStorage.getItem('accessToken');
         const response = await fetch(`http://localhost:3000/api/movies/${id}`, {
           headers: {
-            'X-User-Id': '678a47b2c8f4086736e7587f',
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         });
@@ -34,9 +59,10 @@ const MovieDetails = () => {
 
     const fetchRecommendations = async () => {
       try {
+        const token = localStorage.getItem('accessToken');
         const response = await fetch(`http://localhost:3001/api/movies/${id}/recommend`, {
           headers: {
-            'X-User-Id': '678a47b2c8f4086736e7587f',
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         });

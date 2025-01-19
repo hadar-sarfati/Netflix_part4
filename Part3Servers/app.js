@@ -6,11 +6,11 @@ const categories = require('./routes/category');
 const users = require('./routes/user');
 const tokens = require('./routes/tokens');
 const movies = require('./routes/movies');
-const upload = require('./routes/upload');
 const recommend = require('./routes/recommend');
 const recommendSocket = require('./utilities/recommendSocket')
 const path = require('path');
 const fs = require('fs');
+
 
 require('custom-env').env(process.env.NODE_ENV, './config');
 
@@ -18,6 +18,8 @@ mongoose.connect(process.env.CONNECTION_STRING, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
+require('dotenv').config();
 
 var app = express();
 app.disable('etag');
@@ -33,7 +35,6 @@ app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/tokens', tokens);
 app.use('/api/movies', movies);
-app.use('/api/upload', upload);
 app.use('/api/movies', recommend);
 
 
