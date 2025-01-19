@@ -1,17 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const moviesController = require('../controllers/movies');
+const authMiddleware = require('../middleware/authMiddleware');
+
 
 router.route('/')
-  .get(moviesController.getMovies)
-  .post(moviesController.createMovie);
+  .get(authMiddleware, moviesController.getMovies)  
+  .post(authMiddleware, moviesController.createMovie);  
 
 router.route('/:id')
-  .get(moviesController.getMovie)
-  .put(moviesController.updateMovie)
-  .delete(moviesController.deleteMovie);
+  .get(authMiddleware, moviesController.getMovie)  
+  .put(authMiddleware, moviesController.updateMovie)  
+  .delete(authMiddleware, moviesController.deleteMovie);  
 
 router.route('/search/:query')
-  .get(moviesController.searchMovies);
+  .get(authMiddleware, moviesController.searchMovies);  
 
 module.exports = router;

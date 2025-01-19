@@ -10,40 +10,56 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
 
         try {
+            // Creating request data
+            const requestData = {
+                username: username,
+                password: password,
+            };
+
+            // Sending POST request to server for user authentication
             const response = await fetch('http://localhost:3000/api/tokens', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify(requestData),
             });
 
-            const data = await response.json();
-
+            // Checking the response status
             if (!response.ok) {
-                throw new Error(data.error || 'שגיאה בהתחברות');
+                // Handling different error cases
+                if (response.status === 404) {
+                    setError('Incorrect username or password. Please try again.');
+                } else {
+                    setError('An error occurred during login. Please try again later.');
+                }
+                return;
             }
 
-            // שמירת הטוקן
-            localStorage.setItem('token', data.token);
+            // Extracting token from response data
+            const responseData = await response.json();
 
-            // מעבר למסך הראשי
+            // Saving token in localStorage
+            localStorage.setItem('accessToken', responseData.token);
+
+            // Navigating to the main screen after successful login
             navigate('/Main');
         } catch (error) {
-            setError(error.message);
+            // Handling network or unexpected errors
+            console.error('Login failed:', error);
+            setError('An unexpected error occurred. Please try again later.');
         }
     };
 
     return (
         <div className="login-container">
             <form className="login-form" onSubmit={handleSubmit}>
-                <h2>login</h2>
+                <h2>Login</h2>
                 
                 <div className="form-group">
-                    <label htmlFor="username">username:</label>
+                    <label htmlFor="username">Username:</label>
                     <input
                         type="text"
                         id="username"
@@ -54,7 +70,7 @@ const Login = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="password">password:</label>
+                    <label htmlFor="password">Password:</label>
                     <input
                         type="password"
                         id="password"
@@ -67,7 +83,7 @@ const Login = () => {
                 {error && <div className="error-message">{error}</div>}
                 
                 <button type="submit" className="login-button">
-                    login
+                    Login
                 </button>
             </form>
         </div>

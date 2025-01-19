@@ -5,14 +5,14 @@ const user = require('../models/user');
 
 const createMovie = async (req, res) => {
     // Get the user ID from the header and validate it
-    const userId = req.header('X-User-Id');
-    if (!userId) {
-        return res.status(400).json({ error: 'User ID required in X-User-Id header' });
-    }
+    // const userId = req.header('X-User-Id');
+    // if (!userId) {
+    //     return res.status(400).json({ error: 'User ID required in X-User-Id header' });
+    // }
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ error: 'Invalid user ID format' });
-    }
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     return res.status(400).json({ error: 'Invalid user ID format' });
+    // }
 
     // Get the movie name and categories from the request body
     const { name, categories } = req.body;
@@ -47,13 +47,14 @@ const createMovie = async (req, res) => {
 
 const getMovies = async (req, res) => {
     // Get the user ID from the header and validate it
-    const userId = req.header('X-User-Id');
-    if (!userId) {
-        return res.status(400).json({ error: 'User ID required in X-User-Id header' });
-    }
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ error: 'Invalid user ID format' });
-    }
+    // const userId = req.header('X-User-Id');
+    // if (!userId) {
+    //     return res.status(400).json({ error: 'User ID required in X-User-Id header' });
+    // }
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     return res.status(400).json({ error: 'Invalid user ID format' });
+    // }
+    const userId = req.user.id;
     const result = await moviesService.getMovies(userId);
 
     // Format the JSON response with indentation
@@ -63,14 +64,14 @@ const getMovies = async (req, res) => {
 
 const getMovie = async (req, res) => {
     // Get the user ID from the header and validate it
-    const userId = req.header('X-User-Id');
-    if (!userId) {
-        return res.status(400).json({ error: 'user ID required in X-User-Id header' });
-    }
+    // const userId = req.header('X-User-Id');
+    // if (!userId) {
+    //     return res.status(400).json({ error: 'user ID required in X-User-Id header' });
+    // }
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ error: 'Invalid user ID format' });
-    }
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     return res.status(400).json({ error: 'Invalid user ID format' });
+    // }
 
     // Get the movie ID from the request parameters and validate it
     const { id } = req.params;
@@ -98,14 +99,14 @@ const getMovie = async (req, res) => {
 
 const updateMovie = async (req, res) => {
     // Get the user ID from the header and validate it
-    const userId = req.header('X-User-Id');
-    if (!userId) {
-        return res.status(400).json({ error: 'User ID required in X-User-Id header' });
-    }
+    // const userId = req.header('X-User-Id');
+    // if (!userId) {
+    //     return res.status(400).json({ error: 'User ID required in X-User-Id header' });
+    // }
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ error: 'Invalid user ID format' });
-    }
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     return res.status(400).json({ error: 'Invalid user ID format' });
+    // }
 
     // Extract the movie ID from the request parameters, and the new name and categories from the request body
     const { id } = req.params;
@@ -132,14 +133,14 @@ const updateMovie = async (req, res) => {
 
 const deleteMovie = async (req, res) => {
     // Get the user ID from the header and validate it
-    const userId = req.header('X-User-Id');
-    if (!userId) {
-        return res.status(400).json({ error: 'movie ID required in X-movie-Id header' });
-    }
+    // const userId = req.header('X-User-Id');
+    // if (!userId) {
+    //     return res.status(400).json({ error: 'movie ID required in X-movie-Id header' });
+    // }
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ error: 'Invalid movie ID format' });
-    }
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     return res.status(400).json({ error: 'Invalid movie ID format' });
+    // }
 
     const movie = await moviesService.deleteMovie(req.params.id);
     if (!movie) {

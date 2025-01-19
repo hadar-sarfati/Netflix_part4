@@ -1,26 +1,34 @@
 const jwt = require('jsonwebtoken');
+const userService = require('../services/user');
 
-const authMiddleware = (req, res, next) => {
+// Function to create a JWT token for user authentication
+const createToken = async (req, res) => {
+    const { username, password } = req.body; // Destructure username and password from the request body
+    if (!username || !password) { // Check if both username and password are provided
+        return res.status(400).json({ error: 'Missing username or password' }); // Respond with error if any field is missing
+    }
+
     try {
-        const authHeader = req.headers.authorization;
+        // Attempt to find the user by their username in the database
+        const user = await userService.getUserByUsername(username);
         
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            console.log('No auth header or invalid format'); // לוג לדיבאג
-            return res.status(401).json({ error: 'No token provided' });
+        // If the user doesn't exist, return an error response
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid credentials' }); // Unauthorized if user is not found
         }
 
-        const token = authHeader.split(' ')[1];
-        console.log('Received token:', token); // לוג לדיבאג
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'my-super-secret-key-123456789');
-        console.log('Decoded token:', decoded); // לוג לדיבאג
-
-        req.user = decoded;
-        next();
+        // Check if the provided password matches the stored password (Note: for real applications, use bcrypt for password hashing)
+        if (user.password === password) {
+            // If the password matches, generate a JWT token
+            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET); // Sign the token with the user's ID and a secret key
+            return res.status(200).json({ token: token }); // Respond with the token
+        } else {
+            res.status(401).json({ error: 'Invalid credentials' }); // Unauthorized if password doesn't match
+        }
     } catch (error) {
-        console.error('Auth error:', error); // לוג לדיבאג
-        return res.status(401).json({ error: 'Invalid token' });
+        console.error('Login error:', error); // Log the error for debugging
+        res.status(500).json({ error: 'Error during authentication' }); // Respond with a server error if something goes wrong
     }
 };
 
-module.exports = authMiddleware;
+module.exports = { createToken }; // Export the function for use in other parts of the app
