@@ -11,8 +11,6 @@ const AdminDashboard = () => {
 
     // Add openModal function
     const openModal = (action) => {
-        console.log('Button clicked!'); // Basic console log
-        //alert('Button clicked: ' + action); // This will show a popupconsole.log('Opening modal with action:', action); // Add this for debugging
         setModalAction(action);
         setIsModalOpen(true);
         setModalType(action.includes('Movie') ? 'movie' : 'category');
@@ -24,9 +22,6 @@ const AdminDashboard = () => {
         setModalAction(null);
     };
 
-    // Add console log to check render
-    console.log('Current state:', { isModalOpen, modalAction, modalType });
-
     return (
         <div className="admin-dashboard">
             <h1>Admin Dashboard</h1>
@@ -35,10 +30,7 @@ const AdminDashboard = () => {
                 <div className="section">
                     <h2>Movie Management</h2>
                     <div className="action-buttons">
-                        <button onClick={() => {
-                            console.log('Add Movie clicked');
-                            openModal('addMovie')
-                        }}>Add Movie</button>
+                        <button onClick={() => {openModal('addMovie')}}>Add Movie</button>
                         <button onClick={() => openModal('editMovie')}>Edit Movie</button>
                         <button onClick={() => openModal('deleteMovie')}>Delete Movie</button>
                     </div>
@@ -52,16 +44,6 @@ const AdminDashboard = () => {
                         <button onClick={() => openModal('deleteCategory')}>Delete Category</button>
                     </div>
                 </div>
-            </div>
-            
-            <div style={{margin: '20px', padding: '10px', border: '1px solid black'}}>
-                Debug Info:
-                <br />
-                Modal Open: {isModalOpen.toString()}
-                <br />
-                Modal Action: {modalAction || 'none'}
-                <br />
-                Modal Type: {modalType || 'none'}
             </div>
 
             {isModalOpen && modalType === 'movie' && (

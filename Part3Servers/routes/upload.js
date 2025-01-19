@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const { createMovie } = require('../controllers/movies');
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -15,18 +16,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post('/upload', upload.single('video'), (req, res) => {
-    try {
-        if (!req.file) {
-            return res.status(400).send('No file uploaded');
-        }
-        res.json({ 
-            message: 'File uploaded successfully',
-            filePath: req.file.path
-        });
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
-});
+router.post('/upload', upload.single('video'), createMovie);
 
 module.exports = router;

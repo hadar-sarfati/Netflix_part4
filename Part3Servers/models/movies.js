@@ -14,27 +14,28 @@ const MovieSchema = new Schema({
   categories: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
-    required: true
+    required: false
   }], 
   year: {
     type: Number,
-    required: true
+    required: false
   },
   duration: {
     type: String,
-    required: true
+    required: false
   },
   cast: [{
     type: String,
-    required: true
+    required: false
   }],
   description: {
     type: String,
-    required: true
+    required: false
   },
   path: {
     type: String,
-    required: true
+    required: false,
+    default: ''
   },
   users: [{
     type: mongoose.Schema.Types.ObjectId,

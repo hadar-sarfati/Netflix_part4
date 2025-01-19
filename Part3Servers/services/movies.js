@@ -15,11 +15,16 @@ const _createCategory = async (categoryData) => {
 };
 
 const createMovie = async (name, categoryNames, year, duration, cast, description, videoFile) => {
+  console.log("path received: " + videoFile);
+  console.log("type of file: " + typeof(videoFile));
   // Define your custom storage path
   const VIDEOS_STORAGE_PATH = '../../src/movieFiles ';  // or 'D:\\MovieStorage' for Windows
   // Handle file upload first
-  const fileName = `movie_${Date.now()}${path.extname(videoFile.originalname)}`;
+  const fileName = path.basename(videoFile);
+  console.log("filename: " + fileName + " filename type: " + typeof(fileName));
   const filePath = `/videos/${fileName}`;  // This will be saved in DB
+  console.log("filepath: " + filePath + "filepath type: " + typeof(filePath));
+
   const absolutePath = path.join(VIDEOS_STORAGE_PATH, fileName);  // Actual file system path
 
   // Create movieFiles directory if it doesn't exist
@@ -130,7 +135,7 @@ const getMovieByName = async (name) => {
   }
 };
 
-const updateMovie = async (id, name, categoryNames) => {
+const updateMovie = async (id, name, categoryNames, year, duration, cast, description, path) => {
   const movie = await getMovieById(id);
   if (!movie) return null;
 
@@ -155,6 +160,11 @@ const updateMovie = async (id, name, categoryNames) => {
   // Update movie details
   movie.name = name;
   movie.categories = categories;
+  movie.year = year;
+  movie.duration = duration;
+  movie.cast = cast;
+  movie.description = description;
+  movie.path = path;
   await movie.save();
 
   // Add the movie to each category's movies array

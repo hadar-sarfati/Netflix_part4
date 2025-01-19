@@ -5,39 +5,55 @@ const user = require('../models/user');
 
 const createMovie = async (req, res) => {
     // Get the user ID from the header and validate it
-    const userId = req.header('X-User-Id');
-    if (!userId) {
-        return res.status(400).json({ error: 'User ID required in X-User-Id header' });
-    }
+    // const userId = req.header('X-User-Id');
+    // if (!userId) {
+    //     console.log("1");
+    //     return res.status(400).json({ error: 'User ID required in X-User-Id header' });
+    // }
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ error: 'Invalid user ID format' });
-    }
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     console.log("2");
+    //     return res.status(400).json({ error: 'Invalid user ID format' });
+    // }
 
     // Get the movie name and categories from the request body
-    const { name, categories } = req.body;
+    const { name } = req.body;
+    //const { name, categories, year, duration, cast, description } = req.body;
+    console.log("req.body: ", req.body);
+    const file = req.file; // This is the uploaded file
     
+    //!Array.isArray(categories) || categories.length === 0
     // Check if name and categories are indeed provided
-    if (!name || !categories || !Array.isArray(categories) || categories.length === 0) {
-      return res.status(400).json({ error: 'Name and categories array are required' });
+    //|| !categories || !year || !duration || !cast || !description || !file
+    if (!name  ) {
+        console.log("name: ", name);
+        // console.log("categories: ", categories);
+        // console.log("year: ", year);
+        // console.log("duration: ", duration);
+        // console.log("cast: ", cast);
+        // console.log("description: ", description);
+        // console.log("path: ", file);
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+    // Default image path
+    const defaultVideoPath = '/VideoFiles/defaultVideo.mp4';
+    
+    // Get the profile image path from the uploaded file
+    let videoPath = defaultVideoPath;
+    if (req.file) {
+        videoPath = `/VideoFiles/${req.file.filename}`;
     }
 
     // Validate there is no other movie with the same name
     const existingMovie = await moviesService.getMovieByName(name);
     if (existingMovie) {
+        console.log("4");
         return res.status(400).json({ error: 'A movie with this name already exists' });
     }
 
     // If name is present and valid, proceed with movie creation
-    const movie = await moviesService.createMovie(name, categories);
+    const movie = await moviesService.createMovie(name, categories, year, duration, cast, description, videoPath);
 
-    // New format for the response
-    const movieResponse = {
-        _id: movie._id,
-        movieId: movie.movieId,  // Include the numeric ID
-        name: movie.name,
-        categories: movie.categories
-    };
     // Set the Location header to point to the newly created user
     res.location(`/api/movies/${movie._id}`);
     // res.status(201).json(movieResponse);
@@ -99,7 +115,7 @@ const updateMovie = async (req, res) => {
 
     // Extract the movie ID from the request parameters, and the new name and categories from the request body
     const { id } = req.params;
-    const { name, categories } = req.body;
+    const { name, categories, year, duration, cast, description, path } = req.body;
 
     if (!name || !categories || !Array.isArray(categories) || categories.length === 0) {
       return res.status(400).json({ error: 'Name and categories array are required' });
@@ -111,7 +127,7 @@ const updateMovie = async (req, res) => {
         return res.status(400).json({ error: 'A movie with this name already exists' });
     }
     
-    const movie = await moviesService.updateMovie(id, name, categories);
+    const movie = await moviesService.updateMovie(id, name, categories, year, duration, cast, description, path);
     if (!movie) {
       return res.status(404).json({ error: 'Movie not found' });
     }
