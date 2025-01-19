@@ -19,14 +19,11 @@ const createToken = async (req, res) => {
         // Check if the password matches (Note: in real applications, use bcrypt)
         if (user.password === password) {
             // Create JWT token
-            const token = jwt.sign(
-                { userId: user._id, username: user.username },
-                process.env.JWT_SECRET || 'your-secret-key',  // Use environment variable in production
-                { expiresIn: '24h' }
-            );
+            const token = jwt.sign({ username: username }, process.env.JWT_SECRET);
+
 
             // Return the token
-            res.json({ token });
+            return res.status(200).json({ token: token });
         } else {
             res.status(401).json({ error: 'Invalid credentials' });
         }
