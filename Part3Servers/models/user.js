@@ -40,7 +40,11 @@ const UserSchema = new Schema({
   movies: [{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Movie' 
-  }]
+  }],
+  admin: {
+    type: Boolean,
+    default: false // Admin field default value
+  }
 });
 
 module.exports = mongoose.model('User', UserSchema);

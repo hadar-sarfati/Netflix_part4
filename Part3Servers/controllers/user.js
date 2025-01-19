@@ -64,7 +64,8 @@ const getUser = async (req, res) => {
             lastName: user.lastName,
             profileImage: user.profileImage,
             movies: user.movies,
-            createdAt: user.createdAt
+            createdAt: user.createdAt,
+            admin: user.admin
         };
         // Return the user data as a JSON response
         res.json(userResponse);
