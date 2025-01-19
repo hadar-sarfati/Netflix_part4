@@ -13,6 +13,7 @@ const Register = () => {
   });
   const [profileImage, setProfileImage] = useState(null);
   const [message, setMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false); // מצב הצלחה
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,14 +63,16 @@ const Register = () => {
   
       if (response.status === 201) {
         setMessage('Registration successful!');
-        // נשארים באותו עמוד ולא עושים כלום מעבר להצגת ההודעה
+        setIsSuccess(true); // קובעים את מצב ההצלחה
       } else {
         const errorData = await response.json();
         setMessage(errorData.error || 'Registration failed');
+        setIsSuccess(false);
       }
     } catch (error) {
       console.error('Registration error:', error);
       setMessage('An error occurred during registration');
+      setIsSuccess(false);
     }
   };
 
@@ -156,6 +159,15 @@ const Register = () => {
         <div className={`message ${message.includes('successful') ? 'success-message' : 'error-message'}`}>
           {message}
         </div>
+      )}
+      
+      {isSuccess && (
+        <button
+          className="button login-button"
+          onClick={() => navigate('/login')}
+        >
+          Go to Login
+        </button>
       )}
     </div>
   );

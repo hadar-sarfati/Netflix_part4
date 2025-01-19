@@ -13,7 +13,7 @@ const Login = () => {
         setError('');
 
         try {
-            const response = await fetch('/api/tokens', {
+            const response = await fetch('http://localhost:3000/api/tokens', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ const Login = () => {
             localStorage.setItem('token', data.token);
 
             // מעבר למסך הראשי
-            navigate('/main');
+            navigate('/Main');
         } catch (error) {
             setError(error.message);
         }
