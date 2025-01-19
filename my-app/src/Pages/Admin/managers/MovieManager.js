@@ -61,12 +61,12 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
                 url += `/${movieToEdit._id}`;
                 meth = 'DELETE';
             }
-
+            const token = localStorage.getItem('accessToken');
             const response = await fetch(url, {
                 method: meth,
                 headers: {
-                    'X-User-Id': '678a3e123688b3f70e75ef34'
-                },
+                    'Authorization': `Bearer ${token}`, 
+                  },
                 body: submitMovieData
             });
 
