@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import ProtectedRoute from './ProtectedRoute';
 
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
@@ -27,7 +28,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/main" element={<Main />} />
+        <Route path="/main" element={
+        // <ProtectedRoute>
+            <Main />
+        // </ProtectedRoute>
+    }  />
         <Route path="/movies/:id/details" element={<MovieDetails />} />
         <Route path="/video-player" element={<VideoPlayer />} />
         <Route path="/search-results" element={<SearchResults />} />

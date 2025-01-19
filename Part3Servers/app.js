@@ -11,6 +11,7 @@ const recommend = require('./routes/recommend');
 const recommendSocket = require('./utilities/recommendSocket')
 const path = require('path');
 const fs = require('fs');
+const authMiddleware = require('./middleware/authMiddleware');
 
 
 require('custom-env').env(process.env.NODE_ENV, './config');
@@ -35,6 +36,7 @@ app.use(express.json());
 app.use('/api/categories', categories);
 app.use('/api/users', users);
 app.use('/api/tokens', tokens);
+// app.use('/api/movies', authMiddleware, movies);
 app.use('/api/movies', movies);
 app.use('/api/upload', upload);
 app.use('/api/movies', recommend);
