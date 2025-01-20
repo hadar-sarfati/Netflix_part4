@@ -33,18 +33,6 @@ html, body, #root {
   color: #000;
 }
 
-.top-menu {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  background-color: #333;
-}
-
-.top-menu.light {
-  background-color: #f8f8f8; /* Light theme background */
-}
-
 .theme-toggle-button {
   background-color: #444;
   color: #fff;

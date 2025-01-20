@@ -50,7 +50,7 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
                 submitMovieData.set('path', path);
             }
             
-            let url = 'http://localhost:3000/api/movies';
+            let url = 'http://localhost:3001/api/movies';
             let meth = 'POST';
 
             if (action === 'editMovie' && movieToEdit) {

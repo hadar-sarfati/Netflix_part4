@@ -12,9 +12,11 @@ const MoviesByCategory = () => {
     const fetchMovies = async () => {
       const token = localStorage.getItem('accessToken');
       try {
-        const response = await fetch('http://localhost:3000/api/movies', {
+        const response = await fetch('http://localhost:3001/api/movies', {
+          method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`, // תשלח את ה-JWT כאן
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
         });
 
