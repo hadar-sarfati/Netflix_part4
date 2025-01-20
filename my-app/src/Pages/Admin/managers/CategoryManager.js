@@ -17,10 +17,11 @@ const CategoryManager = ({ isOpen, action, onClose }) => {
         try {
             if (action === 'addCategory') {
                 try {
+                  const token = localStorage.getItem('accessToken');
                     const response = await fetch('http://localhost:3000/api/categories', {
                       method: 'POST',
                       headers: {
-                        'Content-Type': 'application/json'
+                        'Authorization': `Bearer ${token}`, 
                       },
                       body: JSON.stringify(categoryData)
                     });
@@ -37,9 +38,11 @@ const CategoryManager = ({ isOpen, action, onClose }) => {
             }
             else if (action === 'editCategory') {
                 try {
+                  const token = localStorage.getItem('accessToken');
                     const response = await fetch('http://localhost:3000/api/categories', {
                       method: 'PATCH',
                       headers: {
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                       },
                       body: JSON.stringify(categoryData)
@@ -57,9 +60,11 @@ const CategoryManager = ({ isOpen, action, onClose }) => {
             }
             else if (action === 'deleteCategory') {
                 try {
+                  const token = localStorage.getItem('accessToken');
                     const response = await fetch('http://localhost:3000/api/categories', {
                       method: 'DELETE',
                       headers: {
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                       },
                       body: JSON.stringify(categoryData)
