@@ -1,9 +1,9 @@
 .modal-overlay {
     position: fixed;
-    top: 10px;
-    left: 60px;
-    right: 60px;
-    bottom: 10px;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
@@ -11,13 +11,16 @@
 }
 
 .modal-content {
+    max-height: 80vh;
     background-color: rgb(22, 21, 21);
     padding: 30px; /* Added more padding */
-    border-radius: 8px; /* Slightly larger radius */
+    border-radius: 10px; /* Slightly larger radius */
     max-width: 420px; /* Increased size */
     width: 90%;
     position: relative; /* For the close button */
     font-size: 16px; /* Set default text size */
+    overflow-y: auto;  /* Enable scrolling inside modal */
+    overflow-x: hidden;
 }
 
 .admin-container {

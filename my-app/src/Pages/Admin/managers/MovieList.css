@@ -1,118 +1,56 @@
-/* Main container for the movies by category section */
-.movies-by-category {
-    margin: 30px auto;
-    padding: 0 20px;
-    width: 100%;
-    max-width: none;
-    padding-left: 50px; /* Adds padding to the left side */
-  }
-  
-  /* Heading for the Movies By Category section */
-  h1 {
-    font-size: 36px;
-    color: #ffffffd0;
-    text-align: left;
-    margin-bottom: 30px;
-    padding-left: 10px; /* Adds padding to the left side */
-  }
-  
-  /* Container for each category (Drama, Watched Movies, etc.) */
-  .category-container {
-    margin-bottom: 40px;
-    padding-left: 10px; /* Adds padding to the left side */
-  }
-  
-  /* Category title style */
-  .category-container h2 {
-    font-size: 28px;
-    color: #577088;
-    border-bottom: 2px solid #d2d7e5;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    text-align: left;
-    padding-left: 10px; /* Adds padding to the left side */
-  }
-  
-  /* If no movies are available in the category */
-  .category-container p {
-    color: #7f8c8d;
-    font-size: 18px;
-    font-style: italic;
-    text-align: left;
-    padding-left: 10px; /* Adds padding to the left side */
-  }
-  
-  /* Movie list container - flexible grid display */
-  .movie-list {
+.movie-list {
+    max-height: 60vh;  /* Limit height to enable scrolling */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    /*background-color: rgba(0, 0, 0, 0.5); */
+    border-radius: 10px;
+}
+
+.movie-grid {
+    flex: 1; /* Take remaining space */
+    overflow-y: auto; /* Enable vertical scrolling */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
-    width: 100%;
-    padding-left: 10px; /* Adds padding to the left side */
-  }
-  
-  /* Movie card style */
-  .movie-card {
-    background-color: rgba(192, 192, 192, 0.7); /* Silver-transparent */
+    padding: 10px;
+    margin-top: 10px;
+    display: grid;
+    max-height: 60vh;
+}
+
+.movie-card {
+    padding: 40px;
+    background: #3343ef;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-    padding: 20px;
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
     cursor: pointer;
-    height: 100px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    white-space: nowrap;  /* Prevent text wrapping */
+    overflow: hidden;     /* Hide overflow text */
+    text-overflow: ellipsis; /* Add '...' when text overflows */
+    font-size: clamp(14px, 4vw, 18px); 
+}
+
+
+.movie-card h3 {
+    margin-top: -20px;
+    margin-bottom: 80px;
+    color: white;
+    font-size: 30px;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+}
+
+/* Ensure parent container allows space for the scrollable list */
+.movies-by-category {
     width: 100%;
-  }
-  
-  /* Hover effect for movie cards */
-  .movie-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-    background-color: rgba(169, 169, 169, 0.9); /* Slightly darker silver */
-  }
-  
-  /* Movie title inside the card */
-  .movie-card h3 {
-    font-size: 20px;
-    font-weight: 500;
-    color: #000000; /* Black text for contrast */
-    margin-top: 15px;
-    text-transform: capitalize;
-  }
-  
-  /* Styling for movie image (add this if you have images for each movie) */
-  .movie-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 15px;
-  }
-  
-  
-  /* Loading spinner */
-  .loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .loading::before {
-    content: '';
-    border: 6px solid transparent;
-    border-top: 6px solid #e74c3c;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-  }
-  
-  /* Spinner animation */
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+    max-width: 600px; /* Adjust to fit your layout */
+    margin: 0 auto; /* Center the list */
+}

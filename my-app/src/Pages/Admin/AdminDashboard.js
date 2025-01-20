@@ -13,22 +13,20 @@ const AdminDashboard = () => {
     const [showMovieList, setShowMovieList] = useState(false);  // Add this state
     const [selectedMovie, setSelectedMovie] = useState(null);    // Add this state
     useEffect(() => {
-        if (selectedMovie) {
-            console.log('selectedMovie:', selectedMovie);
+        if (selectedMovie && modalAction === 'editMovie') {
             setIsModalOpen(true);
-            setModalAction('editMovie');
-            setModalType('movie');
         }
-    }, [selectedMovie]);
+    }, [selectedMovie, modalAction]);
 
     // Add openModal function
     const openModal = (action) => {
-        if (action === 'editMovie') {
-            setShowMovieList(true);  // Show movie list instead of modal directly
+        setModalAction(action);
+        if (action === 'editMovie' || action === 'deleteMovie') {
+            setShowMovieList(true);
+            setModalType('movie');
         } else {
-            setModalAction(action);
             setIsModalOpen(true);
-            setModalType(action.includes('Movie') ? 'movie' : 'category');
+            setModalType('movie');
         }
     };
 
@@ -42,9 +40,10 @@ const AdminDashboard = () => {
 
     // Add this function to handle movie selection
     const handleMovieSelect = (movie) => {
-        console.log('movie:', movie);
-        setSelectedMovie(movie); // Update the state
-        setShowMovieList(false); // Hide the movie list
+        console.log('action:', modalAction);
+        console.log("modal type:", modalType);
+        setSelectedMovie(movie);
+        setIsModalOpen(true);
     };
 
     return (
@@ -55,7 +54,7 @@ const AdminDashboard = () => {
                 <div className="section">
                     <h2>Movie Management</h2>
                     <div className="action-buttons">
-                        <button onClick={() => {openModal('addMovie')}}>Add Movie</button>
+                        <button onClick={() => openModal('addMovie')}>Add Movie</button>
                         <button onClick={() => openModal('editMovie')}>Edit Movie</button>
                         <button onClick={() => openModal('deleteMovie')}>Delete Movie</button>
                     </div>

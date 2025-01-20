@@ -37,53 +37,74 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
     };
 
     const handleSubmit = async (e) => {
+        console.log('handleSubmit');
         e.preventDefault();
         try {
             const submitMovieData = new FormData();
-            const categoriesArray = movieData.categories.split(',').map(cat => cat.trim());
-            // Add all form fields to FormData
-            Object.keys(movieData).forEach(key => {
-                submitMovieData.append(key, key === 'categories' ? JSON.stringify(categoriesArray) : movieData[key]);
-            });
-            // Add path if selected
-            if (path) {
-                submitMovieData.set('path', path);
+            if (action === 'deleteMovie') {
+                submitMovieData.append('_id', movieToEdit._id);
+            } else {
+                const categoriesArray = movieData.categories.split(',').map(cat => cat.trim());
+                Object.keys(movieData).forEach(key => {
+                    submitMovieData.append(key, key === 'categories' ? JSON.stringify(categoriesArray) : movieData[key]);
+                });
+                if (path) {
+                    submitMovieData.set('path', path);
+                }
             }
             
             let url = 'http://localhost:3000/api/movies';
-            let meth = 'POST';
+            let meth = action === 'deleteMovie' ? 'DELETE' : (action === 'editMovie' ? 'PUT' : 'POST');
 
-            if (action === 'editMovie' && movieToEdit) {
-                console.log('Editing movie:', movieToEdit._id);
+            if (movieToEdit && (action === 'editMovie' || action === 'deleteMovie')) {
                 url += `/${movieToEdit._id}`;
-                meth = 'PUT';
-            } else if (action === 'deleteMovie') {
-                url += `/${movieToEdit._id}`;
-                meth = 'DELETE';
             }
+
             const token = localStorage.getItem('accessToken');
             const response = await fetch(url, {
                 method: meth,
                 headers: {
                     'Authorization': `Bearer ${token}`, 
                   },
-                body: submitMovieData
+                body: action === 'deleteMovie' ? null : submitMovieData 
             });
 
             if (response.ok) {
-                setMessage(`${action === 'editMovie' ? 'Edit' : 'Add'} Movie successful!`);
+                setMessage(`${action === 'deleteMovie' ? 'Delete' : (action === 'editMovie' ? 'Edit' : 'Add')} Movie successful!`);
             } else {
                 const errorData = await response.json();
-                setMessage(errorData.error || `${action === 'editMovie' ? 'Edit' : 'Add'} Movie failed`);
+                setMessage(errorData.error || `${action.charAt(0).toUpperCase() + action.slice(1)} Movie failed`);
             }
         } catch (error) {
-            setMessage(`An error occurred during ${action === 'editMovie' ? 'editing' : 'adding'} movie`);
+            setMessage(`An error occurred during ${action === 'deleteMovie' ? 'deleting' : (action === 'editMovie' ? 'editing' : 'adding')} movie`);
         }
 
         onClose();
     };
 
-    if (!isOpen) return null;
+    if (action === 'deleteMovie') {
+        return (
+            <div className="modal-overlay">
+                <div className="modal-content">
+                    <div className="admin-container">
+                        <div className="admin-header">
+                            <h2>Delete Movie</h2>
+                        </div>
+                        <button onClick={onClose} className="close-button">×</button>
+                        <form onSubmit={handleSubmit}>
+                            <h3>Are you sure you want to delete this movie?</h3>
+                            <button type="submit">Delete</button>
+                            {message && (
+                                <div className={message.includes('successful') ? 'success-message' : 'error-message'}>
+                                    {message}
+                                </div>
+                            )}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="modal-overlay">
