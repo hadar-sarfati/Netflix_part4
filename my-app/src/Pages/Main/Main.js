@@ -40,9 +40,10 @@ const Main = () => {
   return (
     <div className="main">
       <TopMenu 
-        onSearch={handleSearch}
-        onLogout={handleLogout}
-      />
+       onSearch={handleSearch}
+       onLogout={handleLogout}
+       user={user} 
+       />
       <div className="welcome-message">
         Welcome, {user ? user.username : 'Loading...'}
       </div>
