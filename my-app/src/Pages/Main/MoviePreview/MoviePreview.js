@@ -25,19 +25,60 @@ const MoviePreview = () => {
         }
 
         const data = await response.json();
-        console.log(data); // Log to verify the fetched movies
+        console.log('Fetched Categories:', data);
 
-        // Pick a random movie and set its path
-        if (data && data.length > 0) {
-          const randomMovie = data[Math.floor(Math.random() * data.length)];
-          setRandomMoviePath(randomMovie.path); // Assume each movie has a `path` field
-          console.log("MyRandomMovie: ");
-          console.log(randomMovie);
+        // Filter non-empty categories
+        const nonEmptyCategories = data.filter(
+          (category) => category.movies && category.movies.length > 0
+        );
+
+        if (nonEmptyCategories.length > 0) {
+          // Choose a random category
+          const randomCategory =
+            nonEmptyCategories[Math.floor(Math.random() * nonEmptyCategories.length)];
+
+          // Choose a random movie within the chosen category
+          const randomMovie =
+            randomCategory.movies[Math.floor(Math.random() * randomCategory.movies.length)];
+
+          const randomMovieID = randomMovie._id;
+
+          console.log('Random Category:', randomCategory);
+          console.log('Random Movie:', randomMovie);
+
+          // Fetch details for the random movie
+          await fetchMovieDetails(randomMovieID, token);
+        } else {
+          console.warn('No non-empty categories available.');
         }
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
+      }
+    };
+
+    const fetchMovieDetails = async (id, token) => {
+      try {
+        const response = await fetch(`http://localhost:3001/api/movies/${id}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch movie details');
+        }
+
+        const movieDetails = await response.json();
+        console.log('Fetched Movie Details:', movieDetails);
+
+        // Assume movieDetails contains a 'path' field
+        setRandomMoviePath(movieDetails.path);
+      } catch (err) {
+        console.error('Error fetching movie details:', err.message);
       }
     };
 
@@ -53,7 +94,7 @@ const MoviePreview = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   if (error) {
@@ -71,13 +112,14 @@ const MoviePreview = () => {
         className="background-video"
       >
         {randomMoviePath && (
-          <source src={`http://localhost:3001/${randomMoviePath}`} type="video/mp4" />
+          <source src={`http://localhost:3001${randomMoviePath}`} type="video/mp4" />
         )}
       </video>
-      <p>randomMoviePath</p>
+      <p>randomMoviePath: {randomMoviePath}</p>
       <div className="fade-overlay"></div>
     </div>
   );
 };
 
 export default MoviePreview;
+
