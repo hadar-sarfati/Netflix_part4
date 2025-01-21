@@ -1,143 +1,196 @@
-/* Top Menu */
+/* General styling for the welcome message */
+.welcome-message {
+  font-size: 1.15rem;
+  font-weight: 300;
+  color: var(--text); /* Use the text color based on the current theme */
+  padding: 8px 12px;
+  margin-left: 150px; /* Move 100px to the right */
+}
+
+
+/* Top menu styling */
 .top-menu {
   display: flex;
-  justify-content: space-between; /* Space between left and right items */
   align-items: center;
-  width: 100%;
+  justify-content: space-between;
   padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.92);
+  background: var(--menu-gradient);
+  backdrop-filter: blur(10px);
   position: fixed;
   top: 0;
   left: 0;
+  height: 8%;
+  width: 100%;
   z-index: 1000;
-  backdrop-filter: blur(5px);
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.526) 80%, rgba(0, 0, 0, 0));
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.568) 30%, rgba(0, 0, 0, 0));
-  padding-left: 30px; /* Add space to prevent Home button from being at the edge */
-  padding-right: 30px; /* Add space for the Logout button */
-}
-
-/* Container for Home button and Search bar */
-.top-menu-left {
-  display: flex;
-  align-items: center;
-  flex-grow: 1; /* Ensures it takes up available space */
-}
-
-/* Home button */
-.home-button {
-  background-color: transparent;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 18px;
   font-family: 'Poppins', sans-serif;
-  font-weight: 300;
+  box-shadow: var(--menu-shadow);
   transition: all 0.3s ease;
-  position: relative;
 }
 
-.home-button:hover {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-  transform: scale(1.1);
-  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+/* Adjust other buttons inside top menu */
+/* General button styles */
+.home-button,
+.manage-button,
+.theme-toggle-button,
+.logout-button {
+  background: transparent;
+  color: var(--text);
+  border: none;
+  font-size: 18px;
+  font-weight: 300;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.5s ease, transform 0.3s ease; /* Add color transition */
+  width: 100px;
 }
 
-/* Search bar (Centered) */
+.home-button:hover,
+.manage-button:hover,
+.theme-toggle-button:hover,
+.logout-button:hover {
+  background: var(--button-hover);
+  transform: scale(1.02);
+  width: 100px;
+}
+
 .search-bar {
   width: 50%;
-  max-width: 500px;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 18px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 300;
-  color: black;
-  background-color: rgba(240, 255, 255, 0.437);
+  max-width: 400px;
+  padding: 12px 18px; /* Add more padding for a better feel */
+  font-size: 16px; /* Slightly increase font size */
+  border: 2px solid transparent; /* Start with a transparent border */
+  border-radius: 30px; /* Make the border more rounded */
+  background-color: var(--search-bg);
+  color: var(--text);
+  text-align: left; /* Align text to the left for better readability */
+  outline: none;
+  height: 48px; /* Increase height for a more comfortable input area */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow to lift the input */
   transition: all 0.3s ease;
-  box-shadow: none;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  margin-right: 222px;
+}
+
+/* Focused state - create a subtle glow and border change */
+.search-bar:focus {
+  border-color: var(--primary); /* Highlight border on focus */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* More noticeable shadow */
+  background-color: var(--search-bg); /* Keep the background unchanged */
 }
 
 /* Placeholder styling */
 .search-bar::placeholder {
-  color: black;
-  font-size: 18px;
+  color: var(--search-placeholder);
+  font-size: 14px;
   font-weight: 300;
+  opacity: 0.8; /* Make placeholder text slightly faded */
+  text-align: center;
 }
 
-.search-bar:focus::placeholder {
-  color: transparent;
-}
-
-.search-bar:focus {
-  outline: none;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-  border: 1px solid rgb(97, 96, 96);
-  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
-  background-color: rgba(240, 255, 255, 0.824);
-  color: black;
-  font-weight: 300;
-  font-size: 20px;
-}
-
+/* Hover effect to create a subtle border effect */
 .search-bar:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(68, 68, 68, 0.6);
-  border: 1px solid rgb(97, 96, 96);
-  background-color: rgba(240, 255, 255, 0.824);
-  color: black;
+  border-color: var(--primary); /* Add a border effect on hover */
 }
 
-/* Container for Logout button and theme toggle */
-.top-menu-right {
+/* Optional: Add a subtle transition for the shadow when hovering */
+.search-bar:hover,
+.search-bar:focus {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Slightly larger shadow on hover/focus */
+}
+
+.theme-toggle-button {
+  font-size: 20px;
+  width: 100px;
+  height: 40px;
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* Align to the right */
-  gap: 10px; /* Space between theme toggle and logout */
-}
-
-/* Logout button */
-.logout-button {
-  background-color: transparent;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 18px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 300;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.logout-button:hover {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-  transform: scale(1.1);
-  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
-}
-
-/* Theme Toggle Button */
-.theme-toggle-button {
-  background-color: transparent;
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 24px;
-  font-family: 'Poppins', sans-serif;
-  transition: all 0.3s ease;
-  box-shadow: none;
+  justify-content: center;
+  padding: 0;
 }
 
 .theme-toggle-button:hover {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-  transform: scale(1.1);
-  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.logout-button {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.logout-button:hover {
+  width: 100px;
+  height: 44px;
+}
+
+.search-bar-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1px;
+}
+
+.top-menu .theme-toggle-button {
+  margin-left: auto;
+}
+
+.top-menu .logout-button {
+  margin-left: 1px;
+}
+
+/* Styles for the Manage button */
+.manage-button {
+  font-size: 18px;
+  font-weight: 300;
+  width: 100px;  /* Match width of other buttons */
+  height: 40px;  /* Set the height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--var-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.manage-button:hover {
+  background: var(--button-hover);
+  transform: scale(1.02);
+}
+
+.home-image {
+  width: 140px;  /* Adjust as needed */
+  height: 40px; /* Adjust as needed */
+}
+
+.home-logo {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.logo-text {
+  font-size: 2rem;  /* Adjust the size as needed */
+  font-weight: 700;
+  background: linear-gradient(45deg, #ff6347, #1e90ff); /* Gradient effect */
+  -webkit-background-clip: text;  /* Ensure the gradient is applied only to the text */
+  color: transparent;  /* Make text color transparent to show gradient */
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);  /* Add shadow for depth */
+  transition: transform 0.3s ease, text-shadow 0.3s ease;  /* Smooth transitions */
+}
+
+.logo-text:hover {
+  transform: scale(1.1);  /* Slight zoom effect on hover */
+  text-shadow: 2px 2px 20px rgba(255, 165, 0, 0.8);  /* Glow effect on hover */
 }

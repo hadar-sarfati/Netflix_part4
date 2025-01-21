@@ -3,30 +3,47 @@ const moviesService = require('../services/movies');
 
 function getMovieRecommendations(userID, movieID) {
   return new Promise((resolve, reject) => {
-    const client = recommendSocket.getClient();  // Get the established socket client
+    const client = recommendSocket.getClient();
 
     if (!client) {
       return reject('Recommendation socket is not connected');
     }
 
-    // Send a request to the recommendation system using the established socket
+    // First send the request
     const request = `GET ${userID} ${movieID}\n`;
+    client.write(request);
 
-    client.write(request);  // Send the request
+    let responseData = '';
 
-    client.on('data', (data) => {
-      const response = data.toString().split('\n');  // Dividing the data into lines
-      const init_recommendations = response[2].split(' '); // Line 2 is the line of the recs themselves according to RecSystem
-      init_recommendations.pop();
+    const dataHandler = (data) => {
+      responseData += data.toString();
+      
+      if (responseData.includes('\n')) {
+        client.removeListener('data', dataHandler);
+        client.removeListener('error', errorHandler);
 
-      const recommendations = moviesService.convertMovieIdsToMongoIds(init_recommendations);
-      resolve(recommendations);  // Resolve the promise with the recommendations
-    });
+        try {
+          const response = responseData.split('\n');
+          const init_recommendations = response[2].split(' ');
+          init_recommendations.pop();
 
-    client.on('error', (err) => {
-      // console.error('Error communicating with the recommendation server:', err);
-      reject(err);  // Reject the promise in case of an error
-    });
+          const recommendations = moviesService.convertMovieIdsToMongoIds(init_recommendations);
+          resolve(recommendations);
+        } catch (err) {
+          reject(err);
+        }
+      }
+    };
+
+    const errorHandler = (err) => {
+      client.removeListener('data', dataHandler);
+      client.removeListener('error', errorHandler);
+      reject(err);
+    };
+
+    // Then set up listeners for the response
+    client.on('data', dataHandler);
+    client.on('error', errorHandler);
   });
 }
 

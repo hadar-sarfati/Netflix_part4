@@ -1,43 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import './MovieDetails.css'; // Assuming you have styling for this component
-// import fetchLoginUser from "../Login/fetchLoginUser";
-// import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import './MovieDetails.css';
+import fetchLoginUser from "../Login/fetchLoginUser";
 
 const MovieDetails = () => {
-  // // State for storing user data
-  // const [user, setUser] = useState(null);
-  // // Hook for programmatic navigation
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   // Check if the user is logged in
-  //   const token = localStorage.getItem('accessToken');
-  //   if (!token) {
-  //     // If not logged in, navigate to the login page
-  //     navigate('/Login');
-  //   } else {
-  //     // Fetch login user details using the token
-  //     fetchLoginUser(token, setUser)
-  //       .catch((error) => {
-  //         console.error('Error fetching user details:', error);
-  //         // If there's an error, remove the token and navigate to login
-  //         localStorage.removeItem('accessToken');
-  //         navigate('/Login');
-  //       });
-  //   }
-  // }, [navigate]);
-  const { id } = useParams(); // Get the movieId from the URL parameters
+  const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
+  const [categories, setCategories] = useState([]); // New state for categories
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchCategories = async (token) => {
       try {
-        const token = localStorage.getItem('accessToken');
+        const response = await fetch('http://localhost:3001/api/categories', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch categories');
+        }
+
+        const data = await response.json();
+        setCategories(data); // Save categories
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+      }
+    };
+
+    const fetchMovieDetails = async (token) => {
+      try {
         const response = await fetch(`http://localhost:3000/api/movies/${id}`, {
+          method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -49,17 +49,16 @@ const MovieDetails = () => {
         }
 
         const data = await response.json();
-        setMovie(data); // Set the fetched movie data
+        setMovie(data);
       } catch (err) {
-        setError(err.message); // Set the error if any occurs
+        setError(err.message);
       } finally {
-        setLoading(false); // Set loading to false once fetching is complete
+        setLoading(false);
       }
     };
 
-    const fetchRecommendations = async () => {
+    const fetchRecommendations = async (token) => {
       try {
-        const token = localStorage.getItem('accessToken');
         const response = await fetch(`http://localhost:3001/api/movies/${id}/recommend`, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -72,17 +71,57 @@ const MovieDetails = () => {
         }
 
         const data = await response.json();
-        setRecommendations(data.recommendations || []); // Set the fetched recommendations
+        setRecommendations(data.recommendations || []);
       } catch (err) {
         console.error('Error fetching recommendations:', err);
       }
     };
 
-    fetchMovieDetails();
-    fetchRecommendations();
-  }, [id]); // Re-run the effect when the id changes
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      navigate('/Login');
+    } else {
+      // Fetch user and categories
+      fetchLoginUser(token, setUser)
+        .catch((error) => {
+          console.error('Error fetching user details:', error);
+          localStorage.removeItem('accessToken');
+          navigate('/Login');
+        });
 
-  // Render loading, error, or movie details
+      fetchCategories(token);
+      fetchMovieDetails(token);
+      fetchRecommendations(token);
+    }
+  }, [id, navigate]);
+
+  const handlePlayMovie = async () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      navigate('/Login');
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/movies/${id}/recommend`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send play movie request');
+      }
+
+      const data = await response.json();
+      console.log('Movie played successfully:', data);
+    } catch (error) {
+      console.error('Error playing movie:', error.message);
+    }
+  };
+
   if (loading) {
     return <div></div>;
   }
@@ -95,28 +134,31 @@ const MovieDetails = () => {
     return <div>No movie data found</div>;
   }
 
-  const handlePlayMovie = () => {
-    // Logic to play the movie, like redirecting to a player page or showing a player component
-    console.log(`Playing movie: ${movie.name}`);
-    navigate(`/VideoPlayer/${movie._id}`);
-    // You could replace the log with actual functionality, like opening a movie player
-  };
+  // Create a lookup map for categories by their ObjectId
+  const categoryNames = categories.reduce((acc, category) => {
+    acc[category._id] = category.name;
+    return acc;
+  }, {});
 
   return (
     <div className="movie-details">
       <h1>{movie.name}</h1>
       <p><strong>Movie Name:</strong> {movie.name}</p>
-      <p><strong>Movie ID:</strong> {movie.movieId}</p>
-      <p><strong>Categories:</strong> {movie.categories.join(', ')}</p>
+      {/* Categories - Show category names instead of IDs */}
+      <p><strong>Categories:</strong> {movie.categories.length > 0 ? movie.categories.map((categoryId) => categoryNames[categoryId] || 'Unknown category').join(', ') : 'No categories available'}</p>
+      {/* Year */}
+      <p><strong>Year:</strong> {movie.year ? movie.year : 'No year available'}</p>
+      {/* Duration */}
+      <p><strong>Duration:</strong> {movie.duration ? movie.duration : 'No duration available'}</p>
+      {/* Cast */}
       <p><strong>Cast:</strong> {movie.cast.length > 0 ? movie.cast.join(', ') : 'No cast available'}</p>
-      <p><strong>Users:</strong> {movie.users.length > 0 ? movie.users.join(', ') : 'No users available'}</p>
+      {/* Description */}
+      <p><strong>Description:</strong> {movie.description ? movie.description : 'No description available'}</p>
 
-      {/* Play button */}
       <button className="play-movie-button" onClick={handlePlayMovie}>
         Play {movie.name}
       </button>
 
-      {/* Recommendations Section */}
       <div className="recommendations">
         <h2>Recommended Movies</h2>
         {recommendations.length > 0 ? (
@@ -136,5 +178,3 @@ const MovieDetails = () => {
 };
 
 export default MovieDetails;
-
-

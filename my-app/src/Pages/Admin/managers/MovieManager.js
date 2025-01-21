@@ -57,6 +57,7 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
             let url = 'http://localhost:3000/api/movies';
             let meth = action === 'Delete Movie' ? 'DELETE' : (action === 'Edit Movie' ? 'PUT' : 'POST');
 
+
             if (movieToEdit && (action === 'Edit Movie' || action === 'Delete Movie')) {
                 url += `/${movieToEdit._id}`;
             }

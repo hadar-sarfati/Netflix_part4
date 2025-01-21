@@ -2,8 +2,8 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #141414; /* Dark Netflix-like background */
-  color: white;
+  background-color: #141414; /* Always dark background */
+  color: white; /* White text color for contrast */
   
   /* Center content using flex */
   display: flex;
@@ -12,15 +12,12 @@ body {
   /* Allow content to scroll beyond screen height */
   min-height: 100vh;
   
-  /* Background image configuration */
-  background-image: url('https://www.example.com/your-image.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; /* Keep background fixed while scrolling */
- }
- 
- /* Main content container */
- .home-container {
+  /* Remove any background image or theme dependency */
+  background-image: none;
+}
+
+/* Main content container */
+.home-container {
   text-align: center;
   background: rgba(0, 0, 0, 0.75); /* Semi-transparent black overlay */
   padding: 40px;
@@ -30,28 +27,28 @@ body {
   width: 100%;
   backdrop-filter: blur(10px); /* Blur effect behind container */
   margin: auto; /* Center container horizontally */
- }
- 
- /* Main heading style */
- h1 {
+}
+
+/* Main heading style */
+h1 {
   font-size: 3rem;
   margin-bottom: 20px;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
- }
- 
- /* Paragraph text style */
- p {
+}
+
+/* Paragraph text style */
+p {
   font-size: 1.3rem;
   margin: 15px 0;
- }
- 
- /* Button styling */
- .button {
+}
+
+/* Button styling */
+.button {
   display: inline-block;
   margin: 15px 0;
   padding: 12px 25px;
-  background-color: #3343ef;
+  background-color: #3343ef; /* Button color */
   color: white;
   text-decoration: none;
   font-weight: bold;
@@ -59,16 +56,16 @@ body {
   transition: background-color 0.3s ease, transform 0.2s ease;
   text-transform: uppercase;
   font-size: 1.1rem;
- }
- 
- /* Button hover effects */
- .button:hover {
+}
+
+/* Button hover effects */
+.button:hover {
   background-color: #2334ee;
   transform: scale(1.05); /* Slight zoom on hover */
- }
- 
- /* Mobile responsiveness */
- @media (max-width: 600px) {
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
   h1 {
     font-size: 2rem;
   }
@@ -80,4 +77,4 @@ body {
   .home-container {
     padding: 20px;
   }
- }
+}
