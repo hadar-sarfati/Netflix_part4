@@ -39,6 +39,7 @@ const TopMenu = ({ onSearch, onLogout, toggleTheme, currentTheme, user }) => {
   const isAdmin = user?.admin === true;
 
   return (
+
     <div className="top-menu" data-theme={currentTheme}>
       <div className="home-logo" onClick={handleHomeClick}>
         <span className="logo-text">ShowTime</span>
