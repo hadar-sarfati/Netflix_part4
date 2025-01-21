@@ -33,6 +33,33 @@ html, body, #root {
   width: 100%;
 }
 
+/* Glassy Play Movie button */
+.play-movie-button {
+  margin-top: 20px;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: rgba(54, 52, 52, 0.9);
+  background: rgba(255, 255, 255, 0.565); /* Transparent background */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  backdrop-filter: blur(10px); /* Glassy effect */
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.play-movie-button:hover {
+  background: rgba(255, 255, 255, 0.617); /* Slightly less transparent on hover */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Larger shadow on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+.play-movie-button:active {
+  transform: scale(0.95); /* Shrink slightly on click */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Reset shadow */
+}
+
 /* Movie details below the title */
 .movie-details .left-column {
   font-size: 1.5rem;
@@ -110,3 +137,4 @@ html, body, #root {
     right: 10px; /* Ensure proper positioning on mobile */
   }
 }
+
