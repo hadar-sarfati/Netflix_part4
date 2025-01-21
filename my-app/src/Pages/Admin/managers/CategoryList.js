@@ -1,36 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import './Lists.css';
 
-const MovieList = ({ onMovieSelect }) => {
-    const [movies, setMovies] = useState([]);
+const CategoryList = ({ onCategorySelect }) => {
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchMovies = async () => {
+        const fetchCategories = async () => {
             try {
                 const token = localStorage.getItem('accessToken');
-                const response = await fetch('http://localhost:3000/api/movies', {
+                const response = await fetch('http://localhost:3000/api/categories', {
                     headers: {
                         'Authorization': `Bearer ${token}`, 
                     },
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch movies');
+                    throw new Error('Failed to fetch categories');
                 }
 
                 const data = await response.json();
-                
-                // Flatten and remove duplicate movies by _id
-                const uniqueMovies = Array.from(
-                    new Map(
-                        data.flatMap(category => category.movies)
-                            .map(movie => [movie._id, movie])
-                    ).values()
-                );
 
-                setMovies(uniqueMovies);
+                setCategories(data);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -38,7 +30,7 @@ const MovieList = ({ onMovieSelect }) => {
             }
         };
 
-        fetchMovies();
+        fetchCategories();
     }, []);
 
     if (loading) return <div>Loading...</div>;
@@ -46,21 +38,21 @@ const MovieList = ({ onMovieSelect }) => {
 
     return (
         <div className="list">
-            {movies.length > 0 ? (
-                movies.map((movie) => (
+            {categories.length > 0 ? (
+                categories.map((category) => (
                     <div
-                        key={movie._id}
+                        key={category._id}
                         className="card"
-                        onClick={() => onMovieSelect(movie)}
+                        onClick={() => onCategorySelect(category)}
                     >
-                        <h3>{movie.name}</h3>
+                        <h3>{category.name}</h3>
                     </div>
                 ))
             ) : (
-                <p>No movies available.</p>
+                <p>No Categories available.</p>
             )}
         </div>
     );
 };
 
-export default MovieList;
+export default CategoryList;

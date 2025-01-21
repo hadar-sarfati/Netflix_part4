@@ -1,9 +1,18 @@
 .admin-dashboard {
     padding: 20px;
     max-width: 1200px;
-    font-size: 1000px; /* Bigger text size */
+    font-size: 1500px; /* Bigger text size */
     text-align: center;
     margin: 70px auto;
+    align-items: center;
+}
+
+.admin-dashboard h1 {
+    font-size: 60px; /* Bigger text size */
+    color: white;
+    margin-bottom: 30px;
+    margin-right: 50px;
+    text-align: center;
 }
 
 .admin-sections {
@@ -16,27 +25,34 @@
 .section {
     background-color: #454545;
     padding: 20px;
+    width: 90%;
     font-size: 25px; /* Bigger text size */
     /* Center text */
     text-align: center;
+    align-items: center;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    gap: 5px;
 }
 
 .action-buttons {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;  /* Center the buttons horizontally */
+    gap: 5px;  /* Reduce the gap to bring buttons closer */
+    margin-top: 20px;  /* Adds space between the section title and the first button */
 }
 
-button {
-    padding: 10px 15px;
-    border: none;
+.action-buttons button {
+    padding: 50px 50px;  /* Adjust padding if needed */
+    width: 90%;
+    border: 2px solid #ffffff;
     border-radius: 4px;
     background-color:#3343ef;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin: 3px; /* Ensure no extra space is added */
 }
 
 button:hover {

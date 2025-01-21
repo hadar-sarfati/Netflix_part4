@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './MovieDetails.css'; // Assuming you have styling for this component
 // import fetchLoginUser from "../Login/fetchLoginUser";
 // import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ const MovieDetails = () => {
   // // State for storing user data
   // const [user, setUser] = useState(null);
   // // Hook for programmatic navigation
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   // Check if the user is logged in
@@ -98,6 +98,7 @@ const MovieDetails = () => {
   const handlePlayMovie = () => {
     // Logic to play the movie, like redirecting to a player page or showing a player component
     console.log(`Playing movie: ${movie.name}`);
+    navigate(`/VideoPlayer/${movie._id}`);
     // You could replace the log with actual functionality, like opening a movie player
   };
 
