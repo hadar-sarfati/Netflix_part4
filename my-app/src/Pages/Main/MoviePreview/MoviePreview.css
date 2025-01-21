@@ -4,8 +4,9 @@
 .movie-preview-container {
   position: relative;
   width: 100%;
-  height: 50vh; /* Half viewport height */
+  height: 62vh; /* Half viewport height */
   overflow: hidden;
+  background-color: var(--body-background); /* Use theme's background color */
 }
 
 /* Background video */
@@ -26,25 +27,24 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) 30%,
-    rgba(0, 0, 0, 1) 100%
-  );
+  background: var(--fade-overlay-gradient); /* Use theme's gradient for the overlay */
   z-index: 1;
 }
 
 /* Light mode styles */
 .movie-preview-container.light {
-  background-color: #f0f0f0;
+  background-color: var(--body-background); /* Light mode background */
 }
 
 .fade-overlay.light {
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0) 30%,
-    rgba(255, 255, 255, 1) 100%
-  );
+  background: var(--light-fade-overlay-gradient); /* Light mode fade overlay gradient */
+}
+
+/* Dark mode styles */
+.movie-preview-container.dark {
+  background-color: var(--body-background); /* Dark mode background */
+}
+
+.fade-overlay.dark {
+  background: var(--dark-fade-overlay-gradient); /* Dark mode fade overlay gradient */
 }

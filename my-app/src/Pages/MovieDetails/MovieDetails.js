@@ -123,7 +123,7 @@ const MovieDetails = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   if (error) {
@@ -142,9 +142,6 @@ const MovieDetails = () => {
 
   return (
     <div className="movie-details">
-      <div className="welcome-message">
-        Welcome, {user ? user.username : 'Loading...'}
-      </div>
       <h1>{movie.name}</h1>
       <p><strong>Movie Name:</strong> {movie.name}</p>
       {/* Categories - Show category names instead of IDs */}

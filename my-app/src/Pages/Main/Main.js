@@ -5,10 +5,16 @@ import MoviePreview from './MoviePreview/MoviePreview';
 import MoviesByCategory from './MoviesByCategory/MoviesByCategory';
 import fetchLoginUser from "../Login/fetchLoginUser";
 import { useNavigate } from 'react-router-dom';
+import themes from "../theme"; // Make sure this path is correct
 
 const Main = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  
+  // Add theme state management
+  const [currentTheme, setCurrentTheme] = useState(() => 
+    localStorage.getItem("theme") || "dark"
+  );
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -24,28 +30,42 @@ const Main = () => {
     }
   }, [navigate]);
 
+  // Add theme effect
+  useEffect(() => {
+    const root = document.documentElement;
+    const themeColors = themes[currentTheme];
+    
+    if (themeColors) {
+      Object.entries(themeColors).forEach(([key, value]) => {
+        root.style.setProperty(`--${key}`, value);
+      });
+    }
+    localStorage.setItem("theme", currentTheme);
+  }, [currentTheme]);
+
   const handleSearch = (e) => {
     console.log('Searching:', e.target.value);
   };
 
   const handleLogout = () => {
-    // Remove the token from localStorage
     localStorage.removeItem('accessToken');
-    // Clear the user state
     setUser(null);
-    // Navigate to the home page
     navigate('/');
   };
 
+  const toggleTheme = () => {
+    setCurrentTheme(prevTheme => prevTheme === "light" ? "dark" : "light");
+  };
+
   return (
-    <div className="main">
+    <div className={`main-container ${currentTheme}`}>
       <TopMenu 
         onSearch={handleSearch}
         onLogout={handleLogout}
+        toggleTheme={toggleTheme}
+        currentTheme={currentTheme}
+        user={user}
       />
-      <div className="welcome-message">
-        Welcome, {user ? user.username : 'Loading...'}
-      </div>
       <MoviePreview />
       <MoviesByCategory />
     </div>

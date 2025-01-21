@@ -9,13 +9,14 @@ html, body, #root {
   height: 100%;
   width: 100%;
   font-family: Arial, sans-serif;
-  background-color: #000;
+  background-color: var(--body-background, #000);
+  transition: background-color 0.3s ease;
 }
 
 /* Main container styles */
 .main-container {
-  background: linear-gradient(to bottom, #1f1f1f63, #00000055, #4140403d);
-  color: #fff;
+  background: var(--main-gradient);
+  color: var(--text-color);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -25,31 +26,14 @@ html, body, #root {
   font-family: inherit;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-/* Light mode styles */
-.main-container.light {
-  background: linear-gradient(to bottom, #ffffff63, #f0f0f0, #e0e0e0);
-  color: #000;
-}
-
-.theme-toggle-button {
-  background-color: #444;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
-}
-
-.theme-toggle-button.light {
-  background-color: #f0f0f0; /* Light theme background */
-  color: #333;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Typography */
 h1, p {
   margin: 0;
   padding: 0;
+  color: var(--text-color);
 }
 
 /* Accessibility-friendly responsive styles */

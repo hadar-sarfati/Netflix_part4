@@ -5,12 +5,14 @@
   width: 100%;
   max-width: none;
   padding-left: 50px; /* Adds padding to the left side */
+  background-color: var(--moviesbycategories);
+  position: relative; /* Allow shifting with 'top' */
 }
 
 /* Heading for the Movies By Category section */
 h1 {
   font-size: 36px;
-  color: #ffffffd0;
+  color: var(--text-color); /* Use theme text color */
   text-align: left;
   margin-bottom: 30px;
   padding-left: 10px; /* Adds padding to the left side */
@@ -25,8 +27,8 @@ h1 {
 /* Category title style */
 .category-container h2 {
   font-size: 28px;
-  color: #577088;
-  border-bottom: 2px solid #d2d7e5;
+  color: var(--menu-text); /* Use theme menu text color */
+  border-bottom: 2px solid var(--menu-text); /* Use theme menu text color */
   padding-bottom: 10px;
   margin-bottom: 20px;
   text-align: left;
@@ -35,7 +37,7 @@ h1 {
 
 /* If no movies are available in the category */
 .category-container p {
-  color: #7f8c8d;
+  color: var(--search-placeholder); /* Use theme placeholder color */
   font-size: 18px;
   font-style: italic;
   text-align: left;
@@ -78,7 +80,7 @@ h1 {
 .movie-card h3 {
   font-size: 20px;
   font-weight: 500;
-  color: #000000; /* Black text for contrast */
+  color: var(--text-color); /* Use theme text color */
   margin-top: 15px;
   text-transform: capitalize;
 }
@@ -92,7 +94,6 @@ h1 {
   margin-bottom: 15px;
 }
 
-
 /* Loading spinner */
 .loading {
   display: flex;
@@ -104,7 +105,7 @@ h1 {
 .loading::before {
   content: '';
   border: 6px solid transparent;
-  border-top: 6px solid #e74c3c;
+  border-top: 6px solid var(--button-hover); /* Use theme button hover color */
   border-radius: 50%;
   width: 50px;
   height: 50px;

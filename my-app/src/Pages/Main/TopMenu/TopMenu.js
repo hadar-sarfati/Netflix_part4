@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TopMenu.css';
 
-const TopMenu = ({ onSearch, onLogout, toggleTheme, currentTheme }) => {
+const TopMenu = ({ onSearch, onLogout, toggleTheme, currentTheme, user }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleHomeClick = () => {
-    navigate('/');
+    navigate('/Main');
   };
 
   const handleSearchChange = (event) => {
@@ -16,12 +16,11 @@ const TopMenu = ({ onSearch, onLogout, toggleTheme, currentTheme }) => {
 
   const handleSearchSubmit = (event) => {
     if (event.key === 'Enter' && searchQuery.trim() !== '') {
-      event.preventDefault(); // Prevent page reload
-      const query = encodeURIComponent(searchQuery); // Encode query for URL
-      window.location.href = `http://localhost:3000/movies/search/${query}`; // Navigate to the search URL
+      event.preventDefault();
+      const query = encodeURIComponent(searchQuery);
+      navigate(`/movies/search/${query}`);
     }
   };
-
 
   const handleLogoutClick = () => {
     if (onLogout) {
@@ -30,16 +29,26 @@ const TopMenu = ({ onSearch, onLogout, toggleTheme, currentTheme }) => {
   };
 
   const handleThemeToggle = () => {
+    console.log('Theme toggle clicked. Current theme:', currentTheme); // Debug log
     if (toggleTheme) {
       toggleTheme();
     }
   };
 
+  // Check if the user is an admin
+  const isAdmin = user?.admin === true;
+
   return (
-    <div className="top-menu">
-      <button className="home-button" onClick={handleHomeClick}>
-        Home
-      </button>
+    <div className="top-menu" data-theme={currentTheme}>
+      <img
+        src="ShowTimeLogo.png"
+        alt="Home"
+        className="home-image"
+        onClick={handleHomeClick}
+      />
+      <div className={`welcome-message ${currentTheme}`}>
+        Welcome {user ? user.username : 'Loading...'}
+      </div>
       <div className="search-bar-container">
         <input
           type="text"
@@ -50,10 +59,15 @@ const TopMenu = ({ onSearch, onLogout, toggleTheme, currentTheme }) => {
           onKeyDown={handleSearchSubmit}
         />
       </div>
-      <div className="buttons-container">
-        <button className="theme-toggle-button" onClick={handleThemeToggle}>
+      <button className="theme-toggle-button" onClick={handleThemeToggle}>
           {currentTheme === 'dark' ? '☀️' : '🌙'}
         </button>
+      <div className="buttons-container">
+        {isAdmin && (
+          <button className="manage-button" onClick={() => navigate('/admin')}>
+            Manage
+          </button>
+        )}
         <button className="logout-button" onClick={handleLogoutClick}>
           Log Out
         </button>

@@ -5,6 +5,7 @@ import MovieManager from './managers/MovieManager';
 import fetchLoginUser from "../Login/fetchLoginUser";
 import { useNavigate } from 'react-router-dom';
 
+
 const Admin = () => {
     // State for storing user data
   const [user, setUser] = useState(null);
