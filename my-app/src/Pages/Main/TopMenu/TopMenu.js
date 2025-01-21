@@ -40,19 +40,16 @@ const TopMenu = ({ onSearch, onLogout, toggleTheme, currentTheme, user }) => {
 
   return (
     <div className="top-menu" data-theme={currentTheme}>
-      <img
-        src="ShowTimeLogo.png"
-        alt="Home"
-        className="home-image"
-        onClick={handleHomeClick}
-      />
+      <div className="home-logo" onClick={handleHomeClick}>
+        <span className="logo-text">ShowTime</span>
+      </div>
       <div className={`welcome-message ${currentTheme}`}>
         Welcome {user ? user.username : 'Loading...'}
       </div>
       <div className="search-bar-container">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Find a movie or a show"
           className="search-bar"
           value={searchQuery}
           onChange={handleSearchChange}
