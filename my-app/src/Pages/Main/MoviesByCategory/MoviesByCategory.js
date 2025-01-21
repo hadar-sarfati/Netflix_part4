@@ -25,6 +25,7 @@ const MoviesByCategory = () => {
         }
 
         const data = await response.json();
+        console.log("Data of movies: ");
         console.log(data); // Log to see the response
 
         // Set the movies data (keeping categories and movie lists intact)

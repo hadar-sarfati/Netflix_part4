@@ -13,6 +13,8 @@ const fs = require('fs');
 
 require('custom-env').env(process.env.NODE_ENV, './config');
 
+const VIDEO_UPLOADS_PATH = path.join(__dirname, 'VideoFiles');
+
 mongoose.connect(process.env.CONNECTION_STRING, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -35,9 +37,12 @@ app.use('/api/users', users);
 app.use('/api/tokens', tokens);
 app.use('/api/movies', movies);
 app.use('/api/movies', recommend);
+app.use('/VideoFiles', express.static(VIDEO_UPLOADS_PATH));
 
-app.get('/video', (req, res) => {
-  const videoPath = path.join(__dirname, 'public', 'video.mp4');
+// Middleware to serve video files
+app.get('/VideoFiles/:videoName', (req, res) => {
+  const videoName = req.params.videoName;
+  const videoPath = path.join(VIDEO_UPLOADS_PATH, videoName);
 
   // Check if the video file exists
   if (!fs.existsSync(videoPath)) {
@@ -47,12 +52,12 @@ app.get('/video', (req, res) => {
   const videoSize = fs.statSync(videoPath).size;
   const range = req.headers.range;
 
-  // If no Range header, send the entire file
   if (!range) {
+    // If no Range header, send the entire file
     const head = {
       'Content-Length': videoSize,
       'Content-Type': 'video/mp4',
-    }
+    };
     res.writeHead(200, head);
     fs.createReadStream(videoPath).pipe(res);
     return;
@@ -80,10 +85,6 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Range');
   next();
 });
-
-
-
-
 
 // Initialize socket connection to recommendation system
 recommendSocket.initializeSocket()
