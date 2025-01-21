@@ -61,7 +61,7 @@ const getMovies = async (req, res) => {
     // if (!mongoose.Types.ObjectId.isValid(userId)) {
     //     return res.status(400).json({ error: 'Invalid user ID format' });
     // }
-    const userId = req.user.id;
+    const userId = req.user.userId;
     const result = await moviesService.getMovies(userId);
 
     // Format the JSON response with indentation
