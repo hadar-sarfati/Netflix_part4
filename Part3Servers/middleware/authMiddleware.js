@@ -20,6 +20,8 @@ const authMiddleware = (req, res, next) => {
             }
         };
         req.user = user;
+        console.log("authentication: ");
+        console.log(req.user);
         next();
     });
 };

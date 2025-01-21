@@ -70,6 +70,7 @@ const getMovies = async (req, res) => {
 };
 
 const getMovie = async (req, res) => {
+    const userId = req.user.id;
     // Get the user ID from the header and validate it
     // const userId = req.header('X-User-Id');
     // if (!userId) {

@@ -4,6 +4,7 @@ import MovieManager from './managers/MovieManager'; // Optional: Placeholder for
 import fetchLoginUser from "../Login/fetchLoginUser"; // Function to fetch user data based on the token.
 import { useNavigate } from 'react-router-dom'; // Hook for navigation between routes.
 
+
 const Admin = () => {
   const [user, setUser] = useState(null); // State to store the logged-in user data.
   const [isLoading, setIsLoading] = useState(true); // State to track loading status.
