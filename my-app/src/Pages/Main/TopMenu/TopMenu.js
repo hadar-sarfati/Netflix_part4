@@ -2,44 +2,47 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TopMenu.css';
 
-const TopMenu = ({ onSearch, onLogout, toggleTheme, currentTheme, user }) => {
+const TopMenu = ({ onLogout, toggleTheme, currentTheme, user }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Navigate to main page
   const handleHomeClick = () => {
     navigate('/Main');
   };
 
+  // Update search query state
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
+  // Handle Enter key in search bar
   const handleSearchSubmit = (event) => {
     if (event.key === 'Enter' && searchQuery.trim() !== '') {
       event.preventDefault();
-      const query = encodeURIComponent(searchQuery);
-      navigate(`/movies/search/${query}`);
+      navigate('/SearchResults', { state: { initialQuery: searchQuery } });
+      setSearchQuery(''); // Clear search after submission
     }
   };
 
+  // Handle logout action
   const handleLogoutClick = () => {
     if (onLogout) {
       onLogout();
     }
   };
 
+  // Toggle theme between light and dark
   const handleThemeToggle = () => {
-    console.log('Theme toggle clicked. Current theme:', currentTheme); // Debug log
     if (toggleTheme) {
       toggleTheme();
     }
   };
 
-  // Check if the user is an admin
+  // Check if user has admin privileges
   const isAdmin = user?.admin === true;
 
   return (
-
     <div className="top-menu" data-theme={currentTheme}>
       <div className="home-logo" onClick={handleHomeClick}>
         <span className="logo-text">ShowTime</span>
@@ -58,8 +61,8 @@ const TopMenu = ({ onSearch, onLogout, toggleTheme, currentTheme, user }) => {
         />
       </div>
       <button className="theme-toggle-button" onClick={handleThemeToggle}>
-          {currentTheme === 'dark' ? '☀️' : '🌙'}
-        </button>
+        {currentTheme === 'dark' ? '☀️' : '🌙'}
+      </button>
       <div className="buttons-container">
         {isAdmin && (
           <button className="manage-button" onClick={() => navigate('/admin')}>
