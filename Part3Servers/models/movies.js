@@ -37,6 +37,11 @@ const MovieSchema = new Schema({
     required: false,
     default: ''
   },
+  previewImage: {
+    type: String,
+    required: false,
+    default: ''
+  },
   users: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

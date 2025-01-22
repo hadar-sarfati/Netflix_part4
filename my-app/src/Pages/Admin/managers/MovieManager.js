@@ -207,6 +207,17 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
                             </div>
                         </div>
 
+                        <div className="form-group">
+                        <label htmlFor="previewImage">Preview Image:</label>
+                        <input
+                            id="previewImage"
+                            type="file"
+                            name="previewImage"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            />
+                        </div>
+
                         <button type="submit">Enter</button>
                         
                     </form>
