@@ -1,0 +1,47 @@
+.search-results {
+    padding: 20px;
+    background-color: var(--background, #f4f4f4); /* ברירת מחדל לרקע בהיר */
+    min-height: 100vh;
+    color: var(--text-color, #333); /* ברירת מחדל לטקסט כהה */
+  }
+  
+  .search-results input {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+    border: 1px solid var(--border-color, #ccc); /* ברירת מחדל לגבול אפור */
+    border-radius: 5px;
+    background-color: var(--input-background, #fff); /* ברירת מחדל לרקע קלט */
+    color: var(--input-text, #000); /* ברירת מחדל לטקסט קלט */
+  }
+  
+  .search-results input::placeholder {
+    color: var(--placeholder-color, #888); /* ברירת מחדל לטקסט placeholder */
+  }
+  
+  .search-results button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: var(--button-color, #007BFF); /* ברירת מחדל לכחול */
+    color: var(--button-text, #fff); /* ברירת מחדל לטקסט לבן */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-results button:hover {
+    background-color: var(--button-hover, #0056b3); /* ברירת מחדל לכחול כהה */
+  }
+  
+  .search-results .movie-card {
+    background-color: var(--movie-card-background, #fff); /* רקע לבן לכרטיסים */
+    color: var(--movie-card-text, #000); /* טקסט שחור לכרטיסים */
+    border: 1px solid var(--movie-card-border, #ddd); /* גבול אפור בהיר לכרטיסים */
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* צל עדין */
+  }
+  

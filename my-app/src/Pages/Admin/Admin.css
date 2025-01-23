@@ -61,7 +61,36 @@ button {
 
 button:hover {
     background-color: var(--button-hover); /* Define button hover color */
-}
+
+  }
+
+  .back-button {
+    padding: 5px 10px;  /* Reduce padding to make the button smaller */
+    font-size: 14px;    /* Decrease font size */
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute; 
+    top: 0px; 
+    left: 20px; 
+    transition: background-color 0.3s;
+    width: auto;        /* Ensure the button size fits its content */
+    height: auto;       /* Adjust height automatically */
+  }
+
+  .back-button button {
+    padding: 0 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3343ef;
+    color: white;
+    cursor: pointer;
+    font-size: 30px;
+    transition: background-color 0.3s;
+  }
+
 
 /* Movie grid layout */
 .movie-grid {

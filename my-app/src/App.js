@@ -29,7 +29,7 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/movies/:id/details" element={<MovieDetails />} />
         <Route path="/video-player" element={<VideoPlayer />} />
-        <Route path="/search-results" element={<SearchResults />} />
+        <Route path="/SearchResults" element={<SearchResults />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
