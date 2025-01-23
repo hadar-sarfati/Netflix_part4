@@ -1,0 +1,69 @@
+/* VideoPlayer.css */
+
+/* Video container */
+.video-container {
+    position: fixed;  /* Fix to viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;  /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    background-color: black; /* Use theme's background color */
+    z-index: 999;  /* Ensure it stays on top */
+}
+
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.5); /* Netflix-style semi-transparent background */
+    font-size: 30px;  /* Increase size for visibility */
+    z-index: 10; /* Ensures it's above the video */
+  }
+  
+.back-btn.visible {
+    opacity: 1;
+}
+
+.back-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* Darken on hover */
+}
+
+.play-pause-btn {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;  /* Increase size for visibility */
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5); /* Netflix-style semi-transparent background */
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}   
+
+.play-pause-btn.visible {
+    opacity: 1;
+}
+
+.play-pause-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* Darken on hover */
+}
+
+/* Background video */
+.play-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;  /* Fill entire container */
+object-fit: cover;  /* Cover entire area without stretching */
+}

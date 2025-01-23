@@ -10,7 +10,7 @@ const _createCategory = async (categoryData) => {
   return await category.save();
 };
 
-const createMovie = async (name, categoryNames, year, duration, cast, description, videoFile) => {
+const createMovie = async (name, categoryNames, year, duration, cast, description, videoFile, previewImage) => {
   // Find the categories that the movie belongs to, by name
   const categories = await Promise.all(categoryNames.map(async (categoryName) => {
     let category = await Category.findOne({ name: categoryName });
@@ -33,7 +33,8 @@ const createMovie = async (name, categoryNames, year, duration, cast, descriptio
     duration: duration,
     cast: cast,
     description: description,
-    path: videoFile
+    path: videoFile,
+    previewImage: previewImage
   });
   await movie.save();
 
@@ -63,7 +64,9 @@ const getMovies = async (userId) => {
       movies: movies.map(movie => {
         return {
           _id: movie._id,
-          name: movie.name
+          name: movie.name,
+          path: movie.path,
+          previewImage: movie.previewImage
         };
       })
     };

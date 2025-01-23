@@ -120,6 +120,8 @@ const MovieDetails = () => {
     } catch (error) {
       console.error('Error playing movie:', error.message);
     }
+    console.log('playing movie with id:', id);
+    navigate(`/VideoPlayer/${id}`);
   };
 
   if (loading) {
