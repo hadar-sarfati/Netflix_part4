@@ -248,39 +248,32 @@ const addUserToMovie = async (userId, movieId) => {
 };
 
 const searchMovies = async (query) => {
-    try {
-        // First, find categories that match the query
-        const matchingCategories = await Category.find({
-            name: { $regex: query, $options: 'i' }
-        });
+  try {
+      // First, find categories that match the query
+      const matchingCategories = await Category.find({
+          name: { $regex: query, $options: 'i' }
+      });
 
-        const categoryIds = matchingCategories.map(cat => cat._id);
+      const categoryIds = matchingCategories.map(cat => cat._id);
 
-        // Search for movies where either:
-        // 1. The movie name contains the query
-        // 2. The movie belongs to a category whose name contains the query
-        const movies = await Movie.find({
-            $or: [
-                { name: { $regex: query, $options: 'i' } },  // Case-insensitive name search
-                { categories: { $in: categoryIds } }         // Search in matching categories
-            ]
-        })
-        .select('name')  // Only select the name field from movies
-        .populate({
-            path: 'categories',
-            select: 'name'  // Only select the name field from categories
-        });
+      // Search for movies where either:
+      // 1. The movie name contains the query
+      // 2. The movie belongs to a category whose name contains the query
+      const movies = await Movie.find({
+          $or: [
+              { name: { $regex: query, $options: 'i' } },  // Case-insensitive name search
+              { categories: { $in: categoryIds } }         // Search in matching categories
+          ]
+      }).populate({
+          path: 'categories',
+          select: 'name'  // Only select the name field from categories
+      });
 
-        // Transform the results to only include movie name and category names
-        const simplifiedResults = movies.map(movie => ({
-            movieName: movie.name,
-            categories: movie.categories.map(cat => cat.name)
-        }));
-
-        return simplifiedResults;
-    } catch (error) {
-        throw new Error('Error searching movies: ' + error.message);
-    }
+      // Return full movie objects
+      return movies;
+  } catch (error) {
+      throw new Error('Error searching movies: ' + error.message);
+  }
 };
 
 module.exports = { 
