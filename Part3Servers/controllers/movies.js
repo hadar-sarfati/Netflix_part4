@@ -4,10 +4,8 @@ const fs = require('fs');
 const path = require('path');
 
 const createMovie = async (req, res) => {
-    // Get the movie name, categories, year, duration, cast and description from the request body
     const { name, categories, year, duration, cast, description } = req.body;
 
-    // Ensure categories is parsed as an array
     let categoryNames;
     try {
         categoryNames = Array.isArray(categories) 
@@ -18,37 +16,32 @@ const createMovie = async (req, res) => {
         return res.status(400).json({ error: 'Invalid categories format. Must be an array or a valid JSON string.' });
     }
 
-    // This is the uploaded file
-    const file = req.file; 
-    
-    // Check if all the required fields are present
-    if (!name || !categories || !year || !duration || !cast || !description || !file) {
+    // Extract video and preview image from the uploaded files
+    const videoFile = req.files['path'] ? req.files['path'][0] : null;
+    const previewImageFile = req.files['previewImage'] ? req.files['previewImage'][0] : null;
+
+    // Check if all required fields are present
+    if (!name || !categories || !year || !duration || !cast || !description || !videoFile || !previewImageFile) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Default image path
-    const defaultVideoPath = 'VideoFiles/defaultVideo.mp4';
-    
-    // Get the video path from the uploaded file and define a default path for the database
-    let videoPath = defaultVideoPath;
-    if (req.file) {
-        videoPath = `VideoFiles/${req.file.filename}`;
-    }
+    // Set default paths for video and preview image
+    const videoPath = videoFile ? `VideoFiles/${videoFile.filename}` : 'VideoFiles/defaultVideo.mp4';
+    const previewImagePath = previewImageFile ? `PreviewImages/${previewImageFile.filename}` : 'PreviewImages/defaultImage.jpg';
 
-    // Validate there is no other movie with the same name
+    // Check if a movie with the same name already exists
     const existingMovie = await moviesService.getMovieByName(name);
     if (existingMovie) {
         return res.status(400).json({ error: 'A movie with this name already exists' });
     }
 
-    // If name is present and valid, proceed with movie creation
-    const movie = await moviesService.createMovie(name, categoryNames, year, duration, cast, description, videoPath);
+    // Create movie entry in the database
+    const movie = await moviesService.createMovie(name, categoryNames, year, duration, cast, description, videoPath, previewImagePath);
 
-    // Set the Location header to point to the newly created movie
     res.location(`/api/movies/${movie._id}`);
-
     res.status(201).end();
 };
+
 
 const getMovies = async (req, res) => {
     const userId = req.user.id;

@@ -56,7 +56,7 @@ h1 {
 
 /* Movie card style */
 .movie-card {
-  background-color: rgba(192, 192, 192, 0.7); /* Silver-transparent */
+  background-color: rgba(192, 192, 192, 0.7);
   border-radius: 10px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
@@ -66,8 +66,18 @@ h1 {
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  height: 100px;
   width: 100%;
+  height: auto; /* Allow height to adjust based on content */
+}
+
+
+/* Styling for movie image */
+.movie-card img {
+  width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
 }
 
 /* Hover effect for movie cards */
@@ -79,10 +89,10 @@ h1 {
 
 /* Movie title inside the card */
 .movie-card h3 {
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 500;
   color: var(--text-color); /* Use theme text color */
-  margin-top: 15px;
+  margin-top: 5px;
   text-transform: capitalize;
 }
 

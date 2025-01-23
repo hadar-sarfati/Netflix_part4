@@ -10,11 +10,15 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
         duration: '',
         cast: '',
         description: '',
-        path: ''
+        path: '',
+        previewImage: ''
     });
     const [path, setPath] = useState('');
     const [message, setMessage] = useState('');
     const [fileName, setFileName] = useState('Choose File'); // New state for file name display
+    const [previewImage, setPreviewImage] = useState(null); // New state for file name display
+    const [previewImageName, setPreviewImageName] = useState('Choose Image'); // New state for file name display
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,15 +31,22 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            console.log("file: ", file);
             if (file.size > 500 * 1024 * 1024) { // 500MB limit
                 setMessage('File size too large. Please choose a file under 500MB.');
-                setFileName('Choose File'); // Reset file name display
                 e.target.value = ''; // Reset the input
                 return;
             }
-            setPath(file);
-            setFileName(file.name); // Update file name display
-        }
+    
+            // Determine if the uploaded file is for video or preview image based on input name
+            if (e.target.name === 'path') {
+                setPath(file);
+                setFileName(file.name);
+            } else if (e.target.name === 'previewImage') {
+                setPreviewImage(file);
+                setPreviewImageName(file.name);
+            }
+        }    
     };
 
     const handleSubmit = async (e) => {
@@ -51,6 +62,9 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
                 });
                 if (path) {
                     submitMovieData.set('path', path);
+                }
+                if (previewImage) {
+                    submitMovieData.set('previewImage', previewImage);
                 }
             }
             
@@ -74,6 +88,7 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
             if (response.ok) {
                 setMessage(`${action === 'Delete Movie' ? 'Delete' : (action === 'Edit Movie' ? 'Edit' : 'Add')} Movie successful!`);
                 setFileName('Choose File'); // Reset file name after successful submission
+                setPreviewImageName('Choose Image'); // Reset file name after successful submission
             } else {
                 const errorData = await response.json();
                 setMessage(errorData.error || `${action.charAt(0).toUpperCase() + action.slice(1)} Movie failed`);
@@ -88,6 +103,7 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
     // Reset fileName when modal is opened/closed
     useEffect(() => {
         setFileName('Choose File');
+        setPreviewImageName('Choose Image');
     }, [isOpen]);
 
     if (action === 'Delete Movie') {
@@ -194,7 +210,7 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="path">File:</label>
+                            <label htmlFor="path">Upload Video:</label>
                             <div className="file-input-wrapper">
                                 <input
                                     id="path"
@@ -208,14 +224,17 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
                         </div>
 
                         <div className="form-group">
-                        <label htmlFor="previewImage">Preview Image:</label>
-                        <input
-                            id="previewImage"
-                            type="file"
-                            name="previewImage"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            />
+                            <label htmlFor="previewImage">Upload Preview Image:</label>
+                            <div className="file-input-wrapper">
+                                <input
+                                    id="previewImage"
+                                    type="file"
+                                    name="previewImage"
+                                    onChange={handleFileChange}
+                                    className="hidden-file-input"
+                                />
+                                <span className="file-name-display">{previewImageName}</span>
+                            </div>
                         </div>
 
                         <button type="submit">Enter</button>

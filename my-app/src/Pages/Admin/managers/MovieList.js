@@ -21,14 +21,17 @@ const MovieList = ({ onMovieSelect }) => {
                 }
 
                 const data = await response.json();
-                
+                console.log('Fetched Movies:', data);
                 // Flatten and remove duplicate movies by _id
                 const uniqueMovies = Array.from(
                     new Map(
-                        data.flatMap(category => category.movies)
-                            .map(movie => [movie._id, movie])
+                        data.flatMap(category => {
+                            console.log("Category:", category);
+                            return category.movies;
+                        }).map(movie => [movie._id, movie])
                     ).values()
                 );
+                console.log("Processed movies:", uniqueMovies);
 
                 setMovies(uniqueMovies);
             } catch (err) {
@@ -45,20 +48,23 @@ const MovieList = ({ onMovieSelect }) => {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="list">
-            {movies.length > 0 ? (
-                movies.map((movie) => (
-                    <div
-                        key={movie._id}
-                        className="card"
-                        onClick={() => onMovieSelect(movie)}
-                    >
-                        <h3>{movie.name}</h3>
-                    </div>
-                ))
-            ) : (
-                <p>No movies available.</p>
-            )}
+        <div className="list-container">
+            <div className="list">
+                {movies.length > 0 ? (
+                    movies.map((movie) => (
+                        <div
+                            key={movie._id}
+                            className="card"
+                            onClick={() => onMovieSelect(movie)}
+                        >
+                            <img src={`http://localhost:3001/${movie.previewImage}`} alt={movie.name} class="movie-preview" />
+                            <h3>{movie.name}</h3>
+                        </div>
+                    ))
+                ) : (
+                    <p>No movies available.</p>
+                )}
+            </div>
         </div>
     );
 };
