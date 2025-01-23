@@ -25,6 +25,7 @@ const MoviesByCategory = () => {
         }
 
         const data = await response.json();
+        console.log("Data of movies: ");
         console.log(data); // Log to see the response
 
         // Set the movies data (keeping categories and movie lists intact)
@@ -55,12 +56,11 @@ const MoviesByCategory = () => {
 
   return (
     <div className="movies-by-category">
-
-      {movies.map((category) => (
-        <div key={category.category} className="category-container">
-          <h2>{category.category}</h2>
-
-          {category.movies.length > 0 ? (
+      {movies
+        .filter((category) => category.movies.length > 0) // Exclude categories with no movies
+        .map((category) => (
+          <div key={category.category} className="category-container">
+            <h2>{category.category}</h2>
             <div className="movie-list">
               {category.movies.map((movie) => (
                 <div
@@ -73,11 +73,8 @@ const MoviesByCategory = () => {
                 </div>
               ))}
             </div>
-          ) : (
-            <p>No movies in this category.</p>
-          )}
-        </div>
-      ))}
+          </div>
+        ))}
     </div>
   );
 };
