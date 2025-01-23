@@ -112,7 +112,7 @@ const MoviePreview = () => {
         className="background-video"
       >
         {randomMoviePath && (
-          <source src={`http://localhost:3001${randomMoviePath}`} type="video/mp4" />
+          <source src={`http://localhost:3001/${randomMoviePath}`} type="video/mp4" />
         )}
       </video>
       <p>randomMoviePath: {randomMoviePath}</p>
