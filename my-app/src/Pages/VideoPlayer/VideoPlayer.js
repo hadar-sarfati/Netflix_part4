@@ -40,7 +40,6 @@ const VideoPlayer = ({ movieId }) => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        console.log('movieId:', movieId);
         const response = await axios.get(`http://localhost:3000/api/movies/${movieId}`);
         setMovieData(response.data);
       } catch (error) {
@@ -49,9 +48,7 @@ const VideoPlayer = ({ movieId }) => {
     };
 
     fetchMovie();
-    console.log('movieData name:', movieData.name);
-    console.log('movieData videoPath:', movieData.path);
-  }, [movieData, movieId]);
+  }, [movieId]);
 
   const handlePlayPause = () => {
     if (playerRef.current.paused) {
@@ -65,7 +62,9 @@ const VideoPlayer = ({ movieId }) => {
 
   const handleQualityChange = (e) => {
     setQuality(e.target.value);
-    playerRef.current.src = `${movieData.path}.mp4`;
+    // Assuming your paths are structured like: baseVideoPath_quality
+    // e.g., /videos/movie1_720.mp4, /videos/movie1_480.mp4
+    playerRef.current.src = `${movieData.videoPath}_${e.target.value}.mp4`;
     playerRef.current.play();
     setIsPaused(false);
   };
@@ -97,7 +96,7 @@ const VideoPlayer = ({ movieId }) => {
         onMouseEnter={() => setShowButton(true)}
         onMouseLeave={() => setShowButton(false)}
       >
-        <source src={`${movieData.path}.mp4`} type="video/mp4" />
+        <source src={`${movieData.videoPath}_${quality}.mp4`} type="video/mp4" />
       </video>
 
       <button

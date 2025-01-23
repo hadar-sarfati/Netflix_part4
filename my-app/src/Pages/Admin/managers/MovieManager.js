@@ -14,7 +14,6 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
     });
     const [path, setPath] = useState('');
     const [message, setMessage] = useState('');
-    const [fileName, setFileName] = useState('Choose File'); // New state for file name display
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,12 +28,11 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
         if (file) {
             if (file.size > 500 * 1024 * 1024) { // 500MB limit
                 setMessage('File size too large. Please choose a file under 500MB.');
-                setFileName('Choose File'); // Reset file name display
                 e.target.value = ''; // Reset the input
                 return;
             }
             setPath(file);
-            setFileName(file.name); // Update file name display
+            setMessage(''); // Clear any error messages
         }
     };
 
@@ -42,77 +40,50 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
         e.preventDefault();
         try {
             const submitMovieData = new FormData();
-            if (action === 'Delete Movie') {
-                submitMovieData.append('_id', movieToEdit._id);
-            } else {
-                const categoriesArray = movieData.categories.split(',').map(cat => cat.trim());
-                Object.keys(movieData).forEach(key => {
-                    submitMovieData.append(key, key === 'categories' ? JSON.stringify(categoriesArray) : movieData[key]);
-                });
-                if (path) {
-                    submitMovieData.set('path', path);
-                }
+            const categoriesArray = movieData.categories.split(',').map(cat => cat.trim());
+            // Add all form fields to FormData
+            Object.keys(movieData).forEach(key => {
+                submitMovieData.append(key, key === 'categories' ? JSON.stringify(categoriesArray) : movieData[key]);
+            });
+            // Add path if selected
+            if (path) {
+                submitMovieData.set('path', path);
             }
             
-            let url = 'http://localhost:3000/api/movies';
-            let meth = action === 'Delete Movie' ? 'DELETE' : (action === 'Edit Movie' ? 'PUT' : 'POST');
+            let url = 'http://localhost:3001/api/movies';
+            let meth = 'POST';
 
-
-            if (movieToEdit && (action === 'Edit Movie' || action === 'Delete Movie')) {
+            if (action === 'editMovie' && movieToEdit) {
+                console.log('Editing movie:', movieToEdit._id);
                 url += `/${movieToEdit._id}`;
+                meth = 'PUT';
+            } else if (action === 'deleteMovie') {
+                url += `/${movieToEdit._id}`;
+                meth = 'DELETE';
             }
-
             const token = localStorage.getItem('accessToken');
             const response = await fetch(url, {
                 method: meth,
                 headers: {
                     'Authorization': `Bearer ${token}`, 
                   },
-                body: action === 'Delete Movie' ? null : submitMovieData 
+                body: submitMovieData
             });
 
             if (response.ok) {
-                setMessage(`${action === 'Delete Movie' ? 'Delete' : (action === 'Edit Movie' ? 'Edit' : 'Add')} Movie successful!`);
-                setFileName('Choose File'); // Reset file name after successful submission
+                setMessage(`${action === 'editMovie' ? 'Edit' : 'Add'} Movie successful!`);
             } else {
                 const errorData = await response.json();
-                setMessage(errorData.error || `${action.charAt(0).toUpperCase() + action.slice(1)} Movie failed`);
+                setMessage(errorData.error || `${action === 'editMovie' ? 'Edit' : 'Add'} Movie failed`);
             }
         } catch (error) {
-            setMessage(`An error occurred during ${action === 'Delete Movie' ? 'deleting' : (action === 'Edit Movie' ? 'editing' : 'adding')} movie`);
+            setMessage(`An error occurred during ${action === 'editMovie' ? 'editing' : 'adding'} movie`);
         }
 
         onClose();
     };
 
-    // Reset fileName when modal is opened/closed
-    useEffect(() => {
-        setFileName('Choose File');
-    }, [isOpen]);
-
-    if (action === 'Delete Movie') {
-        return (
-            <div className="modal-overlay">
-                <div className="modal-content">
-                    <div className="admin-container">
-                        <div className="admin-header">
-                            <h2>Delete Movie</h2>
-                        </div>
-                        <button onClick={onClose} className="close-button">×</button>
-                        <form onSubmit={handleSubmit}>
-                            <h3>Are you sure you want to delete this movie?</h3>
-                            <button type="submit">Delete</button>
-                            {message && (
-                                <div className={message.includes('successful') ? 'success-message' : 'error-message'}>
-                                    {message}
-                                </div>
-                            )}
-                        </form>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    if (!isOpen) return null;
 
     return (
         <div className="modal-overlay">
@@ -195,16 +166,14 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
 
                         <div className="form-group">
                             <label htmlFor="path">File:</label>
-                            <div className="file-input-wrapper">
-                                <input
-                                    id="path"
-                                    type="file"
-                                    name="path"
-                                    onChange={handleFileChange}
-                                    className="hidden-file-input"
-                                />
-                                <span className="file-name-display">{fileName}</span>
-                            </div>
+                            <input
+                                id="path"
+                                type="file"
+                                name="path"
+                                value={movieData.path}
+                                onChange={handleFileChange}
+                                placeholder="Enter movie path"
+                            />
                         </div>
 
                         <button type="submit">Enter</button>

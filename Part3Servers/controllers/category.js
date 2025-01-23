@@ -4,6 +4,17 @@ const User = require('../models/user');
 
 // Create a new category
 const createCategory = async (req, res) => {
+  const userId = req.header('X-User-Id');
+  
+  // Check if the User ID header is provided
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID required in X-User-Id header' });
+  }
+
+  // Validate the User ID format
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ error: 'Invalid User ID format' });
+  }
 
   const { name, promoted, movies } = req.body;
 
@@ -56,6 +67,17 @@ const getCategories = async (req, res) => {
 
 // Get a specific category by ID
 const getCategory = async (req, res) => {
+  const userId = req.header('X-User-Id');
+  
+  // Check if the User ID header is provided
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID required in X-User-Id header' });
+  }
+
+  // Validate the User ID format
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ error: 'Invalid User ID format' });
+  }
 
   const { id } = req.params;
 
@@ -87,12 +109,20 @@ const getCategory = async (req, res) => {
 
 // Update an existing category
 const updateCategory = async (req, res) => {
+  const userId = req.header('X-User-Id');
+  
+  // Check if the User ID header is provided
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID required in X-User-Id header' });
+  }
 
+  // Validate the User ID format
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ error: 'Invalid User ID format' });
+  }
+
+  const { name, promoted, movies } = req.body;
   const { id } = req.params;
-  const { name, promoted } = req.body;
-  console.log('update in controller');
-  console.log('updating name to: ', name);
-  console.log('updating promoted to: ', promoted);
 
   // Check if the category ID is valid
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -103,7 +133,8 @@ const updateCategory = async (req, res) => {
     // Update the category
     const category = await categoryService.updateCategory(id, {
       name,
-      promoted
+      promoted,
+      movies
     });
 
     // If category doesn't exist, return 404
@@ -119,6 +150,18 @@ const updateCategory = async (req, res) => {
 
 // Delete a category
 const deleteCategory = async (req, res) => {
+  const userId = req.header('X-User-Id');
+  
+  // Check if the User ID header is provided
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID required in X-User-Id header' });
+  }
+
+  // Validate the User ID format
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ error: 'Invalid User ID format' });
+  }
+
   const { id } = req.params;
 
   // Check if the category ID is valid

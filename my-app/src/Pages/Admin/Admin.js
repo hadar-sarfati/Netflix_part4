@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import AdminDashboard from './AdminDashboard'; // Component for the admin dashboard UI.
+import MovieManager from './managers/MovieManager'; // Optional: Placeholder for potential movie management functionality.
 import fetchLoginUser from "../Login/fetchLoginUser"; // Function to fetch user data based on the token.
 import { useNavigate } from 'react-router-dom'; // Hook for navigation between routes.
-import './Admin.css'; // Styles for the admin page.
 
 
 const Admin = () => {
@@ -61,9 +61,7 @@ const Admin = () => {
   // Render the admin panel if the user is authenticated and has admin privileges.
   return (
     <div className="admin-page">
-      <div className="back-button" >
-        <button onClick={() => navigate('/main')}>Return to Home</button> {/* Button to navigate to the home page. */}
-      </div>
+      <h1>Admin Panel</h1> {/* Header for the admin panel. */}
       <AdminDashboard /> {/* Admin dashboard component. */}
     </div>
   );

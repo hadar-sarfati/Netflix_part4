@@ -1,9 +1,9 @@
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: 10px;
+    left: 60px;
+    right: 60px;
+    bottom: 10px;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
@@ -11,16 +11,13 @@
 }
 
 .modal-content {
-    max-height: 80vh;
     background-color: rgb(22, 21, 21);
     padding: 30px; /* Added more padding */
-    border-radius: 10px; /* Slightly larger radius */
+    border-radius: 8px; /* Slightly larger radius */
     max-width: 420px; /* Increased size */
     width: 90%;
     position: relative; /* For the close button */
     font-size: 16px; /* Set default text size */
-    overflow-y: auto;  /* Enable scrolling inside modal */
-    overflow-x: hidden;
 }
 
 .admin-container {
@@ -29,7 +26,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgb(41, 38, 38);
-    padding: 50px;
+    padding: 40px;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -49,7 +46,6 @@
 .form-group textarea {
     width: 100%;
     padding: 10px;
-    margin: 0;
     font-size: 20px; /* Larger input text */
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -92,54 +88,13 @@ button:hover {
 
 /* Close Button */
 .close-button {
-    padding: 0px;
     position: absolute;
-    top: -30px;
-    left: 20px; /* Top-left corner */
+    top: 2px;
+    left: 10px; /* Top-left corner */
     background: transparent;
     border: none;
-    font-size: 50px;
+    font-size: 28px;
     color: white;
     cursor: pointer;
-    width: 30px;
-}
-
-form {
-    width: 100%;
-    padding: 5px;
-    font-size: 25px;
-    border-radius: 4px;
-    background-color:  rgb(41, 38, 38);
-    color: white;
-}
-
-.file-input-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-}
-
-.hidden-file-input {
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-}
-
-.file-name-display {
-    display: block;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: #fff;
-    color: #333;
-    width: 100%;
-    cursor: pointer;
-}
-
-.file-name-display:hover {
-    background: #f5f5f5;
+    width: 45px;
 }

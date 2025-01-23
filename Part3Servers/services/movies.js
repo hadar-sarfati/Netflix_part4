@@ -1,8 +1,12 @@
 const Movie = require('../models/movies');
 const User = require('../models/user');
 const Category = require('../models/category');
+const categoryService = require('../services/category');
+const userService = require('../services/user');
 const { getNextSequence } = require('./counter');
 const mongoose = require('mongoose');
+const fs = require('fs');
+const path = require('path');
 
 // Local version of createCategory for internal use (preventing cycles)
 const _createCategory = async (categoryData) => {
@@ -11,6 +15,32 @@ const _createCategory = async (categoryData) => {
 };
 
 const createMovie = async (name, categoryNames, year, duration, cast, description, videoFile) => {
+  console.log("path received: " + videoFile);
+  console.log("type of file: " + typeof(videoFile));
+  // Define your custom storage path
+  // const VIDEOS_STORAGE_PATH = '../../src/movieFiles ';  // or 'D:\\MovieStorage' for Windows
+  // // Handle file upload first
+  // const fileName = path.basename(videoFile);
+  // console.log("filename: " + fileName + " filename type: " + typeof(fileName));
+  // const filePath = `/videos/${fileName}`;  // This will be saved in DB
+  // console.log("filepath: " + filePath + " filepath type: " + typeof(filePath));
+
+  // const absolutePath = path.join(VIDEOS_STORAGE_PATH, fileName);  // Actual file system path
+
+  // // Create movieFiles directory if it doesn't exist
+  // if (!fs.existsSync(VIDEOS_STORAGE_PATH)) {
+  //   fs.mkdirSync(VIDEOS_STORAGE_PATH, {recursive: true});
+  // }
+
+  // // Save the file
+  // await new Promise((resolve, reject) => {
+  //   fs.writeFile(absolutePath, videoFile.buffer, (err) => {
+  //     if (err) reject(err);
+  //     resolve();
+  //   });
+  // });
+  console.log("Category names: " + categoryNames);
+
   // Find the categories that the movie belongs to, by name
   const categories = await Promise.all(categoryNames.map(async (categoryName) => {
     let category = await Category.findOne({ name: categoryName });
@@ -107,7 +137,7 @@ const getMovieByName = async (name) => {
 };
 
 const updateMovie = async (id, name, categoryNames, year, duration, cast, description, path) => {
-  // Find the movie by ID
+  console.log("updating to: ", name, categoryNames, year, duration, cast, description, path);
   const movie = await getMovieById(id);
   if (!movie) return null;
 
@@ -192,7 +222,7 @@ const getMovieByIntId = async (intId) => {
       throw new Error('Movie not found');
     }
 
-    return movie;
+    return movie;  // Return the found movie document
   } catch (error) {
     throw new Error('Error retrieving movie: ' + error.message);
   }
