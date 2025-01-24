@@ -1,19 +1,19 @@
 .search-results {
     padding: 20px;
-    background-color: var(--background, #f4f4f4); /* ברירת מחדל לרקע בהיר */
+    background-color: var(--body-background); /* ברירת מחדל לרקע בהיר */
     min-height: 100vh;
     color: var(--text-color, #333); /* ברירת מחדל לטקסט כהה */
   }
   
   .search-results input {
     width: 80%;
-    padding: 10px;
+    padding: 0px;
     font-size: 16px;
     margin-right: 10px;
-    border: 1px solid var(--border-color, #ccc); /* ברירת מחדל לגבול אפור */
+    border: transparent;
     border-radius: 5px;
-    background-color: var(--input-background, #fff); /* ברירת מחדל לרקע קלט */
-    color: var(--input-text, #000); /* ברירת מחדל לטקסט קלט */
+    background-color: transparent; /* ברירת מחדל לרקע קלט */
+    color: var(--search-text); /* ברירת מחדל לטקסט קלט */
   }
   
   .search-results input::placeholder {
@@ -21,7 +21,11 @@
   }
   
   .search-results button {
+    display: inline-block;
+    width: 5%;
     padding: 10px 20px;
+    margin-top: 0.5%;
+    margin-left: 43%;
     font-size: 16px;
     background-color: var(--button-color, #007BFF); /* ברירת מחדל לכחול */
     color: var(--button-text, #fff); /* ברירת מחדל לטקסט לבן */
@@ -34,14 +38,22 @@
   .search-results button:hover {
     background-color: var(--button-hover, #0056b3); /* ברירת מחדל לכחול כהה */
   }
-  
+
   .search-results .movie-card {
-    background-color: var(--movie-card-background, #fff); /* רקע לבן לכרטיסים */
-    color: var(--movie-card-text, #000); /* טקסט שחור לכרטיסים */
-    border: 1px solid var(--movie-card-border, #ddd); /* גבול אפור בהיר לכרטיסים */
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* צל עדין */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--input-text, #272626);
+    min-width: 200px;
+    padding: 10%;
+    border: 1px solid var(--border-color, #ccc); /* ברירת מחדל לגבול אפור */
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
   }
-  
+
+  .movie-card .h3 {
+    margin-top: 10px;
+    text-align: center;
+    color: #343333;
+    font-size: 30px;
+  }

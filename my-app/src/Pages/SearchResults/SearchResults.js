@@ -35,6 +35,7 @@ const SearchResults = () => {
         localStorage.removeItem('accessToken');
         navigate('/Login');
       });
+      setCurrentTheme(localStorage.getItem('theme') || 'dark');
     }
   }, [navigate]);
 
@@ -68,18 +69,22 @@ const SearchResults = () => {
 
   return (
     <div className={`search-results theme-${currentTheme}`}>
-      <input
-        type="text"
-        placeholder="Search for movies..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-      />
+      <div className="search-bar-container">
+        <div className="search-bar">
+          <input
+          type="text"
+          placeholder="Search for movies..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+        />
+        </div>
+      </div>
       <button onClick={() => handleSearch()}>Search</button>
       {loading ? (
         <div className="loading"></div>
       ) : (
-        <div className="movies-by-category">
+        <div className="movie-list">
           {movies.length > 0 ? (
             movies.map((movie) => (
               <div 
@@ -87,8 +92,8 @@ const SearchResults = () => {
                 className="movie-card"
                 onClick={() => handleMovieClick(movie._id)}
               >
-                <h3>{movie.name}</h3>
-                <p>Category: {movie.categories.map((cat) => cat.name).join(', ')}</p>
+                <img src={`http://localhost:3001/${movie.previewImage}`} alt={movie.name} className="movie-preview" />
+                <h3>{movie.name}</h3> {/* Display movie name */}
               </div>
             ))
           ) : (

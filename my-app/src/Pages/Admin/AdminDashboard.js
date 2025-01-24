@@ -5,20 +5,15 @@ import MovieList from './managers/MovieList';  // Import MovieList
 import CategoryList from './managers/CategoryList';  // Import MovieList
 import './AdminDashboard.css';
 
-//TODO: add new movie to fantasy category AND other category, then delete fantsy category - i want to see that the
-// harry3 is still in the comedy category and the fantasy category is deleted with harry2 that is only in it.
-// Also edit the one of the categories, and add a brand new category.
-
 const AdminDashboard = () => {
-    // Add state for modal
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalAction, setModalAction] = useState(null);
-    const [modalType, setModalType] = useState(null);
-
-    const [showMovieList, setShowMovieList] = useState(false);  // Add this state
-    const [selectedMovie, setSelectedMovie] = useState(null);    // Add this state
-    const [showCategoryList, setShowCategoryList] = useState(false);  // Add this state
-    const [selectedCategory, setSelectedCategory] = useState(null);    // Add this state
+    const [isModalOpen, setIsModalOpen] = useState(false);              // State to manage modal visibility
+    const [modalAction, setModalAction] = useState(null);               // State to manage modal action
+    const [modalType, setModalType] = useState(null);                   // State to manage modal type
+    const [currentTheme, setCurrentTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+    const [showMovieList, setShowMovieList] = useState(false);          // Add this state
+    const [selectedMovie, setSelectedMovie] = useState(null);           // Add this state
+    const [showCategoryList, setShowCategoryList] = useState(false);    // Add this state
+    const [selectedCategory, setSelectedCategory] = useState(null);     // Add this state
 
     useEffect(() => {
         if (selectedMovie && modalAction === 'Edit Movie') {
@@ -33,8 +28,8 @@ const AdminDashboard = () => {
     }, [selectedCategory, modalAction]);
 
 
-    // Add openModal function
     const openModal = (action) => {
+        setCurrentTheme(localStorage.getItem('theme') || 'dark');
         setModalAction(action);
         if (action === 'Add Movie' || action === 'Edit Movie' || action === 'Delete Movie') {
             setModalType('movie');
@@ -51,10 +46,8 @@ const AdminDashboard = () => {
                 setIsModalOpen(true);
             }
         }
-
     };
 
-    // Add closeModal function
     const closeModal = () => {
         setIsModalOpen(false);
         setModalAction(null);
@@ -67,7 +60,7 @@ const AdminDashboard = () => {
         }        
     };
 
-    // Add this function to handle movie selection
+    // Function to handle movie selection
     const handleMovieSelect = (movie) => {
         console.log('action:', modalAction);
         console.log("modal type:", modalType);
@@ -81,7 +74,7 @@ const AdminDashboard = () => {
     }
 
     return (
-        <div className="admin-dashboard">
+        <div className={`admin-dashboard theme-${currentTheme}`}>
             <h1>Welcome Admin</h1>
             
             <div className="admin-sections">

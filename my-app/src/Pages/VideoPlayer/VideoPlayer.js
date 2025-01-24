@@ -9,7 +9,7 @@ const VideoPlayer = () => {
   const { id } = useParams();                                   // Get the movieId from the URL
   const [user, setUser] = useState(null);                       // New state for user
   const [moviePath, setMoviePath] = useState(null);             // New state for movie path
-  const [isPaused, setIsPaused] = useState(false);               // New state for video playback - played or paused
+  const [isPaused, setIsPaused] = useState(false);              // New state for video playback - played or paused
   const [showButton, setShowButton] = useState(false);          // New state for play/pause button visibility
   const [showBackButton, setShowBackButton] = useState(false);  // New state for back button visibility
   const playerRef = useRef(null);                               // Ref for video player
@@ -27,7 +27,7 @@ const VideoPlayer = () => {
   
   const handleMouseEnter = () => {
     isHoveringButton.current = true;
-    setShowButton(true);  // Keep the button visible while hovering
+    setShowButton(true); 
   };
   
   const handleMouseLeave = () => {
@@ -35,6 +35,7 @@ const VideoPlayer = () => {
     resetHideTimer();
   };
   
+  // Timers for hiding buttons
   const resetHideTimer = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -57,7 +58,8 @@ const VideoPlayer = () => {
 
   // Fetch movie data when component mounts
   useEffect(() => {
-    if (!id) return;  // Ensure movieId is not undefined before making request
+    // Ensure movieId is not undefined before making request
+    if (!id) return;  
     const token = localStorage.getItem('accessToken');
     if (!token) {
       navigate('/Login');
@@ -88,14 +90,14 @@ const VideoPlayer = () => {
   
         const movieDetails = await response.json();
   
-        // Assume movieDetails contains a 'path' field
+        // Set the path to the movie file
         setMoviePath(movieDetails.path);
       } catch (err) {
         console.error('Error fetching movie details:', err.message);
       }
     };
   
-    fetchMovieDetails();  // <-- Ensure we call the function without arguments
+    fetchMovieDetails(); 
   }, [id, navigate]);
 
   const handlePlayPause = () => {
