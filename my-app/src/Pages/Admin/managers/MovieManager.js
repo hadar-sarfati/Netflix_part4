@@ -18,7 +18,7 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
     const [fileName, setFileName] = useState('Choose File'); // New state for file name display
     const [previewImage, setPreviewImage] = useState(null); // New state for file name display
     const [previewImageName, setPreviewImageName] = useState('Choose Image'); // New state for file name display
-
+    const [currentTheme, setCurrentTheme] = useState(() => localStorage.getItem('theme') || 'dark');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,6 +50,7 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
     };
 
     const handleSubmit = async (e) => {
+        setCurrentTheme(localStorage.getItem('theme') || 'dark');
         e.preventDefault();
         try {
             const submitMovieData = new FormData();
@@ -108,9 +109,9 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
 
     if (action === 'Delete Movie') {
         return (
-            <div className="modal-overlay">
-                <div className="modal-content">
-                    <div className="admin-container">
+            <div className={`modal-overlay theme-${currentTheme}`}>
+                <div className={`modal-content theme-${currentTheme}`}>
+                    <div className={`admin-container theme-${currentTheme}`}>
                         <div className="admin-header">
                             <h2>Delete Movie</h2>
                         </div>

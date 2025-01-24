@@ -6,42 +6,85 @@
 }
 
 html, body, #root {
+  margin: 0;
+  padding: 0;
   height: 100%;
-  width: 100%;
-  font-family: Arial, sans-serif;
-  background-color: var(--body-background); /* Body background from theme */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 /* Main container styles */
 .movie-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  position: relative;
   padding: 20px;
-  font-family: Arial, sans-serif;
-  color: var(--text-color); /* Text color from theme */
-  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay for readability */
+  color: #fff;
+  min-height: 100vh;
+  z-index: 1;
 }
 
-/* Title styling */
+.movie-details::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  z-index: -1; /* Place behind the text */
+}
+
 .movie-details h1 {
-  font-size: 6rem; /* Very large title */
-  color: rgba(255, 255, 255, 0.87); /* Slightly transparent white */
-  margin-bottom: 20px; /* Space below the title */
-  text-align: left;
-  width: 100%;
+  font-size: 100px;
+  margin-bottom: 20px;
+  color: #dddcdc;
 }
 
-/* Movie details below the title */
-.movie-details .left-column {
-  font-size: 1.5rem;
-  color: var(--text-color); /* Text color from theme */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-  margin-top: 50px;
+.movie-details p,
+.movie-details button {
+  position: relative;
+  margin-left: 0.6%;
+  margin-bottom: 0.6%;
+  z-index: 2; /* Ensure text and button are above the overlay */
+  font-size: 50px;
+  color: #dddcdc;
+}
+
+.movie-details .play-movie-button {
+  position: relative;
+  background-color: rgba(79, 79, 79, 0.5); 
+  color: #dddcdc; /* Button text color from theme */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.movie-details .play-movie-button:hover {
+  background: #2334ee; /* Darker button color on hover */
+  transform: scale(1.05); /* Slightly larger on hover */
+}
+
+.back-home-button {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding: 10px;
+  background-color: rgba(79, 79, 79, 0.5); 
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.back-home-button:hover {
+  background-color: #0056b3;
 }
 
 /* Right content (Recommendations) */
@@ -53,7 +96,14 @@ html, body, #root {
   flex-direction: column;
   align-items: center; /* Centers the recommendations vertically */
   gap: 20px;
-  max-width: 250px;
+  max-width: 450px;
+}
+
+.recommendations h2 {
+  color: #dddcdc;
+  margin-right: 10%;
+  font-size: 50px;
+  margin-bottom: 10px;
 }
 
 .recommendations ul {

@@ -95,6 +95,7 @@ const MovieDetails = () => {
     }
   }, [id, navigate]);
 
+
   const handlePlayMovie = async () => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -124,6 +125,10 @@ const MovieDetails = () => {
     navigate(`/VideoPlayer/${id}`);
   };
 
+  const handleBackToHome = () => {
+    navigate('/Main'); // Navigate to the home page
+  };
+
   if (loading) {
     return <div></div>;
   }
@@ -142,23 +147,25 @@ const MovieDetails = () => {
     return acc;
   }, {});
 
+
   return (
-    <div className="movie-details">
+    <div
+      className="movie-details"
+      style={{ backgroundImage: `url(http://localhost:3001/${movie.previewImage})` }}
+    >
+      <button onClick={handleBackToHome} className="back-home-button">
+        ←
+      </button>
       <h1>{movie.name}</h1>
       <p><strong>Movie Name:</strong> {movie.name}</p>
-      {/* Categories - Show category names instead of IDs */}
       <p><strong>Categories:</strong> {movie.categories.length > 0 ? movie.categories.map((categoryId) => categoryNames[categoryId] || 'Unknown category').join(', ') : 'No categories available'}</p>
-      {/* Year */}
       <p><strong>Year:</strong> {movie.year ? movie.year : 'No year available'}</p>
-      {/* Duration */}
       <p><strong>Duration:</strong> {movie.duration ? movie.duration : 'No duration available'}</p>
-      {/* Cast */}
       <p><strong>Cast:</strong> {movie.cast.length > 0 ? movie.cast.join(', ') : 'No cast available'}</p>
-      {/* Description */}
       <p><strong>Description:</strong> {movie.description ? movie.description : 'No description available'}</p>
 
       <button className="play-movie-button" onClick={handlePlayMovie}>
-        Play {movie.name}
+        Play ▶
       </button>
 
       <div className="recommendations">
@@ -175,7 +182,7 @@ const MovieDetails = () => {
           <p>No recommendations available</p>
         )}
       </div>
-    </div>
+  </div>
   );
 };
 
