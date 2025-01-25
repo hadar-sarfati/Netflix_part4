@@ -28,7 +28,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/main" element={<Main />} />
         <Route path="/movies/:id/details" element={<MovieDetails />} />
-        <Route path="/video-player" element={<VideoPlayer />} />
+        <Route path="/VideoPlayer/:id" element={<VideoPlayer />} />
         <Route path="/SearchResults" element={<SearchResults />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>

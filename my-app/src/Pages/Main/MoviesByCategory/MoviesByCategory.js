@@ -68,6 +68,7 @@ const MoviesByCategory = () => {
                   className="movie-card"
                   onClick={() => handleMovieClick(movie._id)} // Call the handleMovieClick on click
                 >
+                  <img src={`http://localhost:3001/${movie.previewImage}`} alt={movie.name} className="movie-preview" />
                   <h3>{movie.name}</h3> {/* Display movie name */}
                 </div>
               ))}

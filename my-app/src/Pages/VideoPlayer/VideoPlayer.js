@@ -1,57 +1,102 @@
-// VideoPlayer.js
 import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios'; // or whatever HTTP client you're using
+import { useParams, useNavigate } from 'react-router-dom';
 import './VideoPlayer.css';
-// import fetchLoginUser from "../Login/fetchLoginUser";
-// import { useNavigate } from 'react-router-dom';
+import fetchLoginUser from "../Login/fetchLoginUser";
 
-const VideoPlayer = ({ movieId }) => {
-  // // State for storing user data
-  // const [user, setUser] = useState(null);
-  // // Hook for programmatic navigation
-  // const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   // Check if the user is logged in
-  //   const token = localStorage.getItem('accessToken');
-  //   if (!token) {
-  //     // If not logged in, navigate to the login page
-  //     navigate('/Login');
-  //   } else {
-  //     // Fetch login user details using the token
-  //     fetchLoginUser(token, setUser)
-  //       .catch((error) => {
-  //         console.error('Error fetching user details:', error);
-  //         // If there's an error, remove the token and navigate to login
-  //         localStorage.removeItem('accessToken');
-  //         navigate('/Login');
-  //       });
-  //   }
-  // }, [navigate]);
+const VideoPlayer = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();                                   // Get the movieId from the URL
+  const [user, setUser] = useState(null);                       // New state for user
+  const [moviePath, setMoviePath] = useState(null);             // New state for movie path
+  const [isPaused, setIsPaused] = useState(false);               // New state for video playback - played or paused
+  const [showButton, setShowButton] = useState(false);          // New state for play/pause button visibility
+  const [showBackButton, setShowBackButton] = useState(false);  // New state for back button visibility
+  const playerRef = useRef(null);                               // Ref for video player
+  const timeoutRef = useRef(null);                              // Ref for timeout
+  const isHoveringButton = useRef(false);                       // Ref for button hover state
 
-  const [isPaused, setIsPaused] = useState(true);
-  const [showButton, setShowButton] = useState(false);
-  const [quality, setQuality] = useState('720');
-  const [movieData, setMovieData] = useState(null);
-  const playerRef = useRef(null);
+  // Event handler for mouse moves
+  const handleMouseMove = () => {
+    if (!isHoveringButton.current) {
+      setShowButton(true);
+      setShowBackButton(true);
+      resetHideTimer();
+    }
+  };
   
+  const handleMouseEnter = () => {
+    isHoveringButton.current = true;
+    setShowButton(true);  // Keep the button visible while hovering
+  };
+  
+  const handleMouseLeave = () => {
+    isHoveringButton.current = false;
+    resetHideTimer();
+  };
+  
+  const resetHideTimer = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      if (!isHoveringButton.current) {
+        setShowButton(false);
+        setShowBackButton(false);  // Hide back button after delay
+      }
+    }, 2000);
+  };
+  
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   // Fetch movie data when component mounts
   useEffect(() => {
-    const fetchMovie = async () => {
+    if (!id) return;  // Ensure movieId is not undefined before making request
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      navigate('/Login');
+      return;
+    }
+  
+    // Fetch user and categories
+    fetchLoginUser(token, setUser)
+      .catch((error) => {
+        console.error('Error fetching user details:', error);
+        localStorage.removeItem('accessToken');
+        navigate('/Login');
+      });
+  
+    // Function to fetch movie details
+    const fetchMovieDetails = async () => {
       try {
-        console.log('movieId:', movieId);
-        const response = await axios.get(`http://localhost:3000/api/movies/${movieId}`);
-        setMovieData(response.data);
-      } catch (error) {
-        console.error('Error fetching movie:', error);
+        const response = await fetch(`http://localhost:3000/api/movies/${id}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to fetch movie details');
+        }
+  
+        const movieDetails = await response.json();
+  
+        // Assume movieDetails contains a 'path' field
+        setMoviePath(movieDetails.path);
+      } catch (err) {
+        console.error('Error fetching movie details:', err.message);
       }
     };
-
-    fetchMovie();
-    console.log('movieData name:', movieData.name);
-    console.log('movieData videoPath:', movieData.path);
-  }, [movieData, movieId]);
+  
+    fetchMovieDetails();  // <-- Ensure we call the function without arguments
+  }, [id, navigate]);
 
   const handlePlayPause = () => {
     if (playerRef.current.paused) {
@@ -63,50 +108,48 @@ const VideoPlayer = ({ movieId }) => {
     }
   };
 
-  const handleQualityChange = (e) => {
-    setQuality(e.target.value);
-    playerRef.current.src = `${movieData.path}.mp4`;
-    playerRef.current.play();
-    setIsPaused(false);
-  };
+  useEffect(() => {
+    if (playerRef.current) {
+      playerRef.current.addEventListener('error', (e) => {
+        console.error('Video Error:', playerRef.current.error);
+      });
+    }
+  }, []);
 
-  if (!movieData) {
+  // Show loading message if movie data hasn't loaded yet
+  if (!moviePath) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="video-container">
-      <h1 style={{ display: 'none' }}>{movieData.title}</h1>
-      
-      <select 
-        id="quality" 
-        style={{ display: 'none' }}
-        value={quality}
-        onChange={handleQualityChange}
-      >
-        <option value="720">720p</option>
-        <option value="480">480p</option>
-        <option value="360">360p</option>
-      </select>
-
+    <div className="video-container" 
+      onMouseMove={handleMouseMove}>
+      <button className={`back-btn ${showBackButton ? 'visible' : ''}`} 
+        onClick={() => navigate(`/movies/${id}/details`)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}>
+        ←
+      </button>
       <video
         ref={playerRef}
-        width="480"
         autoPlay
         muted
-        onMouseEnter={() => setShowButton(true)}
-        onMouseLeave={() => setShowButton(false)}
+        loop
+        playsInline
+        className="play-video"
       >
-        <source src={`${movieData.path}.mp4`} type="video/mp4" />
+        {moviePath && (
+          <source src={`http://localhost:3001/${moviePath}`} type="video/mp4" />
+        )}
+        <p>moviePath: {moviePath}</p>
       </video>
-
       <button
         className={`play-pause-btn ${showButton ? 'visible' : ''}`}
         onClick={handlePlayPause}
-        onMouseEnter={() => setShowButton(true)}
-        onMouseLeave={() => setShowButton(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        {isPaused ? 'Play' : 'Pause'}
+        {isPaused ? '▶' : '⏸'}
       </button>
     </div>
   );

@@ -14,6 +14,7 @@ const fs = require('fs');
 require('custom-env').env(process.env.NODE_ENV, './config');
 
 const VIDEO_UPLOADS_PATH = path.join(__dirname, 'VideoFiles');
+const PREVIEW_IMAGE_UPLOADS_PATH = path.join(__dirname, 'PreviewImages');
 
 mongoose.connect(process.env.CONNECTION_STRING, {
   useNewUrlParser: true,
@@ -38,6 +39,19 @@ app.use('/api/tokens', tokens);
 app.use('/api/movies', movies);
 app.use('/api/movies', recommend);
 app.use('/VideoFiles', express.static(VIDEO_UPLOADS_PATH));
+app.use('/PreviewImages', express.static(PREVIEW_IMAGE_UPLOADS_PATH));
+
+app.get('/PreviewImages/:imageName', (req, res) => {
+  const imageName = req.params.imageName;
+  const imagePath = path.join(PREVIEW_IMAGE_UPLOADS_PATH, imageName);
+
+  // Check if the image file exists
+  if (!fs.existsSync(imagePath)) {
+    return res.status(404).send('Image not found');
+  }
+
+  res.sendFile(imagePath);
+});
 
 // Middleware to serve video files
 app.get('/VideoFiles/:videoName', (req, res) => {
