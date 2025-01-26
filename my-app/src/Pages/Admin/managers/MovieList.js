@@ -21,7 +21,7 @@ const MovieList = ({ onMovieSelect }) => {
                 }
 
                 const data = await response.json();
-                console.log('Fetched Movies:', data);
+
                 // Flatten and remove duplicate movies by _id
                 const uniqueMovies = Array.from(
                     new Map(
@@ -31,7 +31,6 @@ const MovieList = ({ onMovieSelect }) => {
                         }).map(movie => [movie._id, movie])
                     ).values()
                 );
-                console.log("Processed movies:", uniqueMovies);
 
                 setMovies(uniqueMovies);
             } catch (err) {

@@ -8,16 +8,6 @@ const movieService = require('../services/movies')
 exports.getRecommendations = async (req, res) => {
   // Getting the user id
   const userXID = req.user.userId;
-
-  // if (!userXID) {
-  //   return res.status(400).json({ error: 'User ID required in X-User-Id header' });
-  // }
-  
-  // // Validate User ID format
-  // if (!mongoose.Types.ObjectId.isValid(userXID)) {
-  //   return res.status(400).json({ error: 'Invalid User ID format' });
-  // }
-
   // Getting the movie id
   const movieXID = req.params.id; // Get movie ID from the route parameter
 
@@ -61,15 +51,6 @@ exports.postRecSystem = async (req, res) => {
   try {
     // Getting the user id
     const userXID = req.user.userId;
-    console.log(userXID);
-
-    // if (!userXID) {
-    //   return res.status(400).json({ error: 'User ID required in X-User-Id header' });
-    // }
-      
-    // if (!mongoose.Types.ObjectId.isValid(userXID)) {
-    //   return res.status(400).json({ error: 'Invalid User ID format' });
-    // }
 
     // Getting the movie id
     const movieXID = req.params.id; // Get movie ID from the route parameter

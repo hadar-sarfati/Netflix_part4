@@ -8,9 +8,7 @@ function initializeSocket() {
     
     const host = process.env.MRS_IP;     // Use the environment variable for host
     const port = process.env.MRS_PORT;    // Use the environment variable for port
-    
-    console.log(`Attempting to connect to recommendation system at ${host}:${port}`);
-    
+        
     client.connect(port, host, () => {
       console.log('Successfully connected to recommendation system');
       resolve(client);

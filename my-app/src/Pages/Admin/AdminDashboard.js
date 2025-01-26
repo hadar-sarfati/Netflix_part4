@@ -62,8 +62,6 @@ const AdminDashboard = () => {
 
     // Function to handle movie selection
     const handleMovieSelect = (movie) => {
-        console.log('action:', modalAction);
-        console.log("modal type:", modalType);
         setSelectedMovie(movie);
         setIsModalOpen(true);
     };

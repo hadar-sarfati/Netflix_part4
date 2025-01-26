@@ -25,7 +25,6 @@ const MoviePreview = () => {
         }
 
         const data = await response.json();
-        console.log('Fetched Categories:', data);
 
         // Filter non-empty categories
         const nonEmptyCategories = data.filter(
@@ -42,9 +41,6 @@ const MoviePreview = () => {
             randomCategory.movies[Math.floor(Math.random() * randomCategory.movies.length)];
 
           const randomMovieID = randomMovie._id;
-
-          console.log('Random Category:', randomCategory);
-          console.log('Random Movie:', randomMovie);
 
           // Fetch details for the random movie
           await fetchMovieDetails(randomMovieID, token);
@@ -73,7 +69,6 @@ const MoviePreview = () => {
         }
 
         const movieDetails = await response.json();
-        console.log('Fetched Movie Details:', movieDetails);
 
         // Assume movieDetails contains a 'path' field
         setRandomMoviePath(movieDetails.path);

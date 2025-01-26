@@ -84,7 +84,9 @@ const getMovies = async (userId) => {
     movies: watchedMovies.map(movie => {
       return {
         _id: movie._id,
-        name: movie.name
+        name: movie.name,
+        previewImage: movie.previewImage,
+        path: movie.path
       };
     })
   };
