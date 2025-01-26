@@ -1,27 +1,45 @@
-/* Registration form styling */
+/* Main container for the registration form */
 .register-container {
   text-align: center;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.95));
+  background-image: url('../background.jpg'); /* כתובת התמונה שלך */
+  background-size: cover; /* התמונה תכסה את כל הרקע */
+  background-position: center; /* ממרכז את התמונה */
+  background-repeat: no-repeat; /* מונע חזרה של התמונה */
   padding: 30px 20px;
   border-radius: 10px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
-  width: 90%;
-  max-width: 400px;
-  margin: 20px auto;
+  width: 100%; /* רוחב מלא */
+  height: 100vh; /* גובה מלא */
+  margin: 0 auto;
+  overflow-y: auto; /* יאפשר גלילה אם התוכן עובר את הגובה */
+  box-sizing: border-box; /* כלול את ה-padding בחישוב הרוחב והגובה */
 }
 
+/* Heading for the form */
 .register-container h2 {
   font-size: 1.8rem;
   color: white;
   margin-bottom: 1.5rem;
+  text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #2f00ff, 0 0 30px #2f00ff;
+  animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #2f00ff, 0 0 20px #2f00ff;
+  }
+  100% {
+    text-shadow: 0 0 20px #2f00ff, 0 0 30px #2f00ff, 0 0 40px #2f00ff, 0 0 50px #2f00ff;
+  }
 }
 
 /* Form group styling */
 .form-group {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
   text-align: left;
 }
 
+/* Label styling */
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
@@ -29,28 +47,67 @@
   font-size: 1rem;
 }
 
+/* Input field styling */
 .form-group input {
   width: 100%;
-  padding: 10px;
-  border: none;
+  padding: 8px;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: #003366; /* Blue background */
+  background-color: #333;
   color: white;
   font-size: 1rem;
   box-sizing: border-box;
 }
 
+/* Focus effect for input fields */
 .form-group input:focus {
   outline: none;
-  background-color: #005bb5; /* Lighter blue on focus */
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Blue shadow */
+  background-color: #454545; /* Slightly lighter background */
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.5); /* Red shadow for focus */
+}
+
+/* File input styling */
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  background-color: #003366;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  font-size: 1rem;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button {
+  background-color: #3343ef;
+  color: white;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Style for file input when hovering */
+.form-group input[type="file"]:hover {
+  background-color: #2334ee;
+}
+
+/* Info about file size and formats */
+.form-group small {
+  font-size: 0.9rem;
+  color: white;
+  display: block;
+  margin-top: 5px;
+  text-align: center;
 }
 
 /* Button styling */
 .button {
   width: 100%;
   padding: 12px 24px;
-  background-color: #0066cc; /* Blue button */
+  background-color: #0066cc;
   color: white;
   border: none;
   border-radius: 5px;
@@ -62,16 +119,18 @@
   margin-top: 1rem;
 }
 
+/* Hover effect for buttons */
 .button:hover {
-  background-color: #005bb5; /* Darker blue on hover */
+  background-color: #005bb5;
   transform: scale(1.05);
 }
 
+/* Active effect for buttons */
 .button:active {
   transform: scale(0.95);
 }
 
-/* Message styling */
+/* Success/Error message styling */
 .message {
   margin-top: 1rem;
   padding: 10px;
@@ -79,12 +138,14 @@
   font-weight: bold;
 }
 
+/* Success message styling */
 .success-message {
   background-color: rgba(40, 167, 69, 0.2);
   color: #28a745;
   border: 1px solid #28a745;
 }
 
+/* Error message styling */
 .error-message {
   background-color: rgba(229, 9, 20, 0.2);
   color: #e50914;
@@ -113,5 +174,9 @@
   .button {
       font-size: 1rem;
       padding: 10px 20px;
+  }
+
+  .form-group input[type="file"] {
+    font-size: 0.9rem;
   }
 }

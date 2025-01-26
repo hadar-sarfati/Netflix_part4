@@ -3,24 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import './Register.css';
 
 const Register = () => {
-  const navigate = useNavigate(); // React Router hook to navigate to another page
+  const navigate = useNavigate(); // React Router hook for navigation
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
     firstName: '',
     lastName: '',
-  }); // State to hold form field values
-  const [profileImage, setProfileImage] = useState(null); // State to hold the profile image file
-  const [message, setMessage] = useState(''); // State to hold success/error messages
-  const [isSuccess, setIsSuccess] = useState(false); // State to track registration success
+  }); // State to store form field values
+  const [profileImage, setProfileImage] = useState(null); // State to store selected profile image
+  const [message, setMessage] = useState(''); // State for error/success messages
+  const [isSuccess, setIsSuccess] = useState(false); // State for tracking success of registration
 
-  // Handle changes in form fields
+  // Handle changes in form input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
-      [name]: value
+      [name]: value // Update formData state for the specific field
     }));
   };
 
@@ -28,30 +28,54 @@ const Register = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Check if the file size is within the limit (5MB)
+      // Check if the file size is too large (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         setMessage('File size too large. Please choose a file under 5MB.');
-        e.target.value = ''; // Reset the input field
+        e.target.value = ''; // Reset file input
         return;
       }
-      // Check if the file type is an acceptable image format
+      // Check if the file type is valid (JPEG, JPG, PNG)
       if (!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
-        setMessage('Invalid file type. Please choose a JPEG, JPG or PNG file.');
-        e.target.value = ''; // Reset the input field
+        setMessage('Invalid file type. Please choose a JPEG, JPG, or PNG file.');
+        e.target.value = ''; // Reset file input
         return;
       }
-      setProfileImage(file); // Set the profile image if valid
-      setMessage(''); // Clear error messages if valid
+      setProfileImage(file); // Set the selected profile image
+      setMessage(''); // Clear error message
     }
+  };
+
+  // Password validation function
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasLetters = /[a-zA-Z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+
+    if (password.length < minLength) {
+      return 'Password must be at least 8 characters long.';
+    }
+    if (!hasLetters || !hasNumbers) {
+      return 'Password must contain both letters and numbers.';
+    }
+    return ''; // If password is valid, return an empty string
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-    try {
-      const submitFormData = new FormData(); // Create a FormData object to submit the form
 
-      // Append all form fields to the FormData
+    // Validate password
+    // const passwordValidationMessage = validatePassword(formData.password);
+    // if (passwordValidationMessage) {
+    //   setMessage(passwordValidationMessage); // Show validation error message
+    //   setIsSuccess(false); // Set failure flag
+    //   return; // Stop form submission if password is invalid
+    // }
+
+    try {
+      const submitFormData = new FormData(); // Create FormData object for submitting the form
+
+      // Append all form data fields to FormData object
       Object.keys(formData).forEach(key => {
         submitFormData.append(key, formData[key]);
       });
@@ -61,30 +85,33 @@ const Register = () => {
         submitFormData.append('profileImage', profileImage);
       }
 
-      // Send a POST request to register the user
+      // Send POST request to backend API to register user
       const response = await fetch('http://localhost:3000/api/users', {
         method: 'POST',
-        body: submitFormData
+        body: submitFormData,
       });
 
+      // Check for successful response (201 created)
       if (response.status === 201) {
         setMessage('Registration successful!'); // Success message
-        setIsSuccess(true); // Set success state
+        setIsSuccess(true); // Set success flag
       } else {
         const errorData = await response.json();
-        setMessage(errorData.error || 'Registration failed'); // Error message
-        setIsSuccess(false); // Set failure state
+        setMessage(errorData.error || 'Registration failed'); // Show error message
+        setIsSuccess(false); // Set failure flag
       }
     } catch (error) {
       console.error('Registration error:', error);
       setMessage('An error occurred during registration'); // General error message
-      setIsSuccess(false); // Set failure state
+      setIsSuccess(false); // Set failure flag
     }
   };
 
   return (
     <div className="register-container">
-      <h2>Register</h2>
+      <h2>Start your journey with us, it’s only a click away!</h2>
+      {/* Instruction message to guide users */}
+      <p className="instruction-message">Please fill in all the fields below to create your account.</p>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         {/* Username input */}
         <div className="form-group">
@@ -161,21 +188,21 @@ const Register = () => {
             onChange={handleImageChange}
             accept="image/jpeg,image/png,image/jpg"
           />
-          <small>Max file size: 5MB. Accepted formats: JPEG, JPG, PNG</small>
+          <small>Max file size: 5MB.</small>
         </div>
 
         {/* Submit button */}
-        <button type="submit" className="button">Register</button>
+        <button type="submit" className="button">Sign Up!</button>
       </form>
 
-      {/* Message display */}
+      {/* Display success or error messages */}
       {message && (
         <div className={`message ${message.includes('successful') ? 'success-message' : 'error-message'}`}>
           {message}
         </div>
       )}
 
-      {/* Show the login button after successful registration */}
+      {/* Button to navigate to login page after successful registration */}
       {isSuccess && (
         <button
           className="button login-button"

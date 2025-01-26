@@ -3,12 +3,13 @@ import AdminDashboard from './AdminDashboard'; // Component for the admin dashbo
 import fetchLoginUser from "../Login/fetchLoginUser"; // Function to fetch user data based on the token.
 import { useNavigate } from 'react-router-dom'; // Hook for navigation between routes.
 import './Admin.css'; // Styles for the admin page.
-
+import TopMenu from '../Main/TopMenu/TopMenu'; // Import TopMenu component.
 
 const Admin = () => {
   const [user, setUser] = useState(null); // State to store the logged-in user data.
   const [isLoading, setIsLoading] = useState(true); // State to track loading status.
   const [error, setError] = useState(null); // State to handle error messages.
+  const [currentTheme, setCurrentTheme] = useState('dark'); // State for theme (light/dark).
   const navigate = useNavigate(); // Hook for programmatically navigating between pages.
 
   useEffect(() => {
@@ -58,12 +59,21 @@ const Admin = () => {
     );
   }
 
-  // Render the admin panel if the user is authenticated and has admin privileges.
+  // Toggle theme function
+  const toggleTheme = () => {
+    setCurrentTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
+  // Render the admin panel with the top menu included.
   return (
     <div className="admin-page">
-      <div className="back-button" >
-        <button onClick={() => navigate('/main')}>Return to Home</button> {/* Button to navigate to the home page. */}
-      </div>
+      <TopMenu
+        onLogout={() => { localStorage.removeItem('accessToken'); navigate('/Login'); }}
+        toggleTheme={toggleTheme}
+        currentTheme={currentTheme}
+        user={user}
+      />
+      
       <AdminDashboard /> {/* Admin dashboard component. */}
     </div>
   );

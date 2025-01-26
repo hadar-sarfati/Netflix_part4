@@ -75,7 +75,7 @@ const AdminDashboard = () => {
 
     return (
         <div className={`admin-dashboard theme-${currentTheme}`}>
-            <h1>Welcome Admin</h1>
+            <h1>Hey, Big Boss! What action shall we take today?</h1>
             
             <div className="admin-sections">
                 <div className="section">

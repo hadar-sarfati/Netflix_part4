@@ -1,80 +1,98 @@
-/* Reset default margin and set basic font styles */
+/* General body styling */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #141414; /* Always dark background */
-  color: white; /* White text color for contrast */
-  
-  /* Center content using flex */
+  background-color: #fff9f9;
+  color: white;
   display: flex;
   justify-content: center;
-  
-  /* Allow content to scroll beyond screen height */
-  min-height: 100vh;
-  
-  /* Remove any background image or theme dependency */
-  background-image: none;
+  align-items: center;
+  height: 100vh; /* Full screen height */
+  overflow: hidden; /* Prevents scrolling */
 }
 
 /* Main content container */
 .home-container {
   text-align: center;
-  background: rgba(0, 0, 0, 0.75); /* Semi-transparent black overlay */
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
-  max-width: 600px; /* Limit container width */
-  width: 100%;
-  backdrop-filter: blur(10px); /* Blur effect behind container */
-  margin: auto; /* Center container horizontally */
+  background-image: url('../background.jpg');
+  background-size: cover;
+  background-position: center center;
+  padding: 60px;
+  border-radius: 30px;
+  box-shadow: 0px 0px 40px rgba(255, 255, 255, 0.3);
+  width: 100%; /* Remove width limit */
+  height: 100%; /* Make container take full height */
+  backdrop-filter: blur(10px);
+  margin: 0; /* Remove margins */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute; /* Allow it to take the full screen height */
 }
 
-/* Main heading style */
-h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
+/* Welcome message styling */
+.logo-text {
+  font-size: 50rem;
   font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
+  color: #ff007f;
+  text-shadow: 0 0 20px #ff007f, 0 0 30px #ff007f, 0 0 60px #ff007f;
+  margin-bottom: 100px;
+  font-family: 'Roboto', sans-serif;
 }
 
-/* Paragraph text style */
-p {
-  font-size: 1.3rem;
-  margin: 15px 0;
+/* Vertical divider container */
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+/* Vertical divider styling */
+.divider {
+  width: 5px;
+  height: 300px;
+  background-color: #ffffff80;
+  margin-top: 40px;
+}
+
+/* Section styling */
+.section {
+  width: 45%;
+  text-align: left;
+}
+
+.section .tagline {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ffffffcc;
+  font-style: italic;
+  font-family: 'Roboto', sans-serif;
+  margin-top: 100px;
+  font-weight: bold;
 }
 
 /* Button styling */
 .button {
   display: inline-block;
-  margin: 15px 0;
-  padding: 12px 25px;
-  background-color: #3343ef; /* Button color */
+  padding: 12px 30px;
+  background-color: #555ebd;
   color: white;
   text-decoration: none;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: 12px;
   transition: background-color 0.3s ease, transform 0.2s ease;
   text-transform: uppercase;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
+  width: 40%;
+  margin-top: 20px;
 }
 
-/* Button hover effects */
 .button:hover {
   background-color: #2334ee;
-  transform: scale(1.05); /* Slight zoom on hover */
-}
-
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 2rem;
-  }
-  
-  .button {
-    padding: 10px 20px;
-  }
-  
-  .home-container {
-    padding: 20px;
-  }
+  transform: scale(1.1);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.7);
 }

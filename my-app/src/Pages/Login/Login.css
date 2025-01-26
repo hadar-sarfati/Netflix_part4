@@ -1,80 +1,123 @@
-/* Container styling for the login form */
-.login-container {
-    text-align: center;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.95));
-    padding: 30px 20px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
-    width: 90%;
-    max-width: 400px;
-    margin: 20px auto;
+/* General body styling */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #6a11cb; /* צבע אחיד כגיבוי */
+    color: white;
+    display: flex;
+    justify-content: center; /* Centers the form horizontally */
+    align-items: center; /* Centers the form vertically */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
 }
 
-/* Styling for the login form heading */
-.login-container h2 {
-    font-size: 1.8rem;
-    color: white;
-    margin-bottom: 1.5rem;
+/* Container for the login form */
+.login-container {
+    text-align: center;
+    background-image: url('../background.jpg'); /* כתובת התמונה שלך */
+    background-size: cover; /* מכסה את כל הרקע בתמונה */
+    background-position: center; /* מרכז את התמונה */
+    background-repeat: no-repeat; /* מונע חזרה של התמונה */
+    padding: 100px;
+    border-radius: 20px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
+    width: 100%; /* רוחב מלא */
+    height: 100vh; /* גובה מלא */
+    margin: 0 auto; /* Ensures it stays centered */
+    display: flex;
+    justify-content: center; /* Centers the form horizontally */
+    align-items: center; /* Centers the form vertically */
+    box-sizing: border-box; /* כולל את ה-padding ברוחב הכללי */
+}
+
+/* Main heading for the login form */
+.login-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center; /* Centers the heading */
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #2f00ff, 0 0 30px #2f00ff;
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+      text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #2f00ff, 0 0 20px #2f00ff;
+    }
+    100% {
+      text-shadow: 0 0 20px #2f00ff, 0 0 30px #2f00ff, 0 0 40px #2f00ff, 0 0 50px #2f00ff;
+    }
+  }
+
+/* Subheading */
+.login-subheading {
+    font-size: 1.1rem;
+    color: #cccccc;
+    margin-bottom: 30px;
+    font-style: italic;
 }
 
 /* Form group styling */
 .form-group {
-    margin-bottom: 1.2rem;
+    margin-bottom: 10px;
     text-align: left;
 }
 
 /* Label styling */
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
-    color: white;
-    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #ffffff;
+    font-size: 0.5rem;
 }
 
 /* Input field styling */
 .form-group input {
-    width: 100%;
-    padding: 10px;
+    width: 75%;
+    padding: 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     background-color: #333;
     color: white;
-    font-size: 1rem;
+    font-size: 0.5rem;
     box-sizing: border-box;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease;
 }
 
 /* Input focus styling */
 .form-group input:focus {
+    background-color: #444;
     outline: none;
-    background-color: #454545;
-    box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.5);
+    box-shadow: 0 0 8px #2575fc;
 }
 
 /* Button styling */
 .login-button {
-    width: 100%;
-    padding: 12px 24px;
-    background-color: #3343ef; /* Blue color */
+    width: 40%;
+    padding: 15px;
+    background-color: #2575fc;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.4);
-    margin-top: 1rem;
+    margin-top: 10px;
 }
 
 /* Button hover effect */
 .login-button:hover {
-    background-color: #2334ee; /* Darker blue for hover */
+    background-color: #1e65d6;
     transform: scale(1.05);
 }
 
 /* Button active effect */
 .login-button:active {
-    transform: scale(0.95);
+    transform: scale(0.98);
 }
 
 /* Error message styling */
@@ -82,34 +125,30 @@
     background-color: rgba(229, 9, 20, 0.2);
     color: #e50914;
     border: 1px solid #e50914;
-    padding: 10px;
-    border-radius: 4px;
+    padding: 12px;
+    border-radius: 8px;
     font-weight: bold;
-    margin-top: 1rem;
+    margin-top: 20px;
     text-align: center;
 }
 
-/* Responsive design for smaller screens */
+/* Responsive design */
 @media (max-width: 480px) {
     .login-container {
-        width: 95%;
-        padding: 20px 15px;
+        padding: 25px;
+        width: 90%;
     }
 
-    .login-container h2 {
-        font-size: 1.5rem;
+    .login-heading {
+        font-size: 2rem;
     }
 
-    .form-group label {
-        font-size: 0.9rem;
-    }
-
-    .form-group input {
-        font-size: 0.9rem;
+    .login-subheading {
+        font-size: 1rem;
     }
 
     .login-button {
-        font-size: 1rem;
-        padding: 10px 20px;
+        font-size: 1.1rem;
+        padding: 12px;
     }
 }
