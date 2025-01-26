@@ -12,13 +12,11 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            // Creating request data
             const requestData = {
                 username: username,
                 password: password,
             };
 
-            // Sending POST request to server for user authentication
             const response = await fetch('http://localhost:3000/api/tokens', {
                 method: 'POST',
                 headers: {
@@ -27,9 +25,7 @@ const Login = () => {
                 body: JSON.stringify(requestData),
             });
 
-            // Checking the response status
             if (!response.ok) {
-                // Handling different error cases
                 if (response.status === 404) {
                     setError('Incorrect username or password. Please try again.');
                 } else {
@@ -38,16 +34,10 @@ const Login = () => {
                 return;
             }
 
-            // Extracting token from response data
             const responseData = await response.json();
-
-            // Saving token in localStorage
             localStorage.setItem('accessToken', responseData.token);
-
-            // Navigating to the main screen after successful login
             navigate('/Main');
         } catch (error) {
-            // Handling network or unexpected errors
             console.error('Login failed:', error);
             setError('An unexpected error occurred. Please try again later.');
         }
@@ -56,8 +46,9 @@ const Login = () => {
     return (
         <div className="login-container">
             <form className="login-form" onSubmit={handleSubmit}>
-                <h2>Login</h2>
-                
+                <h1 className="login-heading">Welcome Back!</h1>
+                <p className="login-subheading">Ready to dive back into the action?</p>
+
                 <div className="form-group">
                     <label htmlFor="username">Username:</label>
                     <input
@@ -83,7 +74,7 @@ const Login = () => {
                 {error && <div className="error-message">{error}</div>}
                 
                 <button type="submit" className="login-button">
-                    Login
+                    Log In
                 </button>
             </form>
         </div>

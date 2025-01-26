@@ -28,7 +28,7 @@ app.disable('etag');
 
 // Serve static files from the 'profileImage' directory
 
-app.use('/profileImage', express.static(path.join(__dirname, 'profileImage')));
+app.use('/ProfileImages', express.static(path.join(__dirname, 'ProfileImages')));
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
