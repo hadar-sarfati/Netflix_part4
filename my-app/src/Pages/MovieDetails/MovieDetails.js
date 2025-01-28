@@ -117,11 +117,9 @@ const MovieDetails = () => {
       }
 
       const data = await response.json();
-      console.log('Movie played successfully:', data);
     } catch (error) {
       console.error('Error playing movie:', error.message);
     }
-    console.log('playing movie with id:', id);
     navigate(`/VideoPlayer/${id}`);
   };
 

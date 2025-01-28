@@ -44,7 +44,6 @@ const createMovie = async (req, res) => {
 
 
 const getMovies = async (req, res) => {
-
     const userId = req.user.userId;
 
     const result = await moviesService.getMovies(userId);

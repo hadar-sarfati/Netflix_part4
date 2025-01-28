@@ -87,12 +87,8 @@ const getCategory = async (req, res) => {
 
 // Update an existing category
 const updateCategory = async (req, res) => {
-
   const { id } = req.params;
   const { name, promoted } = req.body;
-  console.log('update in controller');
-  console.log('updating name to: ', name);
-  console.log('updating promoted to: ', promoted);
 
   // Check if the category ID is valid
   if (!mongoose.Types.ObjectId.isValid(id)) {

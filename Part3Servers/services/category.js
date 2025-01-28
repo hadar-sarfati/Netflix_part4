@@ -28,9 +28,6 @@ const getCategoryByName = async (name) => {
 
 //update category
 const updateCategory = async (id, updateData) => {
-  console.log('update in service');
-  console.log('updating name to: ', updateData.name);
-  console.log('updating promoted to: ', updateData.promoted);
   return await Category.findByIdAndUpdate(
     id,
     { $set: updateData },
@@ -51,7 +48,6 @@ const deleteCategory = async (id) => {
       if (movie.categories.length === 1 && movie.categories[0].equals(category._id)) {
         // Extract the video path from the movie details
         const videoPath = movie.path;
-        console.log("videoPath: ", videoPath);
         // Delete the video file from the server
         if (videoPath && videoPath !== 'VideoFiles/defaultVideo.mp4') {
             const fullPath = path.join(__dirname, '..', videoPath);

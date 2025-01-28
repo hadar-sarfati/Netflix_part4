@@ -61,6 +61,7 @@ body {
 /* Section styling */
 .section {
   width: 45%;
+  height: 300px;
   text-align: left;
 }
 
