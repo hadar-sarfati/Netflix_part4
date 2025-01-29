@@ -56,7 +56,7 @@ const MoviePreview = () => {
 
     const fetchMovieDetails = async (id, token) => {
       try {
-        const response = await fetch(`http://localhost:3001/api/movies/${id}`, {
+        const response = await fetch(`http://localhost:3000/api/movies/${id}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -107,7 +107,7 @@ const MoviePreview = () => {
         className="background-video"
       >
         {randomMoviePath && (
-          <source src={`http://localhost:3001/${randomMoviePath}`} type="video/mp4" />
+          <source src={`http://localhost:3000/${randomMoviePath}`} type="video/mp4" />
         )}
       </video>
       <p>randomMoviePath: {randomMoviePath}</p>
