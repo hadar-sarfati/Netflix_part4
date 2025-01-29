@@ -11,6 +11,7 @@ html, body, #root {
   font-family: Arial, sans-serif;
   background-color: var(--body-background, #000);
   transition: background-color 0.3s ease;
+  overflow: auto !important;
 }
 
 /* Main container styles */
@@ -20,11 +21,10 @@ html, body, #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  position: absolute;
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
   font-family: inherit;
-  overflow-y: auto;
+  overflow-y: auto !important;
   overflow-x: hidden;
   transition: background 0.3s ease, color 0.3s ease;
 }

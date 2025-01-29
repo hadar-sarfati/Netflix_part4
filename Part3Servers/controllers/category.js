@@ -34,7 +34,16 @@ const createCategory = async (req, res) => {
 
     // Set the location header and return success
     res.location(`/api/categories/${category._id}`);
-    res.status(201).end();
+    const categoryResponse = {
+      _id: category._id,
+      name: category.name,
+      promoted: category.promoted,
+      movies: category.movies
+    };
+
+    res.status(201).json(categoryResponse);
+
+
   } catch (error) {
     // Handle any errors
     if (error.code === 11000) {
