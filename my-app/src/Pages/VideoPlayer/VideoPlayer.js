@@ -141,7 +141,7 @@ const VideoPlayer = () => {
         className="play-video"
       >
         {moviePath && (
-          <source src={`http://localhost:3001/${moviePath}`} type="video/mp4" />
+          <source src={`http://localhost:3000/${moviePath}`} type="video/mp4" />
         )}
         <p>moviePath: {moviePath}</p>
       </video>

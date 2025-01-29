@@ -13,6 +13,8 @@ const fs = require('fs');
 
 require('custom-env').env(process.env.NODE_ENV, './config');
 
+
+
 const VIDEO_UPLOADS_PATH = path.join(__dirname, 'VideoFiles');
 const PREVIEW_IMAGE_UPLOADS_PATH = path.join(__dirname, 'PreviewImages');
 
@@ -25,6 +27,23 @@ require('dotenv').config();
 
 var app = express();
 app.disable('etag');
+
+// Serve static files from the public folder
+app.use(express.static(path.join(__dirname, '..', 'react', 'public')));
+
+// Serve the React app's index.html for the root path
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'react', 'public', 'index.html'));
+});
+
+
+//serve static files from the public folder
+app.use(express.static(path.join(__dirname, '..', 'my-app', 'public')));
+
+// Serve the React app's index.html for the root path
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'my-app', 'public', 'index.html'));
+});
 
 // Serve static files from the 'profileImage' directory
 
