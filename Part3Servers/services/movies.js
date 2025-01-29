@@ -65,6 +65,11 @@ const getMovies = async (userId) => {
         return {
           _id: movie._id,
           name: movie.name,
+          cast: movie.cast,
+          categories: movie.categories,
+          duration: movie.duration,
+          year: movie.year,
+          description: movie.description,
           path: movie.path,
           previewImage: movie.previewImage
         };
