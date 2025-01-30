@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/netflix.dir/src/Server/Server.cpp.o -o netflix  src/BaseClasses/libBaseClasses.a src/DataBase/libDataBase.a src/Server/libServer.a -lpthread src/Server/Commands/libCommands.a src/DataBase/libDataBase.a src/Server/ProgramFlow/libProgramFlow.a 
