@@ -1,59 +1,96 @@
+/* Main container styles */
 .search-results {
-    padding: 20px;
-    background-color: var(--body-background); /* ברירת מחדל לרקע בהיר */
-    min-height: 100vh;
-    color: var(--text-color, #333); /* ברירת מחדל לטקסט כהה */
-  }
-  
-  .search-results input {
-    width: 80%;
-    padding: 0px;
-    font-size: 16px;
-    margin-right: 10px;
-    border: transparent;
-    border-radius: 5px;
-    background-color: transparent; /* ברירת מחדל לרקע קלט */
-    color: var(--search-text); /* ברירת מחדל לטקסט קלט */
-  }
-  
-  .search-results input::placeholder {
-    color: var(--placeholder-color, #888); /* ברירת מחדל לטקסט placeholder */
-  }
-  
-  .search-results button {
-    display: inline-block;
-    width: 5%;
-    padding: 10px 20px;
-    margin-top: 0.5%;
-    margin-left: 43%;
-    font-size: 16px;
-    background-color: var(--button-color, #007BFF); /* ברירת מחדל לכחול */
-    color: var(--button-text, #fff); /* ברירת מחדל לטקסט לבן */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .search-results button:hover {
-    background-color: var(--button-hover, #0056b3); /* ברירת מחדל לכחול כהה */
-  }
+  padding: 20px;
+  background-color: var(--body-background);
+  min-height: 100vh;
+  color: var(--text-color, #333);
+}
 
-  .search-results .movie-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: var(--input-text, #272626);
-    min-width: 200px;
-    padding: 10%;
-    border: 1px solid var(--border-color, #ccc); /* ברירת מחדל לגבול אפור */
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
-  }
+/* Logo styles */
+.logo-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
 
-  .movie-card .h3 {
-    margin-top: 10px;
-    text-align: center;
-    color: #343333;
-    font-size: 30px;
-  }
+.logo-text {
+  color: #007BFF;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Search container styles */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  max-width: 800px;
+  gap: 10px; /* Space between input and button */
+}
+
+/* Search input styles */
+.search-bar input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: transparent;
+  color: var(--search-text);
+}
+
+.search-bar input::placeholder {
+  color: var(--placeholder-color, #888);
+}
+
+/* Search button styles */
+.search-bar button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--button-color, #007BFF);
+  color: var(--button-text, #fff);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.search-bar button:hover {
+  background-color: var(--button-hover, #0056b3);
+}
+
+/* Movie card styles */
+.search-results .movie-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--input-text, #272626);
+  min-width: 200px;
+  padding: 10%;
+  border: 1px solid var(--border-color, #ccc);
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.movie-card h3 {
+  margin-top: 10px;
+  text-align: center;
+  color: #343333;
+  font-size: 30px;
+}
+
+/* Loading state styles */
+.loading {
+  text-align: center;
+  padding: 20px;
+}

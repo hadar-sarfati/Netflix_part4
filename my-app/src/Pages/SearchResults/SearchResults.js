@@ -4,18 +4,18 @@ import './SearchResults.css';
 import fetchLoginUser from "../Login/fetchLoginUser";
 
 const SearchResults = () => {
-  // State management
+  // State management for user data, theme, search query, and movies
   const [user, setUser] = useState(null);
   const [currentTheme, setCurrentTheme] = useState(() => localStorage.getItem('theme') || 'dark');
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Hooks for navigation and location
+  // Hooks for navigation and location state
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Get initial query from navigation state
+  // Initialize search with query from navigation state if available
   useEffect(() => {
     const initialQuery = location.state?.initialQuery;
     if (initialQuery) {
@@ -24,7 +24,7 @@ const SearchResults = () => {
     }
   }, [location.state]);
 
-  // Authentication check
+  // Check authentication and redirect to login if needed
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -39,14 +39,14 @@ const SearchResults = () => {
     }
   }, [navigate]);
 
-  // Search API call
+  // Handle search API call
   const handleSearch = async (searchQuery = query) => {
     if (!searchQuery) return;
 
     const token = localStorage.getItem('accessToken');
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3001/api/movies/search/${searchQuery}`, {
+      const response = await fetch(`http://localhost:3000/api/movies/search/${searchQuery}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -67,20 +67,33 @@ const SearchResults = () => {
     navigate(`/movies/${movieId}/details`);
   };
 
+  // Navigate to main page when clicking the logo
+  const handleHomeClick = () => {
+    navigate('/Main');
+  };
+
   return (
     <div className={`search-results theme-${currentTheme}`}>
-      <div className="search-bar-container">
+      {/* Logo section */}
+      <div className="logo-container" onClick={handleHomeClick}>
+        <span className="logo-text">ShowTime</span>
+      </div>
+
+      {/* Search section with input and button in one container */}
+      <div className="search-container">
         <div className="search-bar">
           <input
-          type="text"
-          placeholder="Search for movies..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-        />
+            type="text"
+            placeholder="Search for movies..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+          />
+          <button onClick={() => handleSearch()}>Search</button>
         </div>
       </div>
-      <button onClick={() => handleSearch()}>Search</button>
+
+      {/* Movies display section */}
       {loading ? (
         <div className="loading"></div>
       ) : (
@@ -92,8 +105,8 @@ const SearchResults = () => {
                 className="movie-card"
                 onClick={() => handleMovieClick(movie._id)}
               >
-                <img src={`http://localhost:3001/${movie.previewImage}`} alt={movie.name} className="movie-preview" />
-                <h3>{movie.name}</h3> {/* Display movie name */}
+                <img src={`http://localhost:3000/${movie.previewImage}`} alt={movie.name} className="movie-preview" />
+                <h3>{movie.name}</h3>
               </div>
             ))
           ) : (

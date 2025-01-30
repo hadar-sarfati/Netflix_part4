@@ -12,7 +12,7 @@ const MoviesByCategory = () => {
     const fetchMovies = async () => {
       const token = localStorage.getItem('accessToken');
       try {
-        const response = await fetch('http://localhost:3001/api/movies', {
+        const response = await fetch('http://localhost:3000/api/movies', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -66,7 +66,7 @@ const MoviesByCategory = () => {
                   className="movie-card"
                   onClick={() => handleMovieClick(movie._id)} // Call the handleMovieClick on click
                 >
-                  <img src={`http://localhost:3001/${movie.previewImage}`} alt={movie.name} className="movie-preview" />
+                  <img src={`http://localhost:3000/${movie.previewImage}`} alt={movie.name} className="movie-preview" />
                   <h3>{movie.name}</h3> {/* Display movie name */}
                 </div>
               ))}

@@ -16,7 +16,7 @@ const MovieDetails = () => {
   useEffect(() => {
     const fetchCategories = async (token) => {
       try {
-        const response = await fetch('http://localhost:3001/api/categories', {
+        const response = await fetch('http://localhost:3000/api/categories', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const MovieDetails = () => {
 
     const fetchRecommendations = async (token) => {
       try {
-        const response = await fetch(`http://localhost:3001/api/movies/${id}/recommend`, {
+        const response = await fetch(`http://localhost:3000/api/movies/${id}/recommend`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ const MovieDetails = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/api/movies/${id}/recommend`, {
+      const response = await fetch(`http://localhost:3000/api/movies/${id}/recommend`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -149,7 +149,7 @@ const MovieDetails = () => {
   return (
     <div
       className="movie-details"
-      style={{ backgroundImage: `url(http://localhost:3001/${movie.previewImage})` }}
+      style={{ backgroundImage: `url(http://localhost:3000/${movie.previewImage})` }}
     >
       <button onClick={handleBackToHome} className="back-home-button">
         ←
