@@ -65,6 +65,7 @@ const getMovies = async (userId) => {
         return {
           _id: movie._id,
           name: movie.name,
+          intId: movie.movieId,
           cast: movie.cast,
           categories: movie.categories,
           duration: movie.duration,
@@ -90,8 +91,14 @@ const getMovies = async (userId) => {
       return {
         _id: movie._id,
         name: movie.name,
-        previewImage: movie.previewImage,
-        path: movie.path
+        intId: movie.movieId,
+        cast: movie.cast,
+        categories: movie.categories,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        path: movie.path,
+        previewImage: movie.previewImage
       };
     })
   };
