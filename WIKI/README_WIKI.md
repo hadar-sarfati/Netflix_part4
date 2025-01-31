@@ -1,1 +1,0 @@
-Here I will explain about how to setup the docker 
