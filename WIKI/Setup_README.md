@@ -36,7 +36,7 @@ JWT_SECRET=my-super-secret-key-123456789
 
 ### Running With Docker
 
-*Note: When running with docker please make sure you don't have a pre-existing build folder.*
+*Note: When running with docker please make sure you don't have a pre-existing build folder inside the RecSystem.*
 
 Run the following command to build the Docker containers:
 
@@ -44,11 +44,17 @@ Run the following command to build the Docker containers:
 docker-compose build
 ```
 
+It should look like this when run succesfully:
+
+![Docker Built](https://github.com/user-attachments/assets/ac037a2e-d8b3-4486-8229-5674f48d3f14)
+
 Now, run the following command:
 
 ```bash
 docker-compose run --rm --name server server 19845
 ```
+
+![Server run docker](https://github.com/user-attachments/assets/8e9776b2-087a-48b1-b393-9ba887daa0a2)
 
 In a **new terminal**, run the following command:
 
@@ -56,13 +62,7 @@ In a **new terminal**, run the following command:
 docker-compose -f docker-compose.yml run --rm --name web-server --service-ports web-server
 ```
 
-A worthy note for you Docker users:
-Using volumes means even between building the Docker multiple times the same data will be stored in the volume.
-Only if you intetionally want to delete the database you used and start fresh, use:
-```bash
-docker volume rm netflix_part3_mongo_data
-```
-This will delete your volume.
+![nodejs runs docker](https://github.com/user-attachments/assets/9c9abb2e-1729-418d-b2a3-ebb4c74be5bd)
 
 ## Using the Website
 
@@ -73,6 +73,8 @@ http://localhost:3000
 ```
 
 and run the website.
+
+![website run](https://github.com/user-attachments/assets/26536654-f4bc-482a-a064-8c6b69cad21a)
 
 ## Using the Android App
 
@@ -121,6 +123,12 @@ If you're interested in running the Android app, the first two terminals should 
 Load our project.
 Then go to `strings.xml`, and make sure that the port is `3001`.
 The IP address should be the same as eariler.
+
+![strings port](https://github.com/user-attachments/assets/e9c68884-ebb8-42b4-88b8-ac31bcd2ba53)
+
+
 Now you can run the app through android studio normally.
+
+![docker android runs](https://github.com/user-attachments/assets/62bfe5b5-7b2b-4323-9516-6d1a93a1149f)
 
 **Enjoy ShowTime!**
