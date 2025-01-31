@@ -21,6 +21,7 @@ const createMovie = async (name, categoryNames, year, duration, cast, descriptio
     return category._id;
   }));
 
+  console.log ('categories: ', categories);
   // Get the next movie ID atomically
   const movieId = await getNextSequence('movieId');
   
@@ -116,7 +117,7 @@ const getMovieByName = async (name) => {
   }
 };
 
-const updateMovie = async (id, name, categoryNames, year, duration, cast, description, path) => {
+const updateMovie = async (id, name, categoryNames, year, duration, cast, description, path, previewImage) => {
   // Find the movie by ID
   const movie = await getMovieById(id);
   if (!movie) return null;
@@ -147,6 +148,7 @@ const updateMovie = async (id, name, categoryNames, year, duration, cast, descri
   movie.cast = cast;
   movie.description = description;
   movie.path = path;
+  movie.previewImage = previewImage;
   await movie.save();
 
   // Add the movie to each category's movies array

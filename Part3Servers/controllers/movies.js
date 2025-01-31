@@ -39,7 +39,13 @@ const createMovie = async (req, res) => {
     const movie = await moviesService.createMovie(name, categoryNames, year, duration, cast, description, videoPath, previewImagePath);
 
     res.location(`/api/movies/${movie._id}`);
-    res.status(201).end();
+
+    const movieResponse = {
+        _id: movie._id,
+        movieId: movie.movieId,
+    };
+
+    res.status(201).json(movieResponse);
 };
 
 
@@ -95,10 +101,11 @@ const updateMovie = async (req, res) => {
     }
 
     // This is the uploaded file
-    const file = req.file; 
+    const videoFile = req.files['path'] ? req.files['path'][0] : null;
+    const previewImageFile = req.files['previewImage'] ? req.files['previewImage'][0] : null;
 
     // Check if all the required fields are present
-    if (!name || !categories || !year || !duration || !cast || !description || !file) {
+    if (!name || !categories || !year || !duration || !cast || !description || !videoFile || !previewImageFile) {
       return res.status(400).json({ error: 'Name and categories array are required' });
     }
 
@@ -116,11 +123,23 @@ const updateMovie = async (req, res) => {
 
     // Extract the old video path from the movie details
     let oldVideoPath = movieDetails.path;
+    let oldPreviewImagePath = movieDetails.previewImage;
 
     // Delete the video file from the server
     if (oldVideoPath && oldVideoPath !== 'VideoFiles/defaultVideo.mp4') {
-        const fullPath = path.join(__dirname, '..', oldVideoPath);
-        fs.unlink(fullPath, (err) => {
+        const fullVideoPath = path.join(__dirname, '..', oldVideoPath);
+        fs.unlink(fullVideoPath, (err) => {
+            if (err) {
+                console.error('Error deleting video file:', err);
+            } else {
+                console.log('Video file deleted successfully');
+            }
+        });
+    }
+    // Delete the video file from the server
+    if (oldPreviewImagePath && oldPreviewImagePath !== 'VideoFiles/defaultVideo.mp4') {
+        const fullImagePath = path.join(__dirname, '..', fullImagePath);
+        fs.unlink(fullImagePath, (err) => {
             if (err) {
                 console.error('Error deleting video file:', err);
             } else {
@@ -129,17 +148,12 @@ const updateMovie = async (req, res) => {
         });
     }
 
-    // Default video path
-    const defaultVideoPath = '/VideoFiles/defaultVideo.mp4';
-    let videoPath = defaultVideoPath;
-
-    // Get the video path from the uploaded file
-    if (req.file) {
-        videoPath = `/VideoFiles/${req.file.filename}`;
-    }
+    // Set default paths for video and preview image
+    const videoPath = videoFile ? `VideoFiles/${videoFile.filename}` : 'VideoFiles/defaultVideo.mp4';
+    const previewImagePath = previewImageFile ? `PreviewImages/${previewImageFile.filename}` : 'PreviewImages/defaultImage.jpg';
 
     // Update the movie record in the database
-    const movie = await moviesService.updateMovie(id, name, categoryNames, year, duration, cast, description, videoPath);
+    const movie = await moviesService.updateMovie(id, name, categoryNames, year, duration, cast, description, videoPath, previewImagePath);
     if (!movie) {
       return res.status(404).json({ error: 'Movie not found' });
     }
@@ -158,7 +172,7 @@ const deleteMovie = async (req, res) => {
 
         // Extract the video path from the movie details
         const videoPath = movie.path;
-        console.log("videoPath: ", videoPath);
+        const previewImagePath = movie.previewImage;
 
         // Delete the movie record from the database
         const deletedMovie = await moviesService.deleteMovie(req.params.id);
@@ -174,6 +188,16 @@ const deleteMovie = async (req, res) => {
                     console.error('Error deleting video file:', err);
                 } else {
                     console.log('Video file deleted successfully');
+                }
+            });
+        }
+        if (previewImagePath && previewImagePath !== 'VideoFiles/defaultVideo.mp4') {
+            const fullImagePath = path.join(__dirname, '..', previewImagePath);
+            fs.unlink(fullImagePath, (err) => {
+                if (err) {
+                    console.error('Error deleting image file:', err);
+                } else {
+                    console.log('Preview image deleted successfully');
                 }
             });
         }
