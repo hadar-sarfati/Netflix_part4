@@ -83,12 +83,15 @@ Open the `strings.xml` file, and adjust the port to 3000 in the addresses. The i
 
 It should look like this (pay attention the IP address will be changed according to your pc):
 
+![strings port](https://github.com/user-attachments/assets/e9c68884-ebb8-42b4-88b8-ac31bcd2ba53)
 
 Now you can plug an android phone or use the emulator, and run! The app will start and you can enjoy it.
 
+![docker android runs](https://github.com/user-attachments/assets/62bfe5b5-7b2b-4323-9516-6d1a93a1149f)
+
 ## Running Locally
 
-Incase you're intrested in running locally, please pay attention more carefully of the prerequisites.
+In case you're intrested in running locally, please pay attention more carefully of the prerequisites.
 
 Open your VS Code with our project.
 
@@ -124,11 +127,7 @@ Load our project.
 Then go to `strings.xml`, and make sure that the port is `3001`.
 The IP address should be the same as eariler.
 
-![strings port](https://github.com/user-attachments/assets/e9c68884-ebb8-42b4-88b8-ac31bcd2ba53)
-
-
 Now you can run the app through android studio normally.
 
-![docker android runs](https://github.com/user-attachments/assets/62bfe5b5-7b2b-4323-9516-6d1a93a1149f)
 
 **Enjoy ShowTime!**
