@@ -1,16 +1,9 @@
 # Netflix_part4
 
-So... you want to understand how to run the code don't ya..
-Well lets see
+# Important, please note!
 
-First go to `Part3Servers` and run the RecSystem server as you already know using `./netflix 8080`
+During the development of the Android application, we conducted the entire process in a separate repository. The repository link is provided here: https://github.com/hadar-sarfati/Netflix_android, where all the relevant code can be found.
 
-Then go to `Part3Servers` again in a **different terminal** and run the node js server using `npm run start-local`
+We chose to keep it this way so that our progress throughout the work can be seen through push and pull requests.
 
-Lastly to `my-app` (in a new terminal) and run `npm start`
-
-Check out your brower and enjoy
-
-#3343ef - Color for buttons
-
-#2334ee - Color for hovering over buttons
+Please make sure to start the server first, then you can run the code on an emulator and experience the application!
