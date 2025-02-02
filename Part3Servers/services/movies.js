@@ -21,7 +21,6 @@ const createMovie = async (name, categoryNames, year, duration, cast, descriptio
     return category._id;
   }));
 
-  console.log ('categories: ', categories);
   // Get the next movie ID atomically
   const movieId = await getNextSequence('movieId');
   
@@ -280,7 +279,6 @@ const searchMovies = async (query) => {
           path: 'categories',
           select: 'name'  // Only select the name field from categories
       });
-
       // Return full movie objects
       return movies;
   } catch (error) {
