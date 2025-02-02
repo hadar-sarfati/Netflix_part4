@@ -78,7 +78,7 @@ and run the website.
 
 ## Using the Android App
 
-After the docker is running, open your android studio with our android project.
+After the docker is running, open your android studio with our android project. (see ReadMe file for the code)
 Open the `strings.xml` file, and adjust the port to 3000 in the addresses. The ip address should be of your own computer.
 
 It should look like this (pay attention the IP address will be changed according to your pc):
