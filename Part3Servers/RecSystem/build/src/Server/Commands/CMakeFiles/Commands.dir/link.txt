@@ -1,2 +1,0 @@
-/usr/bin/ar qc libCommands.a CMakeFiles/Commands.dir/AddMovieCommand.cpp.o CMakeFiles/Commands.dir/DeleteCommand.cpp.o CMakeFiles/Commands.dir/GetCommand.cpp.o CMakeFiles/Commands.dir/HelpMovieCommand.cpp.o CMakeFiles/Commands.dir/Icommand.cpp.o
-/usr/bin/ranlib libCommands.a
