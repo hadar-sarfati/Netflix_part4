@@ -123,7 +123,7 @@ const getMovieByName = async (name) => {
   }
 };
 
-const updateMovie = async (id, name, categoryNames, year, duration, cast, description, path) => {
+const updateMovie = async (id, name, categoryNames, year, duration, cast, description, path, previewImage) => {
   // Find the movie by ID
   const movie = await getMovieById(id);
   if (!movie) return null;
@@ -154,6 +154,7 @@ const updateMovie = async (id, name, categoryNames, year, duration, cast, descri
   movie.cast = cast;
   movie.description = description;
   movie.path = path;
+  movie.previewImage = previewImage;
   await movie.save();
 
   // Add the movie to each category's movies array
@@ -285,7 +286,6 @@ const searchMovies = async (query) => {
           path: 'categories',
           select: 'name'  // Only select the name field from categories
       });
-
       // Return full movie objects
       return movies;
   } catch (error) {

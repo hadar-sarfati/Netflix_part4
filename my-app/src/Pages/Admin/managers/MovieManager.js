@@ -57,10 +57,17 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
             if (action === 'Delete Movie') {
                 submitMovieData.append('_id', movieToEdit._id);
             } else {
+                // Clear previous appends and add data only once
                 const categoriesArray = movieData.categories.split(',').map(cat => cat.trim());
-                Object.keys(movieData).forEach(key => {
-                    submitMovieData.append(key, key === 'categories' ? JSON.stringify(categoriesArray) : movieData[key]);
-                });
+                const castArray = movieData.cast.split(',').map(cat => cat.trim());
+
+                // Append each field only once
+                submitMovieData.append('name', movieData.name);
+                submitMovieData.append('categories', JSON.stringify(categoriesArray));
+                submitMovieData.append('year', movieData.year);
+                submitMovieData.append('duration', movieData.duration);
+                submitMovieData.append('cast', JSON.stringify(castArray));
+                submitMovieData.append('description', movieData.description);
                 if (path) {
                     submitMovieData.set('path', path);
                 }
@@ -68,7 +75,7 @@ const MovieManager = ({ isOpen, action, movieToEdit, onClose }) => {
                     submitMovieData.set('previewImage', previewImage);
                 }
             }
-            
+                          
             let url = 'http://localhost:3000/api/movies';
             let meth = action === 'Delete Movie' ? 'DELETE' : (action === 'Edit Movie' ? 'PUT' : 'POST');
 
